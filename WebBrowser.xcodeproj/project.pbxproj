@@ -13,6 +13,17 @@
 		F400ADDC293B244500758820 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADDB293B244500758820 /* ViewController.swift */; };
 		F400ADE1293B244A00758820 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F400ADE0293B244A00758820 /* Assets.xcassets */; };
 		F400ADE4293B244A00758820 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F400ADE2293B244A00758820 /* LaunchScreen.storyboard */; };
+		F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADF1293B2CFC00758820 /* WebBrowserView.swift */; };
+		F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADF3293B2DF900758820 /* AddressBar.swift */; };
+		F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADF5293B2E2000758820 /* Toolbar.swift */; };
+		F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADF7293B369E00758820 /* AddressBar+TextField.swift */; };
+		F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADFA293B3B3F00758820 /* UIColor+Helpers.swift */; };
+		F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADFC293B5D1E00758820 /* ViewController+AddressBarAnimation.swift */; };
+		F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400ADFF293B705D00758820 /* KeyboardManager.swift */; };
+		F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE01293B727D00758820 /* WebBrowserModel.swift */; };
+		F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */; };
+		F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */; };
+		F400AE08293B834800758820 /* Array+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE07293B834800758820 /* Array+Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +37,17 @@
 		F400ADE0293B244A00758820 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F400ADE3293B244A00758820 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F400ADE5293B244A00758820 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F400ADF1293B2CFC00758820 /* WebBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserView.swift; sourceTree = "<group>"; };
+		F400ADF3293B2DF900758820 /* AddressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBar.swift; sourceTree = "<group>"; };
+		F400ADF5293B2E2000758820 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
+		F400ADF7293B369E00758820 /* AddressBar+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+TextField.swift"; sourceTree = "<group>"; };
+		F400ADFA293B3B3F00758820 /* UIColor+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helpers.swift"; sourceTree = "<group>"; };
+		F400ADFC293B5D1E00758820 /* ViewController+AddressBarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+AddressBarAnimation.swift"; sourceTree = "<group>"; };
+		F400ADFF293B705D00758820 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		F400AE01293B727D00758820 /* WebBrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebBrowserModel.swift; sourceTree = "<group>"; };
+		F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+KeyboardManager.swift"; sourceTree = "<group>"; };
+		F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Helpers.swift"; sourceTree = "<group>"; };
+		F400AE07293B834800758820 /* Array+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Helpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +111,8 @@
 		F400ADEB293B252300758820 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				F400ADFE293B702C00758820 /* KeyboardManager */,
+				F400ADF9293B3B1800758820 /* Extensions */,
 				F400ADEC293B253B00758820 /* Application */,
 				F400ADE5293B244A00758820 /* Info.plist */,
 				F400ADE0293B244A00758820 /* Assets.xcassets */,
@@ -109,6 +133,10 @@
 		F400ADED293B255700758820 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F400ADF1293B2CFC00758820 /* WebBrowserView.swift */,
+				F400ADF3293B2DF900758820 /* AddressBar.swift */,
+				F400ADF5293B2E2000758820 /* Toolbar.swift */,
+				F400ADF7293B369E00758820 /* AddressBar+TextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -116,6 +144,7 @@
 		F400ADEE293B256500758820 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F400AE01293B727D00758820 /* WebBrowserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -124,8 +153,28 @@
 			isa = PBXGroup;
 			children = (
 				F400ADDB293B244500758820 /* ViewController.swift */,
+				F400ADFC293B5D1E00758820 /* ViewController+AddressBarAnimation.swift */,
+				F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		F400ADF9293B3B1800758820 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F400ADFA293B3B3F00758820 /* UIColor+Helpers.swift */,
+				F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */,
+				F400AE07293B834800758820 /* Array+Helpers.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F400ADFE293B702C00758820 /* KeyboardManager */ = {
+			isa = PBXGroup;
+			children = (
+				F400ADFF293B705D00758820 /* KeyboardManager.swift */,
+			);
+			path = KeyboardManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,7 +293,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
+				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
+				F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */,
+				F400AE08293B834800758820 /* Array+Helpers.swift in Sources */,
+				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
+				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
+				F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */,
+				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
+				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
+				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
+				F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */,
 				F400ADD8293B244500758820 /* AppDelegate.swift in Sources */,
 				F400ADDA293B244500758820 /* SceneDelegate.swift in Sources */,
 			);

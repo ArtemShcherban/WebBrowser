@@ -47,6 +47,7 @@ private extension ViewController {
         webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = -offset + 10
         webBrowserView.addressBarScrollViewBottomConstraint?.constant = -offset
         webBrowserView.addressBarScrollView.isScrollEnabled = false
+        tabViewControllers[safe: currentTabIndex]?.showEmptyState()
         setSideAddressBarsHidden(true)
     }
     
@@ -56,6 +57,7 @@ private extension ViewController {
         webBrowserView.addressBarScrollViewBottomConstraint?.constant =
         webBrowserView.addressBarExpandingFullyBottomOffset
         webBrowserView.addressBarScrollView.isScrollEnabled = true
+        tabViewControllers[safe: currentTabIndex]?.hideEmptyStateIfNedded()
         setSideAddressBarsHidden(false)
     }
     

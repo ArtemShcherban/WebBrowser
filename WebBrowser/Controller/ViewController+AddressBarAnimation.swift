@@ -15,7 +15,19 @@ extension ViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if currentTabIndex == 0 && hasHiddenTab {
+        let padding = 2 * (
+            webBrowserView.addressBarStackViewSidePadding -
+            webBrowserView.addressBarStackViewSpacing / 2
+        )
+        let percentage =
+        webBrowserView.addressBarScrollView.contentOffset.x /
+        (webBrowserView.addressBarScrollView.contentSize.width - padding)
+        
+        webBrowserView.tabScrollView.contentOffset.x =
+        percentage *
+        (webBrowserView.tabScrollView.contentSize.width + webBrowserView.tabStackSpacing)
+        
+        if currentTabIndex == tabViewControllers.count - 2 && hasHiddenTab {
             let currentXOffset = webBrowserView.addressBarScrollView.contentOffset.x
             let addressBarWidth = webBrowserView.frame.width + webBrowserView.addressBarWidthOffset
             let hiddenAddressBarWidth = addressBarWidth + webBrowserView.addressBarContainerHidingWidthOffset
@@ -33,7 +45,7 @@ extension ViewController: UIScrollViewDelegate {
             }
         }
         
-        if currentTabIndex == 1 && hasHiddenTab {
+        if currentTabIndex == tabViewControllers.count - 1 && hasHiddenTab {
             let currentXOffset = webBrowserView.addressBarScrollView.contentOffset.x
             let addressBarWidth = webBrowserView.frame.width + webBrowserView.addressBarWidthOffset
             let hiddenAddressBarWidth = addressBarWidth + webBrowserView.addressBarContainerHidingWidthOffset
@@ -73,22 +85,25 @@ extension ViewController: UIScrollViewDelegate {
             y: targetContentOffset.pointee.y
         )
         
-        if currentTabIndex == 1 && hasHiddenTab {
+        if currentTabIndex == tabViewControllers.count - 1 && hasHiddenTab {
+            let tabViewController = tabViewControllers.last
             let hiddenAddressBar = webBrowserView.addressBars.last
             UIView.animate(withDuration: 0.3) {
+                tabViewController?.view.transform = .identity
+                tabViewController?.view.alpha = 1
                 hiddenAddressBar?.containerView.alpha = 1
             }
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if currentTabIndex == 1 {
+        if currentTabIndex == tabViewControllers.count - 1 {
             hasHiddenTab = false
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate && currentTabIndex == 1 {
+        if !decelerate && currentTabIndex == tabViewControllers.count - 1 {
             hasHiddenTab = false
         }
     }

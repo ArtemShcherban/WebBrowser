@@ -24,6 +24,13 @@
 		F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */; };
 		F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */; };
 		F400AE08293B834800758820 /* Array+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE07293B834800758820 /* Array+Helpers.swift */; };
+		F400AE0D293C8CD600758820 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE0C293C8CD600758820 /* TabViewController.swift */; };
+		F400AE0F293C8D1800758820 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE0E293C8D1800758820 /* TabView.swift */; };
+		F400AE11293C8E4A00758820 /* TabEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE10293C8E4A00758820 /* TabEmptyStateView.swift */; };
+		F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */; };
+		F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */; };
+		F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE18293CE46E00758820 /* URLGenerator.swift */; };
+		F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE1B293DCC2A00758820 /* URLValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +55,13 @@
 		F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+KeyboardManager.swift"; sourceTree = "<group>"; };
 		F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Helpers.swift"; sourceTree = "<group>"; };
 		F400AE07293B834800758820 /* Array+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Helpers.swift"; sourceTree = "<group>"; };
+		F400AE0C293C8CD600758820 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
+		F400AE0E293C8D1800758820 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		F400AE10293C8E4A00758820 /* TabEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabEmptyStateView.swift; sourceTree = "<group>"; };
+		F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab+StatusBarBackgroundView.swift"; sourceTree = "<group>"; };
+		F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ToolbarAnimation.swift"; sourceTree = "<group>"; };
+		F400AE18293CE46E00758820 /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
+		F400AE1B293DCC2A00758820 /* URLValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLValidator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +118,7 @@
 				F400ADEE293B256500758820 /* Model */,
 				F400ADED293B255700758820 /* View */,
 				F400ADEF293B256D00758820 /* Controller */,
+				F400AE0B293C8CA300758820 /* TabModule */,
 			);
 			path = WebBrowser;
 			sourceTree = "<group>";
@@ -111,12 +126,13 @@
 		F400ADEB293B252300758820 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				F400ADFE293B702C00758820 /* KeyboardManager */,
-				F400ADF9293B3B1800758820 /* Extensions */,
 				F400ADEC293B253B00758820 /* Application */,
-				F400ADE5293B244A00758820 /* Info.plist */,
+				F400ADF9293B3B1800758820 /* Extensions */,
+				F400ADFE293B702C00758820 /* KeyboardManager */,
+				F400AE1A293CE47B00758820 /* URLGenerator */,
 				F400ADE0293B244A00758820 /* Assets.xcassets */,
 				F400ADE2293B244A00758820 /* LaunchScreen.storyboard */,
+				F400ADE5293B244A00758820 /* Info.plist */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -155,6 +171,7 @@
 				F400ADDB293B244500758820 /* ViewController.swift */,
 				F400ADFC293B5D1E00758820 /* ViewController+AddressBarAnimation.swift */,
 				F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */,
+				F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -175,6 +192,42 @@
 				F400ADFF293B705D00758820 /* KeyboardManager.swift */,
 			);
 			path = KeyboardManager;
+			sourceTree = "<group>";
+		};
+		F400AE0B293C8CA300758820 /* TabModule */ = {
+			isa = PBXGroup;
+			children = (
+				F400AE13293C902900758820 /* Controller */,
+				F400AE12293C901D00758820 /* Views */,
+			);
+			path = TabModule;
+			sourceTree = "<group>";
+		};
+		F400AE12293C901D00758820 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F400AE0E293C8D1800758820 /* TabView.swift */,
+				F400AE10293C8E4A00758820 /* TabEmptyStateView.swift */,
+				F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F400AE13293C902900758820 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F400AE0C293C8CD600758820 /* TabViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F400AE1A293CE47B00758820 /* URLGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				F400AE18293CE46E00758820 /* URLGenerator.swift */,
+				F400AE1B293DCC2A00758820 /* URLValidator.swift */,
+			);
+			path = URLGenerator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,15 +346,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F400AE11293C8E4A00758820 /* TabEmptyStateView.swift in Sources */,
 				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */,
+				F400AE0D293C8CD600758820 /* TabViewController.swift in Sources */,
+				F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */,
+				F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */,
 				F400AE08293B834800758820 /* Array+Helpers.swift in Sources */,
+				F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */,
 				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
 				F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
+				F400AE0F293C8D1800758820 /* TabView.swift in Sources */,
+				F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
 				F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */,

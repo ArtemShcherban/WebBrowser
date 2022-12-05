@@ -47,17 +47,21 @@ final class AddressBar: UIView {
             self.textField.rightView?.alpha = isHidden ? 0 : 1
         }
     }
+    
+    func setLoadingProgress(_ progress: Float, animated: Bool) {
+        progressView.alpha = 1
+        animated ? animateProgressView(progress) : setProgress(progress)
+    }
 }
 
 private extension AddressBar {
     func setupView() {
         layer.masksToBounds = false
-        //        containerView.layer.masksToBounds = false
         setupContainerView()
         setupShadowView()
         setupTextField()
-        setupDomainLabel()
         setupProgressView()
+        setupDomainLabel()
     }
     
     func setupContainerView() {
@@ -138,9 +142,37 @@ private extension AddressBar {
         ])
     }
     
+    func setProgress(_ progress: Float) {
+        if let layers = progressView.layer.sublayers {
+            layers.forEach { layer in
+                layer.removeAllAnimations()
+            }
+        }
+        progressView.setProgress(progress, animated: false)
+        progressView.setNeedsLayout()
+        progressView.layoutIfNeeded()
+    }
+    
+    func animateProgressView(_ progress: Float) {
+        if progress < 1 {
+            progressView.setProgress(progress, animated: true)
+        } else {
+            progressView.progress = progress
+            UIView.animate(withDuration: 0.5, animations: {
+                self.progressView.layoutIfNeeded()
+            }, completion: { _ in
+                self.setProgress(0)
+                UIView.animate(withDuration: 0.2) {
+                    self.progressView.alpha = 0
+                }
+            })
+        }
+    }
+    
     func showEditingStyle() {
         shadowView.isHidden = true
         domainLabel.alpha = 0
+        
         textFieldLeadingConstraint?.constant = 0
         textFieldTrailingConstraint?.constant = 0
     }

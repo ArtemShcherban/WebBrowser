@@ -93,6 +93,7 @@ private extension AddressBar.TextField {
         autocapitalizationType = .none
         keyboardType = .webSearch
         enablesReturnKeyAutomatically = true
+        clipsToBounds = true
         setupMagnifyingGlassImageView()
         setupAaButton()
         setupReloadButton()

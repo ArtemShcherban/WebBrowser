@@ -9,9 +9,14 @@ import UIKit
 
 class WebBrowserModel {
     private let keyboardManager: KeyboardManager
+    private let urlGenerator: URLGenerator
     
-    init(keyboardManager: KeyboardManager = .init()) {
+    init(
+        keyboardManager: KeyboardManager = .init(),
+        urlGenerator: URLGenerator = .init()
+    ) {
         self.keyboardManager = keyboardManager
+        self.urlGenerator = urlGenerator
     }
     
     func setKeyboardHandler(
@@ -20,5 +25,17 @@ class WebBrowserModel {
     ) {
         keyboardManager.keyboardWillShowHandler = keyboardWillShowHandler
         keyboardManager.keyboardWillHideHandler = keyboardWillHideHandler
+    }
+    
+    func getURL(for text: String) -> URL? {
+        urlGenerator.getURL(for: text)
+    }
+    
+    func getDomain(from url: URL) -> String {
+        guard var domain = url.host else { return url.absoluteString }
+        if domain.hasPrefix("www.") {
+            domain.removeFirst(4)
+        }
+        return domain
     }
 }

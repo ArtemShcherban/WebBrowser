@@ -9,6 +9,9 @@ import UIKit
 
 final class WebBrowserView: UIView {
     lazy var cancelButton = UIButton(type: .system)
+    lazy var tabScrollView = UIScrollView()
+    lazy var tabsStackView = UIStackView()
+    
     lazy var toolbar = Toolbar()
     lazy var addressBarScrollView = UIScrollView()
     lazy var addressBarStackView = UIStackView()
@@ -17,6 +20,8 @@ final class WebBrowserView: UIView {
     var addressBarScrollViewBottomConstraint: NSLayoutConstraint?
     var keyboardBackgroundViewBottomConstraint: NSLayoutConstraint?
     var toolbarBottomConstraint: NSLayoutConstraint?
+    
+    let tabStackSpacing: CGFloat = 24
     
     // AddressBar animation constants
     let addressBarWidthOffset: CGFloat = -48
@@ -34,8 +39,8 @@ final class WebBrowserView: UIView {
     // Toolbar expanding and collapsing constants
     let toolBarExpandingHalfwayBottomOffset: CGFloat = 40
     let toolBarExpandingFullyBottomOffset: CGFloat = 0
-    let toolBarCollapsingHalfwayBottomOffset: CGFloat = 30
-    let toolBarCollapsingFullyBottomOffset: CGFloat = 80
+    let toolbarCollapsingHalfwayBottomOffset: CGFloat = 30
+    let toolbarCollapsingFullyBottomOffset: CGFloat = 80
     
     var addressBarPageWidth: CGFloat {
         frame.width + addressBarWidthOffset + addressBarStackViewSpacing
@@ -52,6 +57,12 @@ final class WebBrowserView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func addToTabsStackView(_ tabView: UIView) {
+        tabsStackView.addArrangedSubview(tabView)
+        tabView.translatesAutoresizingMaskIntoConstraints = false
+        tabView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
     }
     
     func addAddressBar(isHidden: Bool, withDelegate delegate: AddressBarDelegate) {
@@ -79,11 +90,44 @@ final class WebBrowserView: UIView {
 private extension WebBrowserView {
     func setupView() {
         backgroundColor = UIColor(white: 0.97, alpha: 1)
+        setupTabScrollView()
+        setupTabStackView()
         setupToolbar()
         setupAddressBarScrollView()
         setupAddressBarStackView()
         setupKeyboardBackgroundView()
         setupCancelButton()
+    }
+    
+    func setupTabScrollView() {
+        tabScrollView.showsHorizontalScrollIndicator = false
+        tabScrollView.showsVerticalScrollIndicator = false
+        tabScrollView.isScrollEnabled = false
+        tabScrollView.layer.masksToBounds = false
+        addSubview(tabScrollView)
+        tabScrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tabScrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            tabScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            tabScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
+    }
+    
+    func setupTabStackView() {
+        tabsStackView.axis = .horizontal
+        tabsStackView.alignment = .fill
+        tabsStackView.distribution = .fillEqually
+        tabsStackView.spacing = tabStackSpacing
+        tabScrollView.addSubview(tabsStackView)
+        tabsStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tabsStackView.topAnchor.constraint(equalTo: tabScrollView.topAnchor),
+            tabsStackView.leadingAnchor.constraint(equalTo: tabScrollView.leadingAnchor),
+            tabsStackView.trailingAnchor.constraint(equalTo: tabScrollView.trailingAnchor),
+            tabsStackView.heightAnchor.constraint(equalTo: tabScrollView.heightAnchor)
+        ])
     }
     
     func setupToolbar() {
@@ -94,6 +138,7 @@ private extension WebBrowserView {
         guard let toolbarBottomConstraint else { return }
         
         NSLayoutConstraint.activate([
+            toolbar.topAnchor.constraint(equalTo: tabScrollView.bottomAnchor),
             toolbar.heightAnchor.constraint(equalToConstant: 100),
             toolbar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -102,7 +147,6 @@ private extension WebBrowserView {
     }
     
     func setupAddressBarScrollView() {
-        addressBarScrollView.backgroundColor = .yellow
         addressBarScrollView.clipsToBounds = false
         addressBarScrollView.showsVerticalScrollIndicator = false
         addressBarScrollView.showsHorizontalScrollIndicator = false
@@ -124,7 +168,6 @@ private extension WebBrowserView {
     }
     
     func setupAddressBarStackView() {
-        addressBarStackView.backgroundColor = .systemRed
         addressBarStackView.clipsToBounds = false
         addressBarStackView.axis = .horizontal
         addressBarStackView.alignment = .fill

@@ -20,6 +20,11 @@ class TabViewController: UIViewController {
     lazy var hasLoadedURl = false
     lazy var startYOffset: CGFloat = 0.0
     
+    var urlObserver: NSKeyValueObservation?
+    var progressObserver: NSKeyValueObservation?
+    var themeColorObserver: NSKeyValueObservation?
+    var underPageColorObserver: NSKeyValueObservation?
+
     weak var delegate: TabViewControllerDelegate?
     
     init(isHidden: Bool) {
@@ -42,35 +47,6 @@ class TabViewController: UIViewController {
         setupWebView()
     }
     
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey: Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        switch keyPath {
-        case #keyPath(WKWebView.url):
-            guard let url = tabView.webView.url else { return }
-            delegate?.tabViewController(self, didStartLoadingURL: url)
-        case #keyPath(WKWebView.estimatedProgress):
-            let progress = tabView.webView.estimatedProgress
-            delegate?.tabViewController(self, didChangeLoadingProgressTo: Float(progress))
-        default:
-            break
-        }
-        
-        if #available(iOS 15.0, *) {
-            switch keyPath {
-            case
-                #keyPath(WKWebView.themeColor),
-                #keyPath(WKWebView.underPageBackgroundColor):
-                updateStatusBarColor()
-            default:
-                break
-            }
-        }
-    }
-    
     func loadWebsite(from url: URL) {
         tabView.webView.load(URLRequest(url: url))
         hasLoadedURl = true
@@ -90,19 +66,37 @@ class TabViewController: UIViewController {
 private extension TabViewController {
     func setupWebView() {
         tabView.webView.scrollView.panGestureRecognizer.addTarget(self, action: #selector(handlePan(_:)))
-        tabView.webView.addObserver(
-            self, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil
-        )
-        tabView.webView.addObserver(
-            self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil
-        )
-        if #available(iOS 15.0, *) {
-            tabView.webView.addObserver(
-                self, forKeyPath: #keyPath(WKWebView.themeColor), options: .new, context: nil
-            )
-            tabView.webView.addObserver(
-                self, forKeyPath: #keyPath(WKWebView.underPageBackgroundColor), options: .new, context: nil
-            )
+        startURLObserve()
+        startProgressObserve()
+        startThemeColorObserve()
+        startUnderPageColorObserve()
+    }
+    
+    func startURLObserve() {
+        urlObserver = tabView.webView.observe(\WKWebView.url, options: .new) { _, _ in
+            guard let url = self.tabView.webView.url else { return }
+            self.delegate?.tabViewController(self, didStartLoadingURL: url)
+        }
+    }
+    
+    func startProgressObserve() {
+        progressObserver = tabView.webView.observe(\WKWebView.estimatedProgress, options: .new) { _, _ in
+            let estimatedProgress = Float(self.tabView.webView.estimatedProgress)
+            self.delegate?.tabViewController(self, didChangeLoadingProgressTo: estimatedProgress)
+        }
+    }
+    
+    func startThemeColorObserve() {
+        guard #available(iOS 15.0, *) else { return }
+        themeColorObserver = tabView.webView.observe(\WKWebView.themeColor, options: .new) { _, _ in
+            self.updateStatusBarColor()
+        }
+    }
+    
+    func startUnderPageColorObserve() {
+        guard #available(iOS 15.0, *) else { return }
+        underPageColorObserver = tabView.webView.observe(\WKWebView.underPageBackgroundColor, options: .new) { _, _ in
+            self.updateStatusBarColor()
         }
     }
     

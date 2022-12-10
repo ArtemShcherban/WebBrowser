@@ -8,8 +8,8 @@
 import UIKit
 
 final class Toolbar: UIToolbar {
-    let leftArrowButton = UIBarButtonItem()
-    let rightArrowButton = UIBarButtonItem()
+    private(set) lazy var goBackButton = UIBarButtonItem()
+    private(set) lazy var goForwardButton = UIBarButtonItem()
     let heartButton = UIBarButtonItem()
     let plusButton = UIBarButtonItem()
     let listButton = UIBarButtonItem()
@@ -28,8 +28,8 @@ final class Toolbar: UIToolbar {
 private extension Toolbar {
     func setupButtonImage() {
         let weightConfiguration = UIImage.SymbolConfiguration(weight: .semibold)
-        leftArrowButton.image = UIImage(systemName: "chevron.left.circle", withConfiguration: weightConfiguration)
-        rightArrowButton.image = UIImage(systemName: "chevron.right.circle", withConfiguration: weightConfiguration)
+        goBackButton.image = UIImage(systemName: "chevron.left.circle", withConfiguration: weightConfiguration)
+        goForwardButton.image = UIImage(systemName: "chevron.right.circle", withConfiguration: weightConfiguration)
         heartButton.image = UIImage(systemName: "heart", withConfiguration: weightConfiguration)
         plusButton.image = UIImage(systemName: "plus.circle", withConfiguration: weightConfiguration)
         listButton.image = UIImage(systemName: "list.bullet", withConfiguration: weightConfiguration)
@@ -40,9 +40,9 @@ private extension Toolbar {
         setItems(
             [
                 flexibleSpace,
-                leftArrowButton,
+                goBackButton,
                 flexibleSpace,
-                rightArrowButton,
+                goForwardButton,
                 flexibleSpace,
                 heartButton,
                 flexibleSpace,

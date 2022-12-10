@@ -79,6 +79,12 @@ extension ViewController: TabViewControllerDelegate {
         }
         addressBar.setLoadingProgress(progress, animated: true)
     }
+    
+    func tabViewControllerBackForwardListHasChanged(_ tabViewController: TabViewController) {
+        let webView = tabViewController.tabView.webView
+        self.webBrowserView.toolbar.goBackButton.isEnabled = webView.canGoBack
+        self.webBrowserView.toolbar.goForwardButton.isEnabled = webView.canGoForward
+    }
 }
 
 extension ViewController {
@@ -149,20 +155,26 @@ extension ViewController {
     func setupExpandingToolbarAnimator() {
         expandingToolbarAnimator?.stopAnimation(true)
         expandingToolbarAnimator?.finishAnimation(at: .current)
+        
         webBrowserView.addressBarScrollViewBottomConstraint?.constant =
         webBrowserView.addressBarExpandingHalfwayBottomOffset
+        
         webBrowserView.toolbarBottomConstraint?.constant =
         webBrowserView.toolBarExpandingHalfwayBottomOffset
         
         expandingToolbarAnimator = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {[weak self] in
             self?.webBrowserView.layoutIfNeeded()
         }
+        
         expandingToolbarAnimator?.addCompletion { [weak self] _ in
             guard let self else { return }
+            
             self.webBrowserView.addressBarScrollViewBottomConstraint?.constant =
             self.webBrowserView.addressBarExpandingFullyBottomOffset
+            
             self.webBrowserView.toolbarBottomConstraint?.constant =
             self.webBrowserView.toolBarExpandingFullyBottomOffset
+            
             UIViewPropertyAnimator(duration: 0.2, curve: .easeIn) { [weak self] in
                 guard let self else { return }
                 self.currentAddressBar.containerView.transform = .identity
@@ -196,7 +208,7 @@ extension ViewController {
         webBrowserView.addressBarCollapsingFullyBottomOffset
         
         webBrowserView.toolbarBottomConstraint?.constant =
-        webBrowserView.toolBarExpandingFullyBottomOffset
+        webBrowserView.toolbarCollapsingFullyBottomOffset
         
         UIViewPropertyAnimator(duration: 0.1, curve: .linear) { [weak self] in
             self?.setAddressBarContainersAlpha(0)

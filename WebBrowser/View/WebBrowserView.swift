@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol WebBrowserViewDelegate: AnyObject {
+    func goBackButtonTapped()
+    func goForwardButtontTapped()
+    func plusButtonTapped()
+}
+
 final class WebBrowserView: UIView {
     lazy var cancelButton = UIButton(type: .system)
     lazy var tabScrollView = UIScrollView()
@@ -50,6 +56,8 @@ final class WebBrowserView: UIView {
         addressBarStackView.arrangedSubviews as? [AddressBar] ?? []
     }
     
+    weak var delegate: WebBrowserViewDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -85,6 +93,31 @@ final class WebBrowserView: UIView {
     func cancelButtonHidden(_ isHidden: Bool) {
         cancelButton.alpha = isHidden ? 0 : 1
     }
+    
+    func createDialog() -> UIAlertController {
+        let alert = UIAlertController(
+            title: "Add New Filter",
+            message: "Please enter new filter word",
+            preferredStyle: .alert)
+
+        alert.addTextField { textField in
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            textField.clearButtonMode = .whileEditing
+            textField.textAlignment = .center
+            textField.autocorrectionType = .no
+            textField.autocapitalizationType = .words
+        }
+        
+        let addFilterAction = UIAlertAction(title: "Add", style: .default) { _ in
+            print("Add action")
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(addFilterAction)
+        alert.addAction(cancelAction)
+        
+        return alert
+    }
 }
 
 private extension WebBrowserView {
@@ -97,6 +130,7 @@ private extension WebBrowserView {
         setupAddressBarStackView()
         setupKeyboardBackgroundView()
         setupCancelButton()
+        setupToolbarButtons()
     }
     
     func setupTabScrollView() {
@@ -218,5 +252,34 @@ private extension WebBrowserView {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
         cancelButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24).isActive = true
+    }
+    
+    func setupToolbarButtons() {
+        toolbar.items?.forEach { $0.target = self }
+        disableButtons()
+        toolbar.goBackButton.action = #selector(goBackButtonTapped)
+        toolbar.goForwardButton.action = #selector(goForwardButtontTapped)
+        toolbar.plusButton.action = #selector(plusButtonTapped)
+    }
+    
+    func disableButtons() {
+        toolbar.goBackButton.isEnabled = false
+        toolbar.goForwardButton.isEnabled = false
+        toolbar.heartButton.isEnabled = false
+        toolbar.listButton.isEnabled = false
+    }
+}
+
+@objc private extension WebBrowserView {
+    func goBackButtonTapped() {
+        delegate?.goBackButtonTapped()
+    }
+    
+    func goForwardButtontTapped() {
+        delegate?.goForwardButtontTapped()
+    }
+    
+    func plusButtonTapped() {
+        delegate?.plusButtonTapped()
     }
 }

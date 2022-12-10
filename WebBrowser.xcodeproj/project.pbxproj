@@ -197,8 +197,8 @@
 		F400AE0B293C8CA300758820 /* TabModule */ = {
 			isa = PBXGroup;
 			children = (
-				F400AE13293C902900758820 /* Controller */,
 				F400AE12293C901D00758820 /* Views */,
+				F400AE13293C902900758820 /* Controller */,
 			);
 			path = TabModule;
 			sourceTree = "<group>";

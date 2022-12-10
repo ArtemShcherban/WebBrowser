@@ -8,7 +8,11 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    lazy var webBrowserView = WebBrowserView()
+    lazy var webBrowserView: WebBrowserView = {
+        let view = WebBrowserView()
+        view.delegate = self
+        return view
+    }()
     lazy var webBrowserModel = WebBrowserModel()
     lazy var hasHiddenTab = false
     lazy var isCollapsed = false
@@ -16,6 +20,7 @@ final class ViewController: UIViewController {
     lazy var currentTabIndex = 0 {
         didSet {
             updateAddressBarsAfterTabChange()
+            updateToolbarButtonsAfterTabChange()
         }
     }
     
@@ -83,20 +88,6 @@ private extension ViewController {
         webBrowserView.addToTabsStackView(tabViewController.view)
     }
     
-    //    func addTabViewController(isHidden: Bool) {
-    //        let tabViewController = TabViewController(isHidden: isHidden)
-    //        tabViewController.view.alpha = isHidden ? 0 : 1
-    //        tabViewController.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
-    //        tabViewController.showEmptyState()
-    //        tabViewController.delegate = self
-    //        tabViewControllers.append(tabViewController)
-    //        webBrowserView.tabsStackView.addArrangedSubview(tabViewController.view)
-    //        tabViewController.view.translatesAutoresizingMaskIntoConstraints = false
-    //        tabViewController.view.widthAnchor.constraint(equalTo: webBrowserView.widthAnchor).isActive = true
-    //        addChild(tabViewController)
-    //        tabViewController.didMove(toParent: self)
-    //    }
-    
     func updateAddressBarsAfterTabChange() {
         currentAddressBar.isUserInteractionEnabled = true
         currentAddressBar.setSideButtonsHiden(false)
@@ -104,6 +95,11 @@ private extension ViewController {
         leftAddressBar?.setSideButtonsHiden(true)
         rightAddressBar?.isUserInteractionEnabled = false
         rightAddressBar?.setSideButtonsHiden(true)
+    }
+    
+    func updateToolbarButtonsAfterTabChange() {
+        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
+        tabViewControllerBackForwardListHasChanged(tabViewController)
     }
     
     func setupAddressBarExpandingTap() {
@@ -143,5 +139,26 @@ extension ViewController: AddressBarDelegate {
             tabViewController.loadWebsite(from: url )
         }
         dismissKeyboard()
+    }
+}
+
+extension ViewController: WebBrowserViewDelegate {
+    func goBackButtonTapped() {
+        guard let webView = tabViewControllers[safe: currentTabIndex]?.tabView.webView else { return }
+        if webView.backForwardList.backList.isEmpty {
+            tabViewControllers[safe: currentTabIndex]?.showEmptyState()
+        }
+        webView.goBack()
+    }
+    
+    func goForwardButtontTapped() {
+        guard let webView = tabViewControllers[safe: currentTabIndex]?.tabView.webView else { return }
+        webView.goForward()
+    }
+    
+    func plusButtonTapped() {
+       let alert = webBrowserView.createDialog()
+
+        self.present(alert, animated: true)
     }
 }

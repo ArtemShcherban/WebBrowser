@@ -13,10 +13,12 @@ protocol TabViewControllerDelegate: AnyObject {
     func tabViewControllerDidEndDraging()
     func tabViewController(_ tabViewController: TabViewController, didStartLoadingURL: URL)
     func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo: Float)
+//    func setupToolbarButtonsAppearance()
+    func tabViewControllerBackForwardListHasChanged(_ tabViewController: TabViewController)
 }
 
 class TabViewController: UIViewController {
-    private lazy var tabView = TabView()
+    private(set) lazy var tabView = TabView()
     lazy var hasLoadedURl = false
     lazy var startYOffset: CGFloat = 0.0
     
@@ -24,10 +26,12 @@ class TabViewController: UIViewController {
     var progressObserver: NSKeyValueObservation?
     var themeColorObserver: NSKeyValueObservation?
     var underPageColorObserver: NSKeyValueObservation?
+    var canGoBackObserver: NSKeyValueObservation?
+    var canGoForwardObserver: NSKeyValueObservation?
 
     weak var delegate: TabViewControllerDelegate?
     
-    init(isHidden: Bool) {
+    init(isHidden: Bool) { ///// ?????? maybe remove alpha and transform to separate method
         super.init(nibName: nil, bundle: nil)
         self.view.alpha = isHidden ? 0 : 1
         self.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
@@ -66,10 +70,13 @@ class TabViewController: UIViewController {
 private extension TabViewController {
     func setupWebView() {
         tabView.webView.scrollView.panGestureRecognizer.addTarget(self, action: #selector(handlePan(_:)))
+        tabView.webView.navigationDelegate = self
         startURLObserve()
         startProgressObserve()
         startThemeColorObserve()
         startUnderPageColorObserve()
+        startCanGoBackObserve()
+        startCanGoForwardObserve()
     }
     
     func startURLObserve() {
@@ -106,6 +113,18 @@ private extension TabViewController {
         tabView.statusBarBackgroundView.setColor(color)
         setNeedsStatusBarAppearanceUpdate()
     }
+    
+    func startCanGoBackObserve() {
+        canGoBackObserver = tabView.webView.observe(\WKWebView.canGoBack, options: .new) { _, _ in
+            self.delegate?.tabViewControllerBackForwardListHasChanged(self)
+        }
+    }
+    
+    func startCanGoForwardObserve() {
+        canGoForwardObserver = tabView.webView.observe(\WKWebView.canGoForward, options: .new) { _, _ in
+            self.delegate?.tabViewControllerBackForwardListHasChanged(self)
+        }
+    }
 }
 
 @objc private extension TabViewController {
@@ -121,5 +140,14 @@ private extension TabViewController {
         default:
             break
         }
+    }
+}
+
+extension TabViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType == .linkActivated {
+            print("*****************")
+        }
+        decisionHandler(.allow)
     }
 }

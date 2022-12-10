@@ -13,12 +13,13 @@ protocol TabViewControllerDelegate: AnyObject {
     func tabViewControllerDidEndDraging()
     func tabViewController(_ tabViewController: TabViewController, didStartLoadingURL: URL)
     func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo: Float)
-//    func setupToolbarButtonsAppearance()
     func tabViewControllerBackForwardListHasChanged(_ tabViewController: TabViewController)
+    func activateAddressBar()
 }
 
 class TabViewController: UIViewController {
     private(set) lazy var tabView = TabView()
+    private let filterListModel: FilterListModel
     lazy var hasLoadedURl = false
     lazy var startYOffset: CGFloat = 0.0
     
@@ -28,10 +29,11 @@ class TabViewController: UIViewController {
     var underPageColorObserver: NSKeyValueObservation?
     var canGoBackObserver: NSKeyValueObservation?
     var canGoForwardObserver: NSKeyValueObservation?
-
+    
     weak var delegate: TabViewControllerDelegate?
     
-    init(isHidden: Bool) { ///// ?????? maybe remove alpha and transform to separate method
+    init(isHidden: Bool, with filterListModel: FilterListModel) { ///// ?????? maybe remove alpha and transform to separate method
+        self.filterListModel = filterListModel
         super.init(nibName: nil, bundle: nil)
         self.view.alpha = isHidden ? 0 : 1
         self.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
@@ -146,8 +148,17 @@ private extension TabViewController {
 extension TabViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.navigationType == .linkActivated {
-            print("*****************")
-        }
+            guard let url = navigationAction.request.url,
+                  filterListModel.isAllowedURL(url)
+            else {
+                decisionHandler(.cancel)
+                return
+            }
+        
+                print("******************")
+                
+                delegate?.activateAddressBar()
+                }
         decisionHandler(.allow)
     }
 }

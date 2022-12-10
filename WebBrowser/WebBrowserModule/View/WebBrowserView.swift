@@ -11,6 +11,8 @@ protocol WebBrowserViewDelegate: AnyObject {
     func goBackButtonTapped()
     func goForwardButtontTapped()
     func plusButtonTapped()
+    func listButtonTapped()
+    func updateFilters(with filter: String)
 }
 
 final class WebBrowserView: UIView {
@@ -94,13 +96,13 @@ final class WebBrowserView: UIView {
         cancelButton.alpha = isHidden ? 0 : 1
     }
     
-    func createDialog() -> UIAlertController {
-        let alert = UIAlertController(
+    func createDialogBox() -> UIAlertController {
+        let dialogBox = UIAlertController(
             title: "Add New Filter",
             message: "Please enter new filter word",
             preferredStyle: .alert)
 
-        alert.addTextField { textField in
+        dialogBox.addTextField { textField in
             textField.translatesAutoresizingMaskIntoConstraints = false
             textField.clearButtonMode = .whileEditing
             textField.textAlignment = .center
@@ -108,15 +110,21 @@ final class WebBrowserView: UIView {
             textField.autocapitalizationType = .words
         }
         
-        let addFilterAction = UIAlertAction(title: "Add", style: .default) { _ in
-            print("Add action")
+        let addFilterAction = UIAlertAction(title: "Add Filter", style: .cancel) { _ in
+            guard
+                let text = dialogBox.textFields?[0].text,
+                !text.isEmpty else {
+                return
+            }
+            self.delegate?.updateFilters(with: text)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         
-        alert.addAction(addFilterAction)
-        alert.addAction(cancelAction)
+        dialogBox.addAction(addFilterAction)
+        dialogBox.addAction(cancelAction)
+        dialogBox.preferredAction = addFilterAction
         
-        return alert
+        return dialogBox
     }
 }
 
@@ -260,13 +268,14 @@ private extension WebBrowserView {
         toolbar.goBackButton.action = #selector(goBackButtonTapped)
         toolbar.goForwardButton.action = #selector(goForwardButtontTapped)
         toolbar.plusButton.action = #selector(plusButtonTapped)
+        toolbar.listButton.action = #selector(listButtonTapped)
     }
     
     func disableButtons() {
         toolbar.goBackButton.isEnabled = false
         toolbar.goForwardButton.isEnabled = false
         toolbar.heartButton.isEnabled = false
-        toolbar.listButton.isEnabled = false
+//        toolbar.listButton.isEnabled = false
     }
 }
 
@@ -281,5 +290,9 @@ private extension WebBrowserView {
     
     func plusButtonTapped() {
         delegate?.plusButtonTapped()
+    }
+    
+    func listButtonTapped() {
+        delegate?.listButtonTapped()
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class TabView: UIView {
+final class TabView: UIView {
     private(set) lazy var webView = WKWebView()
     private(set) lazy var emptyStateView = TabEmptyStateView()
     private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()

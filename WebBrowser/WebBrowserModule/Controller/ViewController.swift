@@ -13,6 +13,7 @@ final class ViewController: UIViewController {
         view.delegate = self
         return view
     }()
+    lazy var filterListModel = FilterListModel()
     lazy var webBrowserModel = WebBrowserModel()
     lazy var hasHiddenTab = false
     lazy var isCollapsed = false
@@ -48,6 +49,8 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        filterListModel.filters.append("filter")
+//        filterListModel.isAllowedURL(URL(string: "www.pravda.com")!)
         setupAddressBarScrollView()
         setupKeyboardManager()
         openNewTab(isHidden: false)
@@ -80,7 +83,7 @@ private extension ViewController {
     }
     
     func addTabViewController(isHidden: Bool) {
-        let tabViewController = TabViewController(isHidden: isHidden)
+        let tabViewController = TabViewController(isHidden: isHidden, with: filterListModel)
         tabViewController.delegate = self
         tabViewControllers.append(tabViewController)
         addChild(tabViewController)
@@ -117,10 +120,7 @@ private extension ViewController {
     }
     
     func addressBarTapped() {
-        guard isCollapsed else { return }
-            setupExpandingToolbarAnimator()
-            expandingToolbarAnimator?.startAnimation()
-            isCollapsed = false
+        activateAddressBar()
     }
 }
 
@@ -157,8 +157,16 @@ extension ViewController: WebBrowserViewDelegate {
     }
     
     func plusButtonTapped() {
-       let alert = webBrowserView.createDialog()
-
-        self.present(alert, animated: true)
+        let dialogBox = webBrowserView.createDialogBox()
+        self.present(dialogBox, animated: true)
+    }
+    
+    func listButtonTapped() {
+        let viewController = FilterListViewController(filterListModel: filterListModel)
+        self.present(viewController, animated: true)
+    }
+    
+    func updateFilters(with filter: String) {
+        filterListModel.filters.insert(filter)
     }
 }

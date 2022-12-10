@@ -85,6 +85,13 @@ extension ViewController: TabViewControllerDelegate {
         self.webBrowserView.toolbar.goBackButton.isEnabled = webView.canGoBack
         self.webBrowserView.toolbar.goForwardButton.isEnabled = webView.canGoForward
     }
+    
+    func activateAddressBar() {
+        guard isCollapsed else { return }
+        setupExpandingToolbarAnimator()
+        expandingToolbarAnimator?.startAnimation()
+        isCollapsed = false
+    }
 }
 
 extension ViewController {

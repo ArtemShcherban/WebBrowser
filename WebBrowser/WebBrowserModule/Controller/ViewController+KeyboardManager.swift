@@ -9,20 +9,41 @@ import UIKit
 
 extension ViewController {
     func setupKeyboardManager() {
-        webBrowserModel.setKeyboardHandler(onKeyboardWillShow: { [weak self] notification in
-            guard let self, self.isAddressBarActive else { return }
-            self.webBrowserView.cancelButtonHidden(false)
-            self.animateWithKeyboard(for: notification) { keyboardFrame in
-                self.updateStateForKeyboardAppearing(with: keyboardFrame.height)
+        setHandlerOnKeyboardWillShow()
+        setHandlerOnKeyboardWillHide()
+    }
+    
+    func setHandlerOnKeyboardWillShow() {
+        webBrowserModel.setKeyboardHandlerOnKeyboardWillShow { [weak self] notification in
+            guard  let self else { return }
+            if self.isAddressBarActive {
+                self.webBrowserView.cancelButtonHidden(false)
+                self.animateWithKeyboard(for: notification) { keyboardFrame in
+                    self.updateAddressBarStateForKeyboardAppearing(with: keyboardFrame.height)
+                }
+            } else {
+                self.animateWithKeyboard(for: notification) { _ in
+                    self.updateDialogBoxStateForKeyboardAppearing()
+                }
             }
-        }, onKeyboardWillHide: { [weak self] notification in
-            guard let self, self.isAddressBarActive else { return }
-            self.isAddressBarActive = false
-            self.webBrowserView.cancelButtonHidden(true)
-            self.animateWithKeyboard(for: notification) { _ in
-                self.updateStateForKeyboardDisappearing()
+        }
+    }
+    
+    func setHandlerOnKeyboardWillHide() {
+        webBrowserModel.setKeyboardHandlerOnKeyboardWillHide { [weak self] notification in
+            guard let self else { return }
+            if self.isAddressBarActive {
+                self.isAddressBarActive = false
+                self.webBrowserView.cancelButtonHidden(true)
+                self.animateWithKeyboard(for: notification) { _ in
+                    self.updateAddressBarStateForKeyboardDisappearing()
+                }
+            } else {
+                self.animateWithKeyboard(for: notification) { _ in
+                    self.updateDialogBoxStateForKeyboardDisappearing()
+                }
             }
-        })
+        }
     }
 }
 
@@ -41,7 +62,7 @@ private extension ViewController {
         }.startAnimation()
     }
     
-    func updateStateForKeyboardAppearing(with keyboardHeight: CGFloat) {
+    func updateAddressBarStateForKeyboardAppearing(with keyboardHeight: CGFloat) {
         webBrowserView.keyboardBackgroundView.isHidden = false
         let offset = keyboardHeight - webBrowserView.safeAreaInsets.bottom
         webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = -offset + 10
@@ -51,7 +72,7 @@ private extension ViewController {
         setSideAddressBarsHidden(true)
     }
     
-    func updateStateForKeyboardDisappearing() {
+    func updateAddressBarStateForKeyboardDisappearing() {
         webBrowserView.keyboardBackgroundView.isHidden = true
         webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = 0
         webBrowserView.addressBarScrollViewBottomConstraint?.constant =
@@ -59,6 +80,16 @@ private extension ViewController {
         webBrowserView.addressBarScrollView.isScrollEnabled = true
         tabViewControllers[safe: currentTabIndex]?.hideEmptyStateIfNedded()
         setSideAddressBarsHidden(false)
+    }
+    
+    func updateDialogBoxStateForKeyboardAppearing() {
+        webBrowserView.dialogBox?.alpha = 1
+        webBrowserView.dialogBox?.dialogBoxViewBottomConstraints?.constant = -55
+    }
+    
+    func updateDialogBoxStateForKeyboardDisappearing() {
+        webBrowserView.dialogBox?.alpha = 0
+        webBrowserView.dialogBox = nil
     }
     
     func setSideAddressBarsHidden(_ isHidden: Bool) {

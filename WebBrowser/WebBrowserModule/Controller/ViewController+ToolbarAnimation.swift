@@ -7,14 +7,14 @@
 
 import UIKit
 
-extension ViewController: TabViewControllerDelegate {
+extension ViewController: TabViewControllerDelegate {    
     func tabViewControllerDidScroll(yOffsetChange: CGFloat) {
         let offsetChangeBeforeFullAnimation: CGFloat = 30
         let animationFractionComplete = abs(yOffsetChange) / offsetChangeBeforeFullAnimation
         let thresholdBeforeAnimationComplete: CGFloat = 0.6
         let isScrollingDown = yOffsetChange < 0
         
-        if isScrollingDown {
+        if isScrollingDown && hideToolbar == false {
             guard !isCollapsed else { return }
             
             if collapsingToolbarAnimator == nil || collapsingToolbarAnimator?.state == .inactive {
@@ -28,7 +28,7 @@ extension ViewController: TabViewControllerDelegate {
                 collapsingToolbarAnimator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
             }
         } else {
-            guard isCollapsed else { return }
+            guard isCollapsed && hideToolbar == false else { return }
             
             if expandingToolbarAnimator == nil || expandingToolbarAnimator?.state == .inactive {
                 setupExpandingToolbarAnimator()
@@ -80,17 +80,19 @@ extension ViewController: TabViewControllerDelegate {
         addressBar.setLoadingProgress(progress, animated: true)
     }
     
-    func tabViewControllerBackForwardListHasChanged(_ tabViewController: TabViewController) {
-        let webView = tabViewController.tabView.webView
-        self.webBrowserView.toolbar.goBackButton.isEnabled = webView.canGoBack
-        self.webBrowserView.toolbar.goForwardButton.isEnabled = webView.canGoForward
-    }
-    
-    func activateAddressBar() {
-        guard isCollapsed else { return }
+    func activateToolbar() {
+        guard isCollapsed && hideToolbar == false else { return }
         setupExpandingToolbarAnimator()
         expandingToolbarAnimator?.startAnimation()
         isCollapsed = false
+        currentAddressBar.updateProgressView(addressBar: isCollapsed)
+    }
+    
+    func deactivateToolbar() {
+        setupCollapsingToolbarAnimator()
+        collapsingToolbarAnimator?.startAnimation()
+        isCollapsed = true
+        currentAddressBar.updateProgressView(addressBar: isCollapsed)
     }
 }
 
@@ -224,6 +226,7 @@ extension ViewController {
     }
     
     private func setAddressBarContainersAlpha(_ alpha: CGFloat) {
+//        currentAddressBar.containerView.backgroundColor = .clear
         currentAddressBar.containerView.alpha = alpha
         leftAddressBar?.containerView.alpha = alpha
         

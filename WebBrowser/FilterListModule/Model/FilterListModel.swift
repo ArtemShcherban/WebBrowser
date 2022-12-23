@@ -20,23 +20,22 @@ final class FilterListModel {
     }
     
     func isAllowedURL(_ url: URL) -> Bool {
-        var words: Set<String> = []
-        var result = true
+        let urlString = url.absoluteString.lowercased()
+        var isAllowedURL = true
         
-        guard let host = url.host?.components(separatedBy: ".") else { return false }
-        let component = url.pathComponents
-        host.forEach { words.insert($0.lowercased()) }
-        component.forEach { words.insert($0.lowercased()) }
-        
-        filters.forEach { filter in
-            words.forEach { word in
-                if word.contains(filter.lowercased()) {
-                    result = false
-                    return
-                }
+        for filter in filters {
+            if isAllowedURL {
+                isAllowedURL = !urlString.contains(filter.lowercased())
+            } else {
+                return isAllowedURL
             }
         }
-        return result
+        return isAllowedURL
+    }
+    
+    func removeFilter(at row: Int) {
+        let filter = filters.sorted()[row]
+        filters.remove(filter)
     }
 }
 

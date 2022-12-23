@@ -6,13 +6,20 @@
 //
 
 import UIKit
+import WebKit
 
 protocol AddressBarDelegate: AnyObject {
+    func addressBarWillBeginEditing(_ addressBar: AddressBar)
     func addressBarDidBeginEditing()
     func addressBar(_ addressBar: AddressBar, didReturnWithText: String)
+    func requestWebsiteVersionButtonTapped(_ isMobileVersion: Bool)
+    func hideToolbarButtonTapped()
+    func aAButtonMenuWillShow()
+    func aAButtonMenuWillHide()
+    func reloadButtonTapped()
 }
 
-final class AddressBar: UIView {
+final class AddressBar: UIView, UIEditMenuInteractionDelegate {
     lazy var textField = TextField()
     lazy var domainLabel = UILabel()
     lazy var containerView = UIView()
@@ -24,6 +31,12 @@ final class AddressBar: UIView {
     private var textFieldLeadingConstraint: NSLayoutConstraint?
     private var textFieldTrailingConstraint: NSLayoutConstraint?
     var containerViewWidthConstraint: NSLayoutConstraint?
+    
+    private var progressViewLeadingConstraint: NSLayoutConstraint?
+    private var progressViewTrailingConstraint: NSLayoutConstraint?
+    private var progressViewBottomConstraint: NSLayoutConstraint?
+    
+    private var isMobileVersion = true
     
     weak var delegate: AddressBarDelegate?
     
@@ -52,6 +65,10 @@ final class AddressBar: UIView {
         progressView.alpha = 1
         animated ? animateProgressView(progress) : setProgress(progress)
     }
+    
+    func updateProgressView(addressBar isCollapsed: Bool) {
+        isCollapsed ? setupAddressBarProgressView() : setupTextFieldProgressView()
+    }
 }
 
 private extension AddressBar {
@@ -60,7 +77,7 @@ private extension AddressBar {
         setupContainerView()
         setupShadowView()
         setupTextField()
-        setupProgressView()
+        setupTextFieldProgressView()
         setupDomainLabel()
     }
     
@@ -81,16 +98,22 @@ private extension AddressBar {
     }
     
     func setupShadowView() {
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 4
-        layer.shadowOpacity = 0.5
+        shadowView.layer.masksToBounds = false
+        shadowView.layer.shadowColor = UIColor.lightGray.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        shadowView.layer.shadowRadius = 7
+        shadowView.layer.shadowOpacity = 0.5
         containerView.addSubview(shadowView)
     }
     
     func setupTextField() {
         textField.delegate = self
+        textField.reloadButton.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
+        if #available(iOS 14.0, *) {
+            textField.aAButton.showsMenuAsPrimaryAction = true
+        } else {
+            textField.aAButton.alpha = 0
+        }
         containerView.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -127,19 +150,41 @@ private extension AddressBar {
         ])
     }
     
-    func setupProgressView() {
-        progressView.alpha = 0
-        progressView.tintColor = .loadingBlue
-        progressView.trackTintColor = .clear
-        textField.addSubview(progressView)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
+    func setupAddressBarProgressView() {
+        let addressBarProgressView = UIProgressView()
+        addressBarProgressView.alpha = 0
+        addressBarProgressView.tintColor = .loadingBlue
+        addressBarProgressView.trackTintColor = .clear
+        addSubview(addressBarProgressView)
+        addressBarProgressView.translatesAutoresizingMaskIntoConstraints = false
+        
+        guard let superview = self.superview else { return }
+        let widthOffset = superview.frame.minX
         
         NSLayoutConstraint.activate([
-            progressView.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
-            progressView.bottomAnchor.constraint(equalTo: textField.bottomAnchor),
-            progressView.heightAnchor.constraint(equalToConstant: 3.0)
+            addressBarProgressView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -widthOffset),
+            addressBarProgressView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: widthOffset),
+            addressBarProgressView.bottomAnchor.constraint(equalTo: textField.topAnchor),
+            addressBarProgressView.heightAnchor.constraint(equalToConstant: 3.0)
         ])
+        self.progressView = addressBarProgressView
+    }
+    
+    func setupTextFieldProgressView() {
+        let textFieldProgressView = UIProgressView()
+        textFieldProgressView.alpha = 0
+        textFieldProgressView.tintColor = .loadingBlue
+        textFieldProgressView.trackTintColor = .clear
+        textField.addSubview(textFieldProgressView)
+        textFieldProgressView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            textFieldProgressView.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
+            textFieldProgressView.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
+            textFieldProgressView.bottomAnchor.constraint(equalTo: textField.bottomAnchor),
+            textFieldProgressView.heightAnchor.constraint(equalToConstant: 3.0)
+        ])
+        self.progressView = textFieldProgressView
     }
     
     func setProgress(_ progress: Float) {
@@ -163,7 +208,7 @@ private extension AddressBar {
             }, completion: { _ in
                 self.setProgress(0)
                 UIView.animate(withDuration: 0.2) {
-                    self.progressView.alpha = 0
+                    self.progressView.alpha = 1
                 }
             })
         }
@@ -184,11 +229,118 @@ private extension AddressBar {
         textFieldTrailingConstraint?.constant = -textFieldPadding
         textField.layoutIfNeeded()
     }
+    
+ public func setupTextFieldButtonMenuFor(contentMode: WKWebpagePreferences.ContentMode) {
+        guard #available(iOS 14.0, *) else { return }
+        
+        var requestWebsiteAction: UIAction
+        let hideToolbarAction = UIAction(
+            title: "Hide Toolbar",
+            image: UIImage(systemName: "arrow.up.left.and.arrow.down.right")
+        ) { _ in
+            self.delegate?.hideToolbarButtonTapped()
+            print("Hide Toolbar")
+        }
+        
+        var children: [UIMenuElement] = [hideToolbarAction]
+        
+        requestWebsiteAction = createRequestWebsiteActionWith(contentMode: contentMode)
+        children.insert(requestWebsiteAction, at: 0)
+        textField.aAButton.delegate = self
+     let menu = UIMenu(options: .displayInline, children: children)
+     textField.aAButton.menu = menu
+    }
+    
+    @objc func aaaa() {
+        print("MENU")
+    }
+    
+    func createRequestWebsiteActionWith(contentMode: WKWebpagePreferences.ContentMode ) -> UIAction {
+        let title = contentMode == .desktop ? "Request Mobile Website" : "Request Desktop Website"
+        
+        let action = UIAction(
+            title: title,
+            image: UIImage(systemName: "desktopcomputer")
+        ) { _ in
+            switch contentMode {
+            case .mobile, .recommended:
+                self.isMobileVersion = false
+                self.delegate?.requestWebsiteVersionButtonTapped(self.isMobileVersion)
+                self.setupTextFieldButtonMenuFor(contentMode: .desktop)
+            case .desktop:
+                self.isMobileVersion = true
+                self.delegate?.requestWebsiteVersionButtonTapped(self.isMobileVersion)
+                self.setupTextFieldButtonMenuFor(contentMode: .mobile)
+            @unknown default:
+                fatalError("ERRRRRRRRRROOOORRRR")
+            }
+        }
+        return action
+    }
+    
+//    func setupTextFieldButtonMenu() {
+//        guard #available(iOS 14.0, *) else { return }
+//
+//        isMobileVersion.toggle()
+//
+//        var requestWebsiteAction: UIAction
+//        let hideToolbarAction = UIAction(
+//            title: "Hide Toolbar",
+//            image: UIImage(systemName: "arrow.up.left.and.arrow.down.right")
+//        ) { _ in
+//            self.delegate?.hideToolbarButtonTapped()
+//            print("Hide Toolbar")
+//        }
+//
+//        var children: [UIMenuElement] = [hideToolbarAction]
+//
+//        switch isMobileVersion {
+//        case true:
+//            requestWebsiteAction = createRequestWebsiteAction(with: "Request Mobile Website")
+//        case false:
+//            requestWebsiteAction = createRequestWebsiteAction(with: "Request Desktop Website")
+//        }
+//
+//        children.insert(requestWebsiteAction, at: 0)
+//        textField.aAButton.menu = UIMenu(options: .displayInline, children: children)
+//    }
+//
+//    func createRequestWebsiteAction(with title: String) -> UIAction {
+//        let action = UIAction(
+//            title: title,
+//            image: UIImage(systemName: "desktopcomputer")
+//        ) { _ in
+//            self.delegate?.requestWebsiteVersionButtonTapped(self.isMobileVersion)
+//            self.setupTextFieldButtonMenu()
+//        }
+//        return action
+//    }
+}
+
+@objc private extension AddressBar {
+    func reloadButtonTapped() {
+        delegate?.reloadButtonTapped()
+    }
+}
+
+extension AddressBar: UIMenuButtonDelegate {
+    func contextMenuWillShow() {
+        delegate?.aAButtonMenuWillShow()
+        print("*** Button Menu Tapped ****")
+    }
+    
+    func contextMenuWillHide() {
+        delegate?.aAButtonMenuWillHide()
+    }
 }
 
 extension AddressBar: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_: UITextField) -> Bool {
+        delegate?.addressBarWillBeginEditing(self)
+        return true
+    }
+    
     func textFieldDidBeginEditing(_: UITextField) {
-        textField.text = text
         showEditingStyle()
         delegate?.addressBarDidBeginEditing()
         textField.activityState = .editing

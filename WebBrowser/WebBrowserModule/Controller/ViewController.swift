@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 final class ViewController: UIViewController {
     lazy var webBrowserView: WebBrowserView = {
@@ -17,11 +18,12 @@ final class ViewController: UIViewController {
     lazy var webBrowserModel = WebBrowserModel()
     lazy var hasHiddenTab = false
     lazy var isCollapsed = false
+    lazy var hideToolbar = false
     lazy var isAddressBarActive = false
     lazy var currentTabIndex = 0 {
         didSet {
             updateAddressBarsAfterTabChange()
-            updateToolbarButtonsAfterTabChange()
+            updateToolbarButtons()
         }
     }
     
@@ -49,8 +51,6 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        filterListModel.filters.append("filter")
-//        filterListModel.isAllowedURL(URL(string: "www.pravda.com")!)
         setupAddressBarScrollView()
         setupKeyboardManager()
         openNewTab(isHidden: false)
@@ -60,6 +60,15 @@ final class ViewController: UIViewController {
     
     func dismissKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool) {
+        let backForwardButtonStatus = (canGoBack, canGoForward)
+        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
+    }
+    
+    func hostHasChanged() { // MAYBE change place for that method
+        currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
     }
 }
 
@@ -100,9 +109,10 @@ private extension ViewController {
         rightAddressBar?.setSideButtonsHiden(true)
     }
     
-    func updateToolbarButtonsAfterTabChange() {
+    func updateToolbarButtons() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
-        tabViewControllerBackForwardListHasChanged(tabViewController)
+        let backForwardButtonStatus = tabViewController.backForwardButtonStatus()
+        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
     }
     
     func setupAddressBarExpandingTap() {
@@ -120,11 +130,23 @@ private extension ViewController {
     }
     
     func addressBarTapped() {
-        activateAddressBar()
+        hideToolbar = false
+        activateToolbar()
     }
 }
 
 extension ViewController: AddressBarDelegate {
+    func addressBarWillBeginEditing(_ addressBar: AddressBar) {
+        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else {
+            return
+        }
+        if
+            tabViewController.hasLoadedURl,
+            let urlString = tabViewController.currentURL?.absoluteString {
+            addressBar.textField.text = urlString
+        }
+    }
+    
     func addressBarDidBeginEditing() {
         isAddressBarActive = true
     }
@@ -136,34 +158,64 @@ extension ViewController: AddressBarDelegate {
             openNewTab(isHidden: true)
         }
         if let url = webBrowserModel.getURL(for: text) {
-            tabViewController.loadWebsite(from: url )
+            if tabViewController.hasURLHostChanged(in: url) {
+                currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
+                tabViewController.updateWebpagePreferencesWith()
+            }
+            tabViewController.loadWebsite(from: url)
         }
         dismissKeyboard()
+    }
+    
+    func aAButtonMenuWillShow() {
+        webBrowserView.disableToolbarButtons()
+    }
+    
+    func aAButtonMenuWillHide() {
+        updateToolbarButtons()
+    }
+    
+    func reloadButtonTapped() {
+        let tabViewController = tabViewControllers[safe: currentTabIndex]
+        tabViewController?.reload()
+    }
+    
+    func requestWebsiteVersionButtonTapped(_ isMobileVersion: Bool) {
+        let tabViewController = tabViewControllers[safe: currentTabIndex]
+        isMobileVersion ?
+        tabViewController?.updateWebpagePreferencesWith(contentMode: .mobile) :
+        tabViewController?.updateWebpagePreferencesWith(contentMode: .desktop)
+    }
+    
+    func hideToolbarButtonTapped() {
+        hideToolbar = true
+        deactivateToolbar()
     }
 }
 
 extension ViewController: WebBrowserViewDelegate {
     func goBackButtonTapped() {
-        guard let webView = tabViewControllers[safe: currentTabIndex]?.tabView.webView else { return }
-        if webView.backForwardList.backList.isEmpty {
-            tabViewControllers[safe: currentTabIndex]?.showEmptyState()
-        }
-        webView.goBack()
+        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
+        let contentMode = tabViewController.getBackItemContentMode()
+        currentAddressBar.setupTextFieldButtonMenuFor(contentMode: contentMode)
+        tabViewController.goBack()
     }
     
     func goForwardButtontTapped() {
-        guard let webView = tabViewControllers[safe: currentTabIndex]?.tabView.webView else { return }
-        webView.goForward()
+        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
+        let contentMode = tabViewController.getForwardItemContentMode()
+        currentAddressBar.setupTextFieldButtonMenuFor(contentMode: contentMode)
+        tabViewController.goForward()
     }
     
     func plusButtonTapped() {
-        let dialogBox = webBrowserView.createDialogBox()
-        self.present(dialogBox, animated: true)
+        webBrowserView.showDialogBox()
     }
     
     func listButtonTapped() {
         let viewController = FilterListViewController(filterListModel: filterListModel)
-        self.present(viewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.present(navigationController, animated: true)
     }
     
     func updateFilters(with filter: String) {

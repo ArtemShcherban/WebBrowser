@@ -16,6 +16,9 @@ protocol WebBrowserViewDelegate: AnyObject {
 }
 
 final class WebBrowserView: UIView {
+    var dialogBox: DialogBox?
+    var optionalDialogBox: DialogBox?
+    
     lazy var cancelButton = UIButton(type: .system)
     lazy var tabScrollView = UIScrollView()
     lazy var tabsStackView = UIStackView()
@@ -96,35 +99,35 @@ final class WebBrowserView: UIView {
         cancelButton.alpha = isHidden ? 0 : 1
     }
     
-    func createDialogBox() -> UIAlertController {
+    func showDialogBox() {
+        setupDialogBox()
+        addSubview(dialogBox ?? DialogBox())
+        dialogBox?.setConstraints()
+    }
+    
+    func createPageBlockedDialogBox() -> UIAlertController {
         let dialogBox = UIAlertController(
-            title: "Add New Filter",
-            message: "Please enter new filter word",
+            title: "Page is blocked",
+            message: "Please check filter's list",
             preferredStyle: .alert)
 
-        dialogBox.addTextField { textField in
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            textField.clearButtonMode = .whileEditing
-            textField.textAlignment = .center
-            textField.autocorrectionType = .no
-            textField.autocapitalizationType = .words
-        }
+        let addOKAction = UIAlertAction(title: "OK", style: .cancel)
         
-        let addFilterAction = UIAlertAction(title: "Add Filter", style: .cancel) { _ in
-            guard
-                let text = dialogBox.textFields?[0].text,
-                !text.isEmpty else {
-                return
-            }
-            self.delegate?.updateFilters(with: text)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
-        
-        dialogBox.addAction(addFilterAction)
-        dialogBox.addAction(cancelAction)
-        dialogBox.preferredAction = addFilterAction
-        
+        dialogBox.addAction(addOKAction)
         return dialogBox
+    }
+    
+    func disableToolbarButtons() {
+        toolbar.items?.forEach { $0.isEnabled = false }
+    }
+    
+    func enableToolbarButtons(with backForwardButtonStatus: (canGoBack: Bool, canGoForward: Bool)) {
+        toolbar.goBackButton.isEnabled = backForwardButtonStatus.canGoBack
+        toolbar.goForwardButton.isEnabled = backForwardButtonStatus.canGoForward
+        toolbar.heartButton.isEnabled = false
+        toolbar.plusButton.isEnabled = true
+        toolbar.listButton.isEnabled = true
+
     }
 }
 
@@ -275,7 +278,35 @@ private extension WebBrowserView {
         toolbar.goBackButton.isEnabled = false
         toolbar.goForwardButton.isEnabled = false
         toolbar.heartButton.isEnabled = false
-//        toolbar.listButton.isEnabled = false
+        //        toolbar.listButton.isEnabled = false
+    }
+    
+    func setupDialogBox() {
+        dialogBox = DialogBox()
+        setDialogBoxTargets()
+        dialogBox?.textField.becomeFirstResponder()
+    }
+    
+    func setDialogBoxTargets() {
+        dialogBox?.textField.addTarget(self, action: #selector(textFieldDidChanged), for: .editingChanged)
+        dialogBox?.addButton.addTarget(self, action: #selector(addFilterButtonTapped), for: .touchUpInside)
+        dialogBox?.cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+    }
+    
+    func updateAddFilterButton() {
+        guard let count = dialogBox?.textField.text?.count else { return }
+        if count >= 3 {
+            dialogBox?.addButton.isEnabled = true
+        } else {
+            dialogBox?.addButton.isEnabled = false
+        }
+    }
+    
+    func checkForSpaces() {
+        guard var text = dialogBox?.textField.text else { return }
+        if text.last == " " {
+            dialogBox?.textField.text?.remove(at: text.index(before: text.endIndex))
+        }
     }
 }
 
@@ -294,5 +325,20 @@ private extension WebBrowserView {
     
     func listButtonTapped() {
         delegate?.listButtonTapped()
+    }
+    
+    func textFieldDidChanged() {
+        checkForSpaces()
+        updateAddFilterButton()
+    }
+    
+    func addFilterButtonTapped() {
+        guard let text = dialogBox?.textField.text else { return }
+        delegate?.updateFilters(with: text)
+        dialogBox?.endEditing(true)
+    }
+    
+    func cancelButtonTapped() {
+        dialogBox?.endEditing(true)
     }
 }

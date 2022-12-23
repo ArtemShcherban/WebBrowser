@@ -19,11 +19,11 @@ class WebBrowserModel {
         self.urlGenerator = urlGenerator
     }
     
-    func setKeyboardHandler(
-        onKeyboardWillShow keyboardWillShowHandler: ((NSNotification) -> Void)?,
-        onKeyboardWillHide keyboardWillHideHandler: ((NSNotification) -> Void)?
-    ) {
+    func setKeyboardHandlerOnKeyboardWillShow(keyboardWillShowHandler: ((NSNotification) -> Void)?) {
         keyboardManager.keyboardWillShowHandler = keyboardWillShowHandler
+    }
+    
+    func setKeyboardHandlerOnKeyboardWillHide(keyboardWillHideHandler: ((NSNotification) -> Void)?) {
         keyboardManager.keyboardWillHideHandler = keyboardWillHideHandler
     }
     
@@ -33,6 +33,7 @@ class WebBrowserModel {
     
     func getDomain(from url: URL) -> String {
         guard var domain = url.host else { return url.absoluteString }
+    
         if domain.hasPrefix("www.") {
             domain.removeFirst(4)
         }

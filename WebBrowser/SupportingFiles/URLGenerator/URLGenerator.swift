@@ -29,7 +29,7 @@ final class URLGenerator {
         guard let encodedString = text.addingPercentEncoding(
             withAllowedCharacters: .urlFragmentAllowed
         ) else { return nil }
-        let queryString = "https:///www.google.com/search?q=\(encodedString)"
+        let queryString = "https://www.google.com/search?q=\(encodedString)"
         return URL(string: queryString)
     }
 }

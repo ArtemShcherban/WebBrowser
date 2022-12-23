@@ -7,8 +7,17 @@
 
 import UIKit
 
+protocol FilterListViewDelegate: AnyObject {
+    func backButtonTapped()
+}
+
 final class FilterListView: UIView {
     lazy var tableView = UITableView()
+    lazy var backButton: UIButton = {
+        setupBackButton()
+    }()
+    
+    weak var delegate: FilterListViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,8 +32,27 @@ final class FilterListView: UIView {
 // MARK: - private extension FilterListView
 private extension FilterListView {
     func setupView() {
-        backgroundColor = .green
+        backgroundColor = .white
         setupTableView()
+    }
+    
+    func setupBackButton() -> UIButton {
+        let backButton = UIButton(type: .system)
+        backButton.setImage(
+            UIImage(systemName: "chevron.backward")?.withRenderingMode(.alwaysTemplate),
+            for: .normal
+        )
+        backButton.imageView?.contentMode = .scaleAspectFill
+        backButton.setAttributedTitle(
+            NSAttributedString(
+            string: "Web Browser",
+            attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)
+            ]),
+            for: .normal
+        )
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return backButton
     }
     
     func setupTableView() {
@@ -37,5 +65,12 @@ private extension FilterListView {
             tableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -50),
             tableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+// MARK: - @objc private extension FilterListView
+@objc private extension FilterListView {
+    func backButtonTapped() {
+        delegate?.backButtonTapped()
     }
 }

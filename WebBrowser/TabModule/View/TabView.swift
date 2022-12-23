@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 final class TabView: UIView {
-    private(set) lazy var webView = WKWebView()
+    private(set) lazy var webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0.1, height: 0.1))
     private(set) lazy var emptyStateView = TabEmptyStateView()
     private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()
     
@@ -40,6 +40,18 @@ final class TabView: UIView {
         UIView.animate(withDuration: 0.2) {
             self.emptyStateView.alpha = 0
         }
+    }
+    
+    func createPageBlockedDialogBox() -> UIAlertController {
+        let dialogBox = UIAlertController(
+            title: "Page is blocked",
+            message: "Please check filter's list",
+            preferredStyle: .alert)
+
+        let addOKAction = UIAlertAction(title: "OK", style: .cancel)
+
+        dialogBox.addAction(addOKAction)
+        return dialogBox
     }
 }
 

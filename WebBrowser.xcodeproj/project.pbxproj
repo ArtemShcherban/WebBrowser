@@ -31,9 +31,14 @@
 		F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */; };
 		F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE18293CE46E00758820 /* URLGenerator.swift */; };
 		F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE1B293DCC2A00758820 /* URLValidator.swift */; };
+		F423E365294740BB00EF6A11 /* DialogBoxTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423E364294740BB00EF6A11 /* DialogBoxTextField.swift */; };
+		F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423E36629475DA700EF6A11 /* FilterListCell.swift */; };
 		F428675C2944849B006A119E /* FilterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428675B2944849B006A119E /* FilterListView.swift */; };
 		F428676129448596006A119E /* FilterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428676029448596006A119E /* FilterListViewController.swift */; };
+		F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93A2951E6830022B1CA /* TabModel.swift */; };
+		F48BE93D2954546C0022B1CA /* UIMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93C2954546C0022B1CA /* UIMenuButton.swift */; };
 		F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */; };
+		F4D292302945D94000E710CF /* DialogBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2922F2945D94000E710CF /* DialogBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,9 +70,14 @@
 		F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ToolbarAnimation.swift"; sourceTree = "<group>"; };
 		F400AE18293CE46E00758820 /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
 		F400AE1B293DCC2A00758820 /* URLValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLValidator.swift; sourceTree = "<group>"; };
+		F423E364294740BB00EF6A11 /* DialogBoxTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBoxTextField.swift; sourceTree = "<group>"; };
+		F423E36629475DA700EF6A11 /* FilterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListCell.swift; sourceTree = "<group>"; };
 		F428675B2944849B006A119E /* FilterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListView.swift; sourceTree = "<group>"; };
 		F428676029448596006A119E /* FilterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListViewController.swift; sourceTree = "<group>"; };
+		F48BE93A2951E6830022B1CA /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
+		F48BE93C2954546C0022B1CA /* UIMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuButton.swift; sourceTree = "<group>"; };
 		F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListModel.swift; sourceTree = "<group>"; };
+		F4D2922F2945D94000E710CF /* DialogBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +210,7 @@
 		F400AE0B293C8CA300758820 /* TabModule */ = {
 			isa = PBXGroup;
 			children = (
+				F48BE9392951E65E0022B1CA /* Model */,
 				F400AE12293C901D00758820 /* View */,
 				F400AE13293C902900758820 /* Controller */,
 			);
@@ -257,6 +268,9 @@
 				F400ADF3293B2DF900758820 /* AddressBar.swift */,
 				F400ADF5293B2E2000758820 /* Toolbar.swift */,
 				F400ADF7293B369E00758820 /* AddressBar+TextField.swift */,
+				F4D2922F2945D94000E710CF /* DialogBox.swift */,
+				F423E364294740BB00EF6A11 /* DialogBoxTextField.swift */,
+				F48BE93C2954546C0022B1CA /* UIMenuButton.swift */,
 			);
 			path = ElementsViews;
 			sourceTree = "<group>";
@@ -283,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				F428675B2944849B006A119E /* FilterListView.swift */,
+				F423E36629475DA700EF6A11 /* FilterListCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,6 +306,14 @@
 			isa = PBXGroup;
 			children = (
 				F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F48BE9392951E65E0022B1CA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F48BE93A2951E6830022B1CA /* TabModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,6 +439,7 @@
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */,
 				F400AE0D293C8CD600758820 /* TabViewController.swift in Sources */,
+				F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */,
 				F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */,
 				F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */,
 				F400AE08293B834800758820 /* Array+Helpers.swift in Sources */,
@@ -423,12 +447,16 @@
 				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
 				F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */,
+				F4D292302945D94000E710CF /* DialogBox.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
 				F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */,
+				F423E365294740BB00EF6A11 /* DialogBoxTextField.swift in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
 				F400AE0F293C8D1800758820 /* TabView.swift in Sources */,
 				F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */,
+				F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */,
 				F428675C2944849B006A119E /* FilterListView.swift in Sources */,
+				F48BE93D2954546C0022B1CA /* UIMenuButton.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
 				F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */,

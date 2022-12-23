@@ -18,8 +18,8 @@ extension AddressBar {
     final class TextField: UITextField {
         private lazy var paddingView = UIView()
         private lazy var magnifyingGlassImageView = UIImageView()
-        private lazy var aAButton = UIButton(type: .system)
-        private lazy var reloadButton = UIButton(type: .system)
+        lazy var aAButton = UIMenuButton(type: .system)
+        lazy var reloadButton = UIButton(type: .system)
         
         var activityState = State.inactive {
             didSet {
@@ -33,7 +33,7 @@ extension AddressBar {
                 case .inactive:
                     showDefaultPlaceholder()
                     leftView = hasText ? aAButton : magnifyingGlassImageView
-                    rightView = hasText ? reloadButton : nil
+                    rightView = hasText ? reloadButton : paddingView
                     textColor = .clear
                 }
             }
@@ -65,11 +65,19 @@ extension AddressBar {
         }
         
         override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-            let width: CGFloat = 35.0
+            var width: CGFloat
+            
+            switch activityState {
+            case .editing:
+                width = 35
+            case .inactive:
+                width = 30
+            }
+            
             let height: CGFloat = 22.0
             let y = (bounds.height - height) / 2
 
-            return CGRect(x: bounds.width - width - 5.0, y: y, width: width, height: height)
+            return CGRect(x: bounds.width - width - 5, y: y, width: width, height: 22)
         }
         
         override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
@@ -101,25 +109,47 @@ private extension AddressBar.TextField {
     }
     
     func setupMagnifyingGlassImageView() {
-        magnifyingGlassImageView.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        magnifyingGlassImageView.image = UIImage(
+            systemName: "magnifyingglass"
+        )
+        magnifyingGlassImageView.image?.withRenderingMode(.alwaysTemplate)
         magnifyingGlassImageView.tintColor = UIColor.textFieldGray
         magnifyingGlassImageView.contentMode = .scaleAspectFit
     }
     
     func setupAaButton() {
-        aAButton.setImage(UIImage(systemName: "textformat.size")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        let scaleConfiguration = UIImage.SymbolConfiguration(scale: .medium)
+        aAButton.setImage(
+            UIImage(
+            systemName: "textformat.size",
+            withConfiguration: scaleConfiguration
+            ), for: .normal
+        )
+        aAButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
         aAButton.tintColor = .black
         aAButton.contentMode = .scaleAspectFit
     }
     
     func setupReloadButton() {
-        reloadButton.setImage(UIImage(systemName: "arrow.clockwise")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        let scaleConfiguration = UIImage.SymbolConfiguration(scale: .medium)
+        reloadButton.setImage(
+            UIImage(
+            systemName: "arrow.clockwise",
+            withConfiguration: scaleConfiguration
+            ), for: .normal
+        )
+        reloadButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
         reloadButton.tintColor = .black
         reloadButton.contentMode = .scaleAspectFit
     }
     
     func showDefaultPlaceholder() {
-        let attributies: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.textFieldGray]
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        let attributies: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.textFieldGray,
+            .paragraphStyle: paragraphStyle
+        ]
         attributedPlaceholder = NSAttributedString(string: "Search or enter website", attributes: attributies)
     }
 }

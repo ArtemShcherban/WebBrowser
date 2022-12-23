@@ -8,7 +8,14 @@
 import UIKit
 
 final class FilterListViewController: UIViewController {
-    let filterListView = FilterListView()
+    private lazy var filterListView: FilterListView = {
+        let filterListView = FilterListView()
+        filterListView.delegate = self
+        filterListView.tableView.delegate = self
+        filterListView.tableView.dataSource = self
+        return filterListView
+    }()
+    
     let filterListModel: FilterListModel
     
     init(filterListModel: FilterListModel) {
@@ -27,8 +34,13 @@ final class FilterListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        filterListView.tableView.delegate = self
-        filterListView.tableView.dataSource = self
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: filterListView.backButton)
+    }
+}
+
+extension FilterListViewController: FilterListViewDelegate {
+    func backButtonTapped() {
+        dismiss(animated: true)
     }
 }
 
@@ -38,17 +50,23 @@ extension FilterListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "\(indexPath.row) - \(filterListModel.filters.sorted()[indexPath.row])"
-        cell.textLabel?.textAlignment = .center
+        let cell = FilterListCell(style: .default, reuseIdentifier: nil)
+        cell.configure(with: filterListModel.filters.sorted()[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
-        let filter = filterListModel.filters.sorted()[indexPath.row]
-        filterListModel.filters.remove(filter)
+        filterListModel.removeFilter(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
         tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        filterListModel.filters.isEmpty ? "You filter's list is empty...(" : "Filter's list:"
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

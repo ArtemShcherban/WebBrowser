@@ -108,6 +108,7 @@ private extension AddressBar {
     
     func setupTextField() {
         textField.delegate = self
+//        textField.becomeFirstResponder()
         textField.reloadButton.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
         if #available(iOS 14.0, *) {
             textField.aAButton.showsMenuAsPrimaryAction = true

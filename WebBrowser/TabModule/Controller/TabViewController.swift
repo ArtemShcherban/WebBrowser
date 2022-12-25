@@ -16,10 +16,11 @@ protocol TabViewControllerDelegate: AnyObject {
     func hostHasChanged()
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool)
     func activateToolbar()
+    func hideKeyboard()
 }
 
 final class TabViewController: UIViewController {
-    private lazy var tabView = TabView()
+    private(set) lazy var tabView = TabView()
     private lazy var tabModel = TabModel(webView: tabView.webView)
     
     private let filterListModel: FilterListModel
@@ -47,7 +48,7 @@ final class TabViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.view.alpha = isHidden ? 0 : 1
         self.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
-        self.showEmptyState()
+        self.showFavoritesView()
     }
     
     required init?(coder: NSCoder) {
@@ -67,7 +68,7 @@ final class TabViewController: UIViewController {
         let webView = tabView.webView
         webView.load(URLRequest(url: url))
         hasLoadedURl = true
-        hideEmptyStateIfNedded()
+        hideFavoritesViewIfNedded()
     }
     
     func updateWebpagePreferencesWith(contentMode: WKWebpagePreferences.ContentMode = .mobile) {
@@ -90,7 +91,7 @@ final class TabViewController: UIViewController {
     func goBack() {
         let webView = tabView.webView
         if webView.backForwardList.backList.isEmpty {
-        showEmptyState()
+        showFavoritesView()
         }
         webView.goBack()
     }
@@ -104,13 +105,13 @@ final class TabViewController: UIViewController {
         return (tabView.webView.canGoBack, tabView.webView.canGoForward)
     }
     
-    func showEmptyState() {
-        tabView.showEmptyStateView()
+    func showFavoritesView() {
+        tabView.favoritesView.delegate = self
+        tabView.showFavoritesView()
     }
     
-    func hideEmptyStateIfNedded() {
-        guard hasLoadedURl else { return }
-        tabView.hideEmptyStateView()
+    func cancelButtonHidden(_ isHidden: Bool) {
+        tabView.favoritesView.cancelButtonHidden(isHidden, hasLoadedURL: hasLoadedURl)
     }
     
     func hasURLHostChanged(in url: URL) -> Bool {
@@ -125,7 +126,10 @@ final class TabViewController: UIViewController {
 
 private extension TabViewController {
     func setupWebView() {
-        tabView.webView.scrollView.panGestureRecognizer.addTarget(self, action: #selector(handlePan(_:)))
+        tabView.webView.scrollView.panGestureRecognizer.addTarget(
+            self,
+            action: #selector(handlePan(_:))
+        )
         tabView.webView.navigationDelegate = self
         startURLObserve()
         startProgressObserve()
@@ -187,7 +191,14 @@ private extension TabViewController {
 
 @objc private extension TabViewController {
     func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer) {
-        let yOffset = tabView.webView.scrollView.contentOffset.y
+        var yOffset: CGFloat = 0.0
+        
+        if let collectionView = panGestureRecognizer.view as? CollectionView {
+            yOffset = collectionView.contentOffset.y
+        } else {
+            yOffset = tabView.webView.scrollView.contentOffset.y
+        }
+        
         switch panGestureRecognizer.state {
         case .began:
             startYOffset = yOffset
@@ -226,8 +237,23 @@ extension TabViewController: WKNavigationDelegate {
         decisionHandler(.allow)
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         tabModel.updateCurrentItemContentMode()
         print("*** Did Finish Navigation ---- Current URL: \(webView.url?.absoluteString ?? "No URL") ***")
+    }
+}
+
+extension TabViewController: FavoritesViewDelegate {
+    func cancelButtonTapped() {
+        delegate?.hideKeyboard()
+    }
+    
+    func collectionViewDidScroll(_ sender: UIPanGestureRecognizer) {
+        delegate?.hideKeyboard()
+    }
+    
+    func hideFavoritesViewIfNedded() {
+        guard hasLoadedURl else { return }
+        tabView.hideFavoritesView()
     }
 }

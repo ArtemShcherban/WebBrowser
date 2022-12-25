@@ -9,6 +9,7 @@ import UIKit
 
 extension ViewController: TabViewControllerDelegate {    
     func tabViewControllerDidScroll(yOffsetChange: CGFloat) {
+        
         let offsetChangeBeforeFullAnimation: CGFloat = 30
         let animationFractionComplete = abs(yOffsetChange) / offsetChangeBeforeFullAnimation
         let thresholdBeforeAnimationComplete: CGFloat = 0.6

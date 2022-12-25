@@ -19,7 +19,7 @@ final class WebBrowserView: UIView {
     var dialogBox: DialogBox?
     var optionalDialogBox: DialogBox?
     
-    lazy var cancelButton = UIButton(type: .system)
+//    lazy var cancelButton = UIButton(type: .system)
     lazy var tabScrollView = UIScrollView()
     lazy var tabsStackView = UIStackView()
     
@@ -95,9 +95,9 @@ final class WebBrowserView: UIView {
         }
     }
     
-    func cancelButtonHidden(_ isHidden: Bool) {
-        cancelButton.alpha = isHidden ? 0 : 1
-    }
+//    func cancelButtonHidden(_ isHidden: Bool) {
+//        cancelButton.alpha = isHidden ? 0 : 1
+//    }
     
     func showDialogBox() {
         setupDialogBox()
@@ -127,7 +127,6 @@ final class WebBrowserView: UIView {
         toolbar.heartButton.isEnabled = false
         toolbar.plusButton.isEnabled = true
         toolbar.listButton.isEnabled = true
-
     }
 }
 
@@ -140,7 +139,7 @@ private extension WebBrowserView {
         setupAddressBarScrollView()
         setupAddressBarStackView()
         setupKeyboardBackgroundView()
-        setupCancelButton()
+//        setupCancelButton()
         setupToolbarButtons()
     }
     
@@ -255,15 +254,15 @@ private extension WebBrowserView {
         ])
     }
     
-    func setupCancelButton() {
-        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        cancelButton.alpha = 0
-        cancelButton.setTitle("Cancel", for: .normal)
-        addSubview(cancelButton)
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-        cancelButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24).isActive = true
-    }
+//    func setupCancelButton() {
+//        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+//        cancelButton.alpha = 0
+//        cancelButton.setTitle("Cancel", for: .normal)
+//        addSubview(cancelButton)
+//        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+//        cancelButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+//        cancelButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24).isActive = true
+//    }
     
     func setupToolbarButtons() {
         toolbar.items?.forEach { $0.target = self }

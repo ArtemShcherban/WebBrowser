@@ -54,12 +54,8 @@ final class ViewController: UIViewController {
         setupAddressBarScrollView()
         setupKeyboardManager()
         openNewTab(isHidden: false)
-        setupCancelButton()
+//        setupCancelButton()
         setupAddressBarExpandingTap()
-    }
-    
-    func dismissKeyboard() {
-        self.view.endEditing(true)
     }
     
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool) {
@@ -70,16 +66,20 @@ final class ViewController: UIViewController {
     func hostHasChanged() { // MAYBE change place for that method
         currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
     }
+    
+    func hideKeyboard() {
+        dismissKeyboard()
+    }
 }
 
 private extension ViewController {
-    func setupCancelButton() {
-        webBrowserView.cancelButton.addTarget(
-            self,
-            action: #selector(cancelButtonTapped),
-            for: .touchUpInside
-        )
-    }
+//    func setupCancelButton() {
+//        webBrowserView.cancelButton.addTarget(
+//            self,
+//            action: #selector(cancelButtonTapped),
+//            for: .touchUpInside
+//        )
+//    }
     
     func setupAddressBarScrollView() {
         webBrowserView.addressBarScrollView.delegate = self

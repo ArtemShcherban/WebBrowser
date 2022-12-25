@@ -10,9 +10,9 @@ import WebKit
 
 final class TabView: UIView {
     private(set) lazy var webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0.1, height: 0.1))
-    private(set) lazy var emptyStateView = TabEmptyStateView()
+    private(set) lazy var favoritesView = FavoritesView()
     private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()
-    
+
     var statusBarBackgroundViewHeightConstraint: NSLayoutConstraint?
     
     override init(frame: CGRect) {
@@ -30,15 +30,15 @@ final class TabView: UIView {
         statusBarBackgroundViewHeightConstraint?.constant = statusBarHeight + 20
     }
     
-    func showEmptyStateView() {
+    func showFavoritesView() {
         UIView.animate(withDuration: 0.2) {
-            self.emptyStateView.alpha = 1
+            self.favoritesView.alpha = 1
         }
     }
     
-    func hideEmptyStateView() {
+    func hideFavoritesView() {
         UIView.animate(withDuration: 0.2) {
-            self.emptyStateView.alpha = 0
+            self.favoritesView.alpha = 0
         }
     }
     
@@ -62,7 +62,7 @@ private extension TabView {
         setupShadowView()
         setupWebView()
         setupStatusBarBackgroundView()
-        setupEmptyView()
+        setupFavoritesView()
     }
     
     func setupShadowView() {
@@ -104,16 +104,16 @@ private extension TabView {
         ])
     }
     
-    func setupEmptyView() {
-        emptyStateView.alpha = 0
-        addSubview(emptyStateView)
-        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+    func setupFavoritesView() {
+        favoritesView.alpha = 0
+        addSubview(favoritesView)
+        favoritesView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            emptyStateView.topAnchor.constraint(equalTo: self.topAnchor),
-            emptyStateView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            emptyStateView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            emptyStateView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            favoritesView.topAnchor.constraint(equalTo: self.topAnchor),
+            favoritesView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            favoritesView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            favoritesView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
 }

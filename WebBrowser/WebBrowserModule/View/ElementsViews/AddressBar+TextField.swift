@@ -102,6 +102,7 @@ private extension AddressBar.TextField {
         keyboardType = .webSearch
         enablesReturnKeyAutomatically = true
         clipsToBounds = true
+//        becomeFirstResponder()
         setupMagnifyingGlassImageView()
         setupAaButton()
         setupReloadButton()

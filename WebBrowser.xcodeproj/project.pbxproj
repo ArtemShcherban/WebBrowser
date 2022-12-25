@@ -26,7 +26,7 @@
 		F400AE08293B834800758820 /* Array+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE07293B834800758820 /* Array+Helpers.swift */; };
 		F400AE0D293C8CD600758820 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE0C293C8CD600758820 /* TabViewController.swift */; };
 		F400AE0F293C8D1800758820 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE0E293C8D1800758820 /* TabView.swift */; };
-		F400AE11293C8E4A00758820 /* TabEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE10293C8E4A00758820 /* TabEmptyStateView.swift */; };
+		F400AE11293C8E4A00758820 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE10293C8E4A00758820 /* FavoritesView.swift */; };
 		F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */; };
 		F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */; };
 		F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE18293CE46E00758820 /* URLGenerator.swift */; };
@@ -35,8 +35,13 @@
 		F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423E36629475DA700EF6A11 /* FilterListCell.swift */; };
 		F428675C2944849B006A119E /* FilterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428675B2944849B006A119E /* FilterListView.swift */; };
 		F428676129448596006A119E /* FilterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428676029448596006A119E /* FilterListViewController.swift */; };
+		F47371132955C072002B4A5D /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47371122955C072002B4A5D /* CollectionView.swift */; };
+		F47371152955DBD1002B4A5D /* FavoriteWebsitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47371142955DBD1002B4A5D /* FavoriteWebsitesViewController.swift */; };
 		F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93A2951E6830022B1CA /* TabModel.swift */; };
 		F48BE93D2954546C0022B1CA /* UIMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93C2954546C0022B1CA /* UIMenuButton.swift */; };
+		F492EB2F29584C2200A06F88 /* FavoritesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB2E29584C2200A06F88 /* FavoritesHeaderView.swift */; };
+		F4BDBB862956D4C700B79BC9 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB852956D4C700B79BC9 /* CollectionViewCell.swift */; };
+		F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */; };
 		F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */; };
 		F4D292302945D94000E710CF /* DialogBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2922F2945D94000E710CF /* DialogBox.swift */; };
 /* End PBXBuildFile section */
@@ -65,7 +70,7 @@
 		F400AE07293B834800758820 /* Array+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Helpers.swift"; sourceTree = "<group>"; };
 		F400AE0C293C8CD600758820 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		F400AE0E293C8D1800758820 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
-		F400AE10293C8E4A00758820 /* TabEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabEmptyStateView.swift; sourceTree = "<group>"; };
+		F400AE10293C8E4A00758820 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab+StatusBarBackgroundView.swift"; sourceTree = "<group>"; };
 		F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ToolbarAnimation.swift"; sourceTree = "<group>"; };
 		F400AE18293CE46E00758820 /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
@@ -74,8 +79,13 @@
 		F423E36629475DA700EF6A11 /* FilterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListCell.swift; sourceTree = "<group>"; };
 		F428675B2944849B006A119E /* FilterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListView.swift; sourceTree = "<group>"; };
 		F428676029448596006A119E /* FilterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListViewController.swift; sourceTree = "<group>"; };
+		F47371122955C072002B4A5D /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		F47371142955DBD1002B4A5D /* FavoriteWebsitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteWebsitesViewController.swift; sourceTree = "<group>"; };
 		F48BE93A2951E6830022B1CA /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
 		F48BE93C2954546C0022B1CA /* UIMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuButton.swift; sourceTree = "<group>"; };
+		F492EB2E29584C2200A06F88 /* FavoritesHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesHeaderView.swift; sourceTree = "<group>"; };
+		F4BDBB852956D4C700B79BC9 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListModel.swift; sourceTree = "<group>"; };
 		F4D2922F2945D94000E710CF /* DialogBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,6 +205,7 @@
 				F400ADFA293B3B3F00758820 /* UIColor+Helpers.swift */,
 				F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */,
 				F400AE07293B834800758820 /* Array+Helpers.swift */,
+				F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -230,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				F400AE0C293C8CD600758820 /* TabViewController.swift */,
+				F47371142955DBD1002B4A5D /* FavoriteWebsitesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -246,8 +258,11 @@
 		F428675729448382006A119E /* ElementsViews */ = {
 			isa = PBXGroup;
 			children = (
-				F400AE10293C8E4A00758820 /* TabEmptyStateView.swift */,
+				F400AE10293C8E4A00758820 /* FavoritesView.swift */,
 				F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */,
+				F47371122955C072002B4A5D /* CollectionView.swift */,
+				F4BDBB852956D4C700B79BC9 /* CollectionViewCell.swift */,
+				F492EB2E29584C2200A06F88 /* FavoritesHeaderView.swift */,
 			);
 			path = ElementsViews;
 			sourceTree = "<group>";
@@ -434,15 +449,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F400AE11293C8E4A00758820 /* TabEmptyStateView.swift in Sources */,
+				F400AE11293C8E4A00758820 /* FavoritesView.swift in Sources */,
 				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */,
 				F400AE0D293C8CD600758820 /* TabViewController.swift in Sources */,
 				F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */,
+				F47371132955C072002B4A5D /* CollectionView.swift in Sources */,
 				F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */,
 				F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */,
 				F400AE08293B834800758820 /* Array+Helpers.swift in Sources */,
+				F47371152955DBD1002B4A5D /* FavoriteWebsitesViewController.swift in Sources */,
+				F492EB2F29584C2200A06F88 /* FavoritesHeaderView.swift in Sources */,
 				F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */,
 				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
@@ -452,12 +470,14 @@
 				F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */,
 				F423E365294740BB00EF6A11 /* DialogBoxTextField.swift in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
+				F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */,
 				F400AE0F293C8D1800758820 /* TabView.swift in Sources */,
 				F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */,
 				F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */,
 				F428675C2944849B006A119E /* FilterListView.swift in Sources */,
 				F48BE93D2954546C0022B1CA /* UIMenuButton.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
+				F4BDBB862956D4C700B79BC9 /* CollectionViewCell.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
 				F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */,
 				F400ADD8293B244500758820 /* AppDelegate.swift in Sources */,

@@ -17,7 +17,14 @@ extension ViewController {
         webBrowserModel.setKeyboardHandlerOnKeyboardWillShow { [weak self] notification in
             guard  let self else { return }
             if self.isAddressBarActive {
-                self.webBrowserView.cancelButtonHidden(false)
+//                self.webBrowserView.cancelButtonHidden(false)
+                
+                guard let tabViewController = self.tabViewControllers[safe: self.currentTabIndex]
+                else {
+                    return
+                }
+                tabViewController.cancelButtonHidden(false)
+                    
                 self.animateWithKeyboard(for: notification) { keyboardFrame in
                     self.updateAddressBarStateForKeyboardAppearing(with: keyboardFrame.height)
                 }
@@ -34,7 +41,14 @@ extension ViewController {
             guard let self else { return }
             if self.isAddressBarActive {
                 self.isAddressBarActive = false
-                self.webBrowserView.cancelButtonHidden(true)
+//                self.webBrowserView.cancelButtonHidden(true)
+                
+                guard let tabViewController = self.tabViewControllers[safe: self.currentTabIndex]
+                else {
+                    return
+                }
+                tabViewController.cancelButtonHidden(true)
+                                
                 self.animateWithKeyboard(for: notification) { _ in
                     self.updateAddressBarStateForKeyboardDisappearing()
                 }
@@ -68,7 +82,7 @@ private extension ViewController {
         webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = -offset + 10
         webBrowserView.addressBarScrollViewBottomConstraint?.constant = -offset
         webBrowserView.addressBarScrollView.isScrollEnabled = false
-        tabViewControllers[safe: currentTabIndex]?.showEmptyState()
+        tabViewControllers[safe: currentTabIndex]?.showFavoritesView()
         setSideAddressBarsHidden(true)
     }
     
@@ -78,7 +92,7 @@ private extension ViewController {
         webBrowserView.addressBarScrollViewBottomConstraint?.constant =
         webBrowserView.addressBarExpandingFullyBottomOffset
         webBrowserView.addressBarScrollView.isScrollEnabled = true
-        tabViewControllers[safe: currentTabIndex]?.hideEmptyStateIfNedded()
+//        tabViewControllers[safe: currentTabIndex]?.hideFavoritesViewIfNedded()
         setSideAddressBarsHidden(false)
     }
     

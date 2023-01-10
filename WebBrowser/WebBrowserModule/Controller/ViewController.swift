@@ -44,6 +44,10 @@ final class ViewController: UIViewController {
         webBrowserView.addressBars[safe: currentTabIndex + 1]
     }
     
+    override var childForStatusBarStyle: UIViewController? {
+        tabViewControllers[safe: currentTabIndex]
+    }
+    
     override func loadView() {
         super.loadView()
         self.view = webBrowserView
@@ -51,10 +55,11 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        print(path)
         setupAddressBarScrollView()
         setupKeyboardManager()
         openNewTab(isHidden: false)
-//        setupCancelButton()
         setupAddressBarExpandingTap()
     }
     
@@ -67,20 +72,16 @@ final class ViewController: UIViewController {
         currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
     }
     
+    func heartButtonEnabled() {
+        webBrowserView.toolbar.heartButton.isEnabled = true
+    }
+
     func hideKeyboard() {
         dismissKeyboard()
     }
 }
 
 private extension ViewController {
-//    func setupCancelButton() {
-//        webBrowserView.cancelButton.addTarget(
-//            self,
-//            action: #selector(cancelButtonTapped),
-//            for: .touchUpInside
-//        )
-//    }
-    
     func setupAddressBarScrollView() {
         webBrowserView.addressBarScrollView.delegate = self
     }
@@ -89,6 +90,20 @@ private extension ViewController {
         hasHiddenTab = isHidden
         addTabViewController(isHidden: isHidden)
         webBrowserView.addAddressBar(isHidden: isHidden, withDelegate: self)
+    }
+    
+    func openNewTabIfNeeded(tabViewController: TabViewController) {
+        let isLastTab = currentTabIndex == tabViewControllers.count - 1
+        if isLastTab, !tabViewController.hasLoadedURl {
+            openNewTab(isHidden: true)
+        }
+    }
+    
+    func updateWebpageContentModeFor(_ tabViewController: TabViewController, and url: URL) {
+        if tabViewController.hasURLHostChanged(in: url) {
+            currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
+            tabViewController.updateWebpagePreferencesWith(contentMode: .mobile)
+        }
     }
     
     func addTabViewController(isHidden: Bool) {
@@ -135,6 +150,20 @@ private extension ViewController {
     }
 }
 
+extension ViewController { // TabViewControllerDelegate🥸🥸🥸
+    func tabViewController(
+        _ tabViewController: TabViewController,
+        selected bookmark: Bookmark
+    ) {
+        openNewTabIfNeeded(tabViewController: tabViewController)
+        updateWebpageContentModeFor(tabViewController, and: bookmark.url)
+        tabViewController.loadWebsite(from: bookmark.url)
+        let text = bookmark.url.absoluteString
+        currentAddressBar.updateAfterLoadingBookmark(text: text)
+        dismissKeyboard()
+    }
+}
+
 extension ViewController: AddressBarDelegate {
     func addressBarWillBeginEditing(_ addressBar: AddressBar) {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else {
@@ -153,15 +182,9 @@ extension ViewController: AddressBarDelegate {
     
     func addressBar(_ addressBar: AddressBar, didReturnWithText text: String) {
         let tabViewController = tabViewControllers[currentTabIndex]
-        let isLastTab = currentTabIndex == tabViewControllers.count - 1
-        if isLastTab, !tabViewController.hasLoadedURl {
-            openNewTab(isHidden: true)
-        }
+        openNewTabIfNeeded(tabViewController: tabViewController)
         if let url = webBrowserModel.getURL(for: text) {
-            if tabViewController.hasURLHostChanged(in: url) {
-                currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
-                tabViewController.updateWebpagePreferencesWith()
-            }
+            updateWebpageContentModeFor(tabViewController, and: url)
             tabViewController.loadWebsite(from: url)
         }
         dismissKeyboard()
@@ -178,6 +201,7 @@ extension ViewController: AddressBarDelegate {
     func reloadButtonTapped() {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
         tabViewController?.reload()
+        tabViewController?.hideBookmarksViewIfNedded()
     }
     
     func requestWebsiteVersionButtonTapped(_ isMobileVersion: Bool) {
@@ -206,6 +230,12 @@ extension ViewController: WebBrowserViewDelegate {
         let contentMode = tabViewController.getForwardItemContentMode()
         currentAddressBar.setupTextFieldButtonMenuFor(contentMode: contentMode)
         tabViewController.goForward()
+    }
+    
+    func heartButtonTapped() {
+        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
+        let domain = currentAddressBar.domainLabel.text ?? String()
+        tabViewController.addBookmark(with: domain)
     }
     
     func plusButtonTapped() {

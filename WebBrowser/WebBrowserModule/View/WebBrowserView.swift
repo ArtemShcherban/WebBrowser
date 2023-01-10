@@ -10,6 +10,7 @@ import UIKit
 protocol WebBrowserViewDelegate: AnyObject {
     func goBackButtonTapped()
     func goForwardButtontTapped()
+    func heartButtonTapped()
     func plusButtonTapped()
     func listButtonTapped()
     func updateFilters(with filter: String)
@@ -19,7 +20,7 @@ final class WebBrowserView: UIView {
     var dialogBox: DialogBox?
     var optionalDialogBox: DialogBox?
     
-//    lazy var cancelButton = UIButton(type: .system)
+    //    lazy var cancelButton = UIButton(type: .system)
     lazy var tabScrollView = UIScrollView()
     lazy var tabsStackView = UIStackView()
     
@@ -95,10 +96,6 @@ final class WebBrowserView: UIView {
         }
     }
     
-//    func cancelButtonHidden(_ isHidden: Bool) {
-//        cancelButton.alpha = isHidden ? 0 : 1
-//    }
-    
     func showDialogBox() {
         setupDialogBox()
         addSubview(dialogBox ?? DialogBox())
@@ -110,7 +107,7 @@ final class WebBrowserView: UIView {
             title: "Page is blocked",
             message: "Please check filter's list",
             preferredStyle: .alert)
-
+        
         let addOKAction = UIAlertAction(title: "OK", style: .cancel)
         
         dialogBox.addAction(addOKAction)
@@ -124,7 +121,7 @@ final class WebBrowserView: UIView {
     func enableToolbarButtons(with backForwardButtonStatus: (canGoBack: Bool, canGoForward: Bool)) {
         toolbar.goBackButton.isEnabled = backForwardButtonStatus.canGoBack
         toolbar.goForwardButton.isEnabled = backForwardButtonStatus.canGoForward
-        toolbar.heartButton.isEnabled = false
+        toolbar.heartButton.isEnabled = true
         toolbar.plusButton.isEnabled = true
         toolbar.listButton.isEnabled = true
     }
@@ -139,7 +136,6 @@ private extension WebBrowserView {
         setupAddressBarScrollView()
         setupAddressBarStackView()
         setupKeyboardBackgroundView()
-//        setupCancelButton()
         setupToolbarButtons()
     }
     
@@ -254,21 +250,12 @@ private extension WebBrowserView {
         ])
     }
     
-//    func setupCancelButton() {
-//        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-//        cancelButton.alpha = 0
-//        cancelButton.setTitle("Cancel", for: .normal)
-//        addSubview(cancelButton)
-//        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-//        cancelButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-//        cancelButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24).isActive = true
-//    }
-    
     func setupToolbarButtons() {
         toolbar.items?.forEach { $0.target = self }
         disableButtons()
         toolbar.goBackButton.action = #selector(goBackButtonTapped)
         toolbar.goForwardButton.action = #selector(goForwardButtontTapped)
+        toolbar.heartButton.action = #selector(heartButtonTapped)
         toolbar.plusButton.action = #selector(plusButtonTapped)
         toolbar.listButton.action = #selector(listButtonTapped)
     }
@@ -277,7 +264,6 @@ private extension WebBrowserView {
         toolbar.goBackButton.isEnabled = false
         toolbar.goForwardButton.isEnabled = false
         toolbar.heartButton.isEnabled = false
-        //        toolbar.listButton.isEnabled = false
     }
     
     func setupDialogBox() {
@@ -302,7 +288,7 @@ private extension WebBrowserView {
     }
     
     func checkForSpaces() {
-        guard var text = dialogBox?.textField.text else { return }
+        guard let text = dialogBox?.textField.text else { return }
         if text.last == " " {
             dialogBox?.textField.text?.remove(at: text.index(before: text.endIndex))
         }
@@ -316,6 +302,10 @@ private extension WebBrowserView {
     
     func goForwardButtontTapped() {
         delegate?.goForwardButtontTapped()
+    }
+    
+    func heartButtonTapped() {
+        delegate?.heartButtonTapped()
     }
     
     func plusButtonTapped() {

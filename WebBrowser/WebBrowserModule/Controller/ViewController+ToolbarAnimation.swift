@@ -7,9 +7,8 @@
 
 import UIKit
 
-extension ViewController: TabViewControllerDelegate {    
+extension ViewController: TabViewControllerDelegate {
     func tabViewControllerDidScroll(yOffsetChange: CGFloat) {
-        
         let offsetChangeBeforeFullAnimation: CGFloat = 30
         let animationFractionComplete = abs(yOffsetChange) / offsetChangeBeforeFullAnimation
         let thresholdBeforeAnimationComplete: CGFloat = 0.6
@@ -227,7 +226,6 @@ extension ViewController {
     }
     
     private func setAddressBarContainersAlpha(_ alpha: CGFloat) {
-//        currentAddressBar.containerView.backgroundColor = .clear
         currentAddressBar.containerView.alpha = alpha
         leftAddressBar?.containerView.alpha = alpha
         

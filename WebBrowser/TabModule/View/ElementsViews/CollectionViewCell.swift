@@ -8,9 +8,11 @@
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
-    static let reuseidentifier = String(describing: CollectionViewCell.self)
-    lazy var favoriteIconImageView = UIImageView()
-    lazy var websiteNameLabel = UILabel()
+    private(set) static var collectionViewCellReuseID = String(describing: CollectionViewCell.self)
+
+    private(set) lazy var iconImageView = UIImageView()
+    private lazy var titleLabel = UILabel()
+    private(set) lazy var containerView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,52 +22,77 @@ class CollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(with bookmark: Bookmark) {
+        backgroundColor = .clear
+        isSelected = false
+        titleLabel.text = bookmark.title
+        iconImageView.image = bookmark.icon
+        animateAppearance()
+    }
+    
+    func animateAppearance() { }
 }
 
 private extension CollectionViewCell {
     func setupView() {
-        backgroundColor = .white
         layer.cornerRadius = frame.width * 0.12
+        setupContainerView()
         setupImageView()
         setupTextLabel()
-
+    }
+    
+    func setupContainerView() {
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = self.frame.width * 0.09
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        containerView.layer.shadowRadius = 7
+        containerView.layer.shadowOpacity = 0.15
+        addSubview(containerView)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            containerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.78),
+            containerView.heightAnchor.constraint(equalTo: containerView.widthAnchor),
+            containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8)
+        ])
     }
     
     func setupImageView() {
-        favoriteIconImageView.backgroundColor = .white
-        favoriteIconImageView.backgroundColor = UIColor(red: 87 / 255, green: 14 / 255, blue: 202 / 255, alpha: 1)
-        favoriteIconImageView.layer.cornerRadius = self.frame.width * 0.09
-        favoriteIconImageView.layer.shadowColor = UIColor.black.cgColor
-        favoriteIconImageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        favoriteIconImageView.layer.shadowRadius = 7
-        favoriteIconImageView.layer.shadowOpacity = 0.15
+        iconImageView.sizeToFit()
+        iconImageView.contentMode = .scaleAspectFill
+        iconImageView.backgroundColor = .white
         
-        addSubview(favoriteIconImageView)
-        favoriteIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        iconImageView.clipsToBounds = true
+        iconImageView.layer.cornerRadius = self.frame.width * 0.09
+        containerView.addSubview(iconImageView)
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            favoriteIconImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.78),
-            favoriteIconImageView.heightAnchor.constraint(equalTo: favoriteIconImageView.widthAnchor),
-            favoriteIconImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            favoriteIconImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8)
+            iconImageView.widthAnchor.constraint(
+                equalTo: self.widthAnchor,
+                constant: -self.frame.width * 0.22
+            ),
+            iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor),
+            iconImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            iconImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
     }
     
     func setupTextLabel() {
-        websiteNameLabel.backgroundColor = .clear
-        websiteNameLabel.numberOfLines = 2
-        websiteNameLabel.textAlignment = .center
-//        websiteNameLabel.text = "d - Google Search search search"
-        websiteNameLabel.text = "Yahoo"
-        websiteNameLabel.sizeToFit()
-        websiteNameLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        addSubview(websiteNameLabel)
-        websiteNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        containerView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            websiteNameLabel.topAnchor.constraint(equalTo: favoriteIconImageView.bottomAnchor, constant: 6),
-            websiteNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            websiteNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            titleLabel.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 4),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
 }

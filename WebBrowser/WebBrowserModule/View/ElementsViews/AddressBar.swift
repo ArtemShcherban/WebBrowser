@@ -23,7 +23,7 @@ final class AddressBar: UIView, UIEditMenuInteractionDelegate {
     lazy var textField = TextField()
     lazy var domainLabel = UILabel()
     lazy var containerView = UIView()
-    private var text: String?
+    var addressBarText: String?
     private lazy var shadowView = UIView()
     private lazy var progressView = UIProgressView()
     
@@ -69,6 +69,32 @@ final class AddressBar: UIView, UIEditMenuInteractionDelegate {
     func updateProgressView(addressBar isCollapsed: Bool) {
         isCollapsed ? setupAddressBarProgressView() : setupTextFieldProgressView()
     }
+    
+    func updateAfterLoadingBookmark(text: String) {
+        addressBarText = text
+        textField.text = text
+        showInactiveStyle()
+    }
+    
+    func setupTextFieldButtonMenuFor(contentMode: WKWebpagePreferences.ContentMode) {
+        guard #available(iOS 14.0, *) else { return }
+        
+        var requestWebsiteVersionAction: UIAction
+        let hideToolbarAction = UIAction(
+            title: "Hide Toolbar",
+            image: UIImage(systemName: "arrow.up.left.and.arrow.down.right")
+        ) { _ in
+            self.delegate?.hideToolbarButtonTapped()
+        }
+        
+        var children: [UIMenuElement] = [hideToolbarAction]
+        
+        requestWebsiteVersionAction = requestWebsiteVersionActionWith(contentMode: contentMode)
+        children.insert(requestWebsiteVersionAction, at: 0)
+        textField.aAButton.delegate = self
+        let menu = UIMenu(options: .displayInline, children: children)
+        textField.aAButton.menu = menu
+    }
 }
 
 private extension AddressBar {
@@ -108,7 +134,6 @@ private extension AddressBar {
     
     func setupTextField() {
         textField.delegate = self
-//        textField.becomeFirstResponder()
         textField.reloadButton.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
         if #available(iOS 14.0, *) {
             textField.aAButton.showsMenuAsPrimaryAction = true
@@ -221,6 +246,7 @@ private extension AddressBar {
         
         textFieldLeadingConstraint?.constant = 0
         textFieldTrailingConstraint?.constant = 0
+        textField.activityState = .editing
     }
     
     func showInactiveStyle() {
@@ -228,35 +254,11 @@ private extension AddressBar {
         domainLabel.alpha = 1
         textFieldLeadingConstraint?.constant = textFieldPadding
         textFieldTrailingConstraint?.constant = -textFieldPadding
+        textField.activityState = .inactive
         textField.layoutIfNeeded()
     }
     
- public func setupTextFieldButtonMenuFor(contentMode: WKWebpagePreferences.ContentMode) {
-        guard #available(iOS 14.0, *) else { return }
-        
-        var requestWebsiteAction: UIAction
-        let hideToolbarAction = UIAction(
-            title: "Hide Toolbar",
-            image: UIImage(systemName: "arrow.up.left.and.arrow.down.right")
-        ) { _ in
-            self.delegate?.hideToolbarButtonTapped()
-            print("Hide Toolbar")
-        }
-        
-        var children: [UIMenuElement] = [hideToolbarAction]
-        
-        requestWebsiteAction = createRequestWebsiteActionWith(contentMode: contentMode)
-        children.insert(requestWebsiteAction, at: 0)
-        textField.aAButton.delegate = self
-     let menu = UIMenu(options: .displayInline, children: children)
-     textField.aAButton.menu = menu
-    }
-    
-    @objc func aaaa() {
-        print("MENU")
-    }
-    
-    func createRequestWebsiteActionWith(contentMode: WKWebpagePreferences.ContentMode ) -> UIAction {
+    func requestWebsiteVersionActionWith(contentMode: WKWebpagePreferences.ContentMode ) -> UIAction {
         let title = contentMode == .desktop ? "Request Mobile Website" : "Request Desktop Website"
         
         let action = UIAction(
@@ -273,49 +275,11 @@ private extension AddressBar {
                 self.delegate?.requestWebsiteVersionButtonTapped(self.isMobileVersion)
                 self.setupTextFieldButtonMenuFor(contentMode: .mobile)
             @unknown default:
-                fatalError("ERRRRRRRRRROOOORRRR")
+                fatalError("ERRRRRRRRRROOOORRRR") // 🥸🥸🥸🥸
             }
         }
         return action
     }
-    
-//    func setupTextFieldButtonMenu() {
-//        guard #available(iOS 14.0, *) else { return }
-//
-//        isMobileVersion.toggle()
-//
-//        var requestWebsiteAction: UIAction
-//        let hideToolbarAction = UIAction(
-//            title: "Hide Toolbar",
-//            image: UIImage(systemName: "arrow.up.left.and.arrow.down.right")
-//        ) { _ in
-//            self.delegate?.hideToolbarButtonTapped()
-//            print("Hide Toolbar")
-//        }
-//
-//        var children: [UIMenuElement] = [hideToolbarAction]
-//
-//        switch isMobileVersion {
-//        case true:
-//            requestWebsiteAction = createRequestWebsiteAction(with: "Request Mobile Website")
-//        case false:
-//            requestWebsiteAction = createRequestWebsiteAction(with: "Request Desktop Website")
-//        }
-//
-//        children.insert(requestWebsiteAction, at: 0)
-//        textField.aAButton.menu = UIMenu(options: .displayInline, children: children)
-//    }
-//
-//    func createRequestWebsiteAction(with title: String) -> UIAction {
-//        let action = UIAction(
-//            title: title,
-//            image: UIImage(systemName: "desktopcomputer")
-//        ) { _ in
-//            self.delegate?.requestWebsiteVersionButtonTapped(self.isMobileVersion)
-//            self.setupTextFieldButtonMenu()
-//        }
-//        return action
-//    }
 }
 
 @objc private extension AddressBar {
@@ -344,20 +308,17 @@ extension AddressBar: UITextFieldDelegate {
     func textFieldDidBeginEditing(_: UITextField) {
         showEditingStyle()
         delegate?.addressBarDidBeginEditing()
-        textField.activityState = .editing
     }
     
     func textFieldShouldReturn(_: UITextField) -> Bool {
-        text = textField.text
+        addressBarText = textField.text
         showInactiveStyle()
-        delegate?.addressBar(self, didReturnWithText: text ?? "")
-        textField.activityState = .inactive
+        delegate?.addressBar(self, didReturnWithText: addressBarText ?? "")
         return true
     }
     
     func textFieldDidEndEditing(_: UITextField) {
-        textField.text = text
+        textField.text = addressBarText
         showInactiveStyle()
-        textField.activityState = .inactive
     }
 }

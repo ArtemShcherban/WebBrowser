@@ -9,14 +9,23 @@ import UIKit
 import WebKit
 
 final class TabView: UIView {
-    private(set) lazy var webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0.1, height: 0.1))
-    private(set) lazy var favoritesView = FavoritesView()
+    private(set) var favoritesView: FavoritesView
+    private(set) lazy var webView = WKWebView(
+        frame: CGRect(
+            x: 0,
+            y: 0,
+            width: 0.1,
+            height: 0.1
+        )
+    )
+   
     private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()
-
+    
     var statusBarBackgroundViewHeightConstraint: NSLayoutConstraint?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(favoritesView: FavoritesView) {
+        self.favoritesView = favoritesView
+        super.init(frame: .zero)
         setupView()
     }
     
@@ -30,15 +39,18 @@ final class TabView: UIView {
         statusBarBackgroundViewHeightConstraint?.constant = statusBarHeight + 20
     }
     
-    func showFavoritesView() {
+    func showBookmarksView() {
         UIView.animate(withDuration: 0.2) {
             self.favoritesView.alpha = 1
         }
     }
     
-    func hideFavoritesView() {
+    func hideBookmarksView() {
         UIView.animate(withDuration: 0.2) {
             self.favoritesView.alpha = 0
+        }
+        if favoritesView.collectionView.isEditingMode {
+            favoritesView.editingIsFinished()
         }
     }
     
@@ -62,7 +74,7 @@ private extension TabView {
         setupShadowView()
         setupWebView()
         setupStatusBarBackgroundView()
-        setupFavoritesView()
+        setupBookmarksView()
     }
     
     func setupShadowView() {
@@ -104,7 +116,7 @@ private extension TabView {
         ])
     }
     
-    func setupFavoritesView() {
+    func setupBookmarksView() {
         favoritesView.alpha = 0
         addSubview(favoritesView)
         favoritesView.translatesAutoresizingMaskIntoConstraints = false

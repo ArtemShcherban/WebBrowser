@@ -27,3 +27,13 @@ extension UIColor {
         alpha: 1
     )
 }
+
+extension UIColor {
+    var isDark: Bool {
+        var red, green, blue, alpha: CGFloat
+        (red, green, blue, alpha) = (0, 0, 0, 0)
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+        return luminance < 0.5
+    }
+}

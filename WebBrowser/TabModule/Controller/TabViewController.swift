@@ -13,17 +13,23 @@ protocol TabViewControllerDelegate: AnyObject {
     func tabViewControllerDidEndDraging()
     func tabViewController(_ tabViewController: TabViewController, didStartLoadingURL: URL)
     func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo: Float)
+    
+    func tabViewController(_ tabViewController: TabViewController, selected: Bookmark)
+    
     func hostHasChanged()
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool)
+    func heartButtonEnabled()
     func activateToolbar()
     func hideKeyboard()
 }
 
 final class TabViewController: UIViewController {
-    private(set) lazy var tabView = TabView()
+    private lazy var tabView = TabView(favoritesView: favoritesView)
+    private(set) lazy var favoritesView = FavoritesView(delegate: self)
     private lazy var tabModel = TabModel(webView: tabView.webView)
-    
+    private(set) lazy var favoritesModel = FavoritesModel(webView: tabView.webView)
     private let filterListModel: FilterListModel
+    
     lazy var hasLoadedURl = false
     lazy var startYOffset: CGFloat = 0.0
     
@@ -33,12 +39,12 @@ final class TabViewController: UIViewController {
     
     private var urlHost: String?
     
-    var urlObserver: NSKeyValueObservation?
-    var progressObserver: NSKeyValueObservation?
-    var themeColorObserver: NSKeyValueObservation?
-    var underPageColorObserver: NSKeyValueObservation?
-    var canGoBackObserver: NSKeyValueObservation?
-    var canGoForwardObserver: NSKeyValueObservation?
+    private var urlObserver: NSKeyValueObservation?
+    private var progressObserver: NSKeyValueObservation?
+    private var themeColorObserver: NSKeyValueObservation?
+    private var underPageColorObserver: NSKeyValueObservation?
+    private var canGoBackObserver: NSKeyValueObservation?
+    private var canGoForwardObserver: NSKeyValueObservation?
     
     weak var delegate: TabViewControllerDelegate?
     
@@ -46,13 +52,19 @@ final class TabViewController: UIViewController {
     init(isHidden: Bool, with filterListModel: FilterListModel) {
         self.filterListModel = filterListModel
         super.init(nibName: nil, bundle: nil)
+        favoritesModel.updateBookmarks()
         self.view.alpha = isHidden ? 0 : 1
         self.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
-        self.showFavoritesView()
+        self.showBookmarksView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        let isBackgroundColorDark = tabView.statusBarBackgroundView.backgroundColor?.isDark ?? false
+        return isBackgroundColorDark ? .lightContent : .darkContent
     }
     
     override func loadView() {
@@ -68,10 +80,10 @@ final class TabViewController: UIViewController {
         let webView = tabView.webView
         webView.load(URLRequest(url: url))
         hasLoadedURl = true
-        hideFavoritesViewIfNedded()
+        hideBookmarksViewIfNedded()
     }
     
-    func updateWebpagePreferencesWith(contentMode: WKWebpagePreferences.ContentMode = .mobile) {
+    func updateWebpagePreferencesWith(contentMode: WKWebpagePreferences.ContentMode) {
         tabView.webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
         tabView.webView.reload()
     }
@@ -91,7 +103,6 @@ final class TabViewController: UIViewController {
     func goBack() {
         let webView = tabView.webView
         if webView.backForwardList.backList.isEmpty {
-        showFavoritesView()
         }
         webView.goBack()
     }
@@ -105,13 +116,17 @@ final class TabViewController: UIViewController {
         return (tabView.webView.canGoBack, tabView.webView.canGoForward)
     }
     
-    func showFavoritesView() {
-        tabView.favoritesView.delegate = self
-        tabView.showFavoritesView()
+    func addBookmark(with domain: String) {
+        favoritesModel.saveBookmark(with: domain)
+    }
+    
+    func showBookmarksView() {
+        favoritesView.collectionView.reloadData()
+        tabView.showBookmarksView()
     }
     
     func cancelButtonHidden(_ isHidden: Bool) {
-        tabView.favoritesView.cancelButtonHidden(isHidden, hasLoadedURL: hasLoadedURl)
+        favoritesView.cancelButtonHidden(isHidden, hasLoadedURL: hasLoadedURl)
     }
     
     func hasURLHostChanged(in url: URL) -> Bool {
@@ -121,6 +136,10 @@ final class TabViewController: UIViewController {
             urlHost = url.host
             return true
         }
+    }
+    
+    func moveCellAt(_ sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        favoritesModel.replaceBookmarksAt(sourceIndexPath, withAt: destinationIndexPath)
     }
 }
 
@@ -143,7 +162,7 @@ private extension TabViewController {
         urlObserver = tabView.webView.observe(\WKWebView.url, options: .new) { _, _ in
             guard let url = self.tabView.webView.url else { return }
             self.delegate?.tabViewController(self, didStartLoadingURL: url)
-            print("*** URL HOST CHANGED ***")
+            self.delegate?.heartButtonEnabled()
         }
     }
     
@@ -193,7 +212,7 @@ private extension TabViewController {
     func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer) {
         var yOffset: CGFloat = 0.0
         
-        if let collectionView = panGestureRecognizer.view as? CollectionView {
+        if let collectionView = panGestureRecognizer.view as? BookmarksCollectionView {
             yOffset = collectionView.contentOffset.y
         } else {
             yOffset = tabView.webView.scrollView.contentOffset.y
@@ -239,21 +258,26 @@ extension TabViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         tabModel.updateCurrentItemContentMode()
-        print("*** Did Finish Navigation ---- Current URL: \(webView.url?.absoluteString ?? "No URL") ***")
     }
 }
 
-extension TabViewController: FavoritesViewDelegate {
+extension TabViewController: BookmarksViewDelegate {
     func cancelButtonTapped() {
         delegate?.hideKeyboard()
+    }
+    
+    func trashButtonTapped() {
+        guard let indexPaths = favoritesView.collectionView.indexPathsForSelectedItems else { return }
+        favoritesModel.deletebookmark(at: indexPaths)
+        favoritesView.collectionViewDeleteCells(at: indexPaths)
     }
     
     func collectionViewDidScroll(_ sender: UIPanGestureRecognizer) {
         delegate?.hideKeyboard()
     }
     
-    func hideFavoritesViewIfNedded() {
+    func hideBookmarksViewIfNedded() {
         guard hasLoadedURl else { return }
-        tabView.hideFavoritesView()
+        tabView.hideBookmarksView()
     }
 }

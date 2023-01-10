@@ -1,5 +1,5 @@
 //
-//  FavoritesHeaderView.swift
+//  BookmarksHeaderView.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 25.12.2022.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class FavoritesHeaderView: UICollectionReusableView {
-    static let reuseidentifier = String(describing: FavoritesHeaderView.self)
+final class BookmarksHeaderView: UICollectionReusableView {
+    static let reuseidentifier = String(describing: BookmarksHeaderView.self)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,7 +20,7 @@ final class FavoritesHeaderView: UICollectionReusableView {
     }
 }
 
-private extension FavoritesHeaderView {
+private extension BookmarksHeaderView {
     func setupView() {
         let titleLabel = UILabel()
         titleLabel.text = "Favorites"

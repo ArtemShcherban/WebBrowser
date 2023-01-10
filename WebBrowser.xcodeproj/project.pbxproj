@@ -39,9 +39,9 @@
 		F42D4E02295C1F5400824801 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E01295C1F5400824801 /* NetworkService.swift */; };
 		F42D4E05295C21BF00824801 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E04295C21BF00824801 /* URLConstants.swift */; };
 		F42D4E07295C30CA00824801 /* NetworkServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E06295C30CA00824801 /* NetworkServiceError.swift */; };
-		F42D4E0A295C5EF100824801 /* CDBookmarksCollection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E08295C5EF100824801 /* CDBookmarksCollection+CoreDataClass.swift */; };
-		F42D4E0B295C5EF100824801 /* CDBookmarksCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E09295C5EF100824801 /* CDBookmarksCollection+CoreDataProperties.swift */; };
 		F433C32B296D7FDD00FA9F4D /* URLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433C32A296D7FDD00FA9F4D /* URLModel.swift */; };
+		F433C335296DA06900FA9F4D /* CDBookmarksCollection+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433C334296DA06900FA9F4D /* CDBookmarksCollection+CoreDataClass.swift */; };
+		F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433C336296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift */; };
 		F44B7A51295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A50295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift */; };
 		F44B7A53295DB1E7003FA94E /* TabViewController+BookmarksCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A52295DB1E7003FA94E /* TabViewController+BookmarksCollectionViewDataSource.swift */; };
 		F44B7A55295EFA5B003FA94E /* EditingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A54295EFA5B003FA94E /* EditingCollectionViewCell.swift */; };
@@ -100,9 +100,9 @@
 		F42D4E01295C1F5400824801 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		F42D4E04295C21BF00824801 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
 		F42D4E06295C30CA00824801 /* NetworkServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceError.swift; sourceTree = "<group>"; };
-		F42D4E08295C5EF100824801 /* CDBookmarksCollection+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDBookmarksCollection+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		F42D4E09295C5EF100824801 /* CDBookmarksCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDBookmarksCollection+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		F433C32A296D7FDD00FA9F4D /* URLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLModel.swift; sourceTree = "<group>"; };
+		F433C334296DA06900FA9F4D /* CDBookmarksCollection+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmarksCollection+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F433C336296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmarksCollection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F44B7A50295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabViewController+BookmarksCollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		F44B7A52295DB1E7003FA94E /* TabViewController+BookmarksCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabViewController+BookmarksCollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		F44B7A54295EFA5B003FA94E /* EditingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -416,8 +416,8 @@
 		F492EB452958731100A06F88 /* CoreDataObjects */ = {
 			isa = PBXGroup;
 			children = (
-				F42D4E08295C5EF100824801 /* CDBookmarksCollection+CoreDataClass.swift */,
-				F42D4E09295C5EF100824801 /* CDBookmarksCollection+CoreDataProperties.swift */,
+				F433C334296DA06900FA9F4D /* CDBookmarksCollection+CoreDataClass.swift */,
+				F433C336296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift */,
 				F492EB472958732900A06F88 /* CDBookmark+CoreDataClass.swift */,
 				F492EB462958732900A06F88 /* CDBookmark+CoreDataProperties.swift */,
 			);
@@ -563,7 +563,6 @@
 				F47371132955C072002B4A5D /* BookmarksCollectionView.swift in Sources */,
 				F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */,
 				F42D4DFF295C1C9E00824801 /* FavoritesModel.swift in Sources */,
-				F42D4E0A295C5EF100824801 /* CDBookmarksCollection+CoreDataClass.swift in Sources */,
 				F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */,
 				F400AE08293B834800758820 /* Array+Helpers.swift in Sources */,
 				F42D4E05295C21BF00824801 /* URLConstants.swift in Sources */,
@@ -573,6 +572,7 @@
 				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
 				F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */,
+				F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */,
 				F44B7A59295F0DDF003FA94E /* CustomCollectionViewCell.swift in Sources */,
 				F4D292302945D94000E710CF /* DialogBox.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
@@ -581,9 +581,9 @@
 				F492EB322958628A00A06F88 /* WebBrowser.xcdatamodeld in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
 				F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */,
-				F42D4E0B295C5EF100824801 /* CDBookmarksCollection+CoreDataProperties.swift in Sources */,
 				F400AE0F293C8D1800758820 /* TabView.swift in Sources */,
 				F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */,
+				F433C335296DA06900FA9F4D /* CDBookmarksCollection+CoreDataClass.swift in Sources */,
 				F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */,
 				F492EB502958738B00A06F88 /* BookmarkRepository.swift in Sources */,
 				F492EB4B2958732900A06F88 /* CDBookmark+CoreDataClass.swift in Sources */,

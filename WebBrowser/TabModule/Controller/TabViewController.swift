@@ -55,7 +55,7 @@ final class TabViewController: UIViewController {
         favoritesModel.updateBookmarks()
         self.view.alpha = isHidden ? 0 : 1
         self.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
-        self.showBookmarksView()
+        self.showFavoritesView()
     }
     
     required init?(coder: NSCoder) {
@@ -80,7 +80,7 @@ final class TabViewController: UIViewController {
         let webView = tabView.webView
         webView.load(URLRequest(url: url))
         hasLoadedURl = true
-        hideBookmarksViewIfNedded()
+        hideFavoritesViewIfNedded()
     }
     
     func updateWebpagePreferencesWith(contentMode: WKWebpagePreferences.ContentMode) {
@@ -120,9 +120,10 @@ final class TabViewController: UIViewController {
         favoritesModel.saveBookmark(with: domain)
     }
     
-    func showBookmarksView() {
+    func showFavoritesView() {
         favoritesView.collectionView.reloadData()
-        tabView.showBookmarksView()
+        tabView.showFavoritesView()
+        updateStatusBarColor()
     }
     
     func cancelButtonHidden(_ isHidden: Bool) {
@@ -189,7 +190,12 @@ private extension TabViewController {
     
     func updateStatusBarColor() {
         guard #available(iOS 15.0, *) else { return }
-        let color = tabView.webView.themeColor ?? tabView.webView.underPageBackgroundColor ?? .red
+        var color: UIColor
+        if favoritesView.alpha == 0 {
+            color = tabView.webView.themeColor ?? tabView.webView.underPageBackgroundColor ?? .white
+        } else {
+            color = .white
+        }
         tabView.statusBarBackgroundView.setColor(color)
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -276,8 +282,9 @@ extension TabViewController: BookmarksViewDelegate {
         delegate?.hideKeyboard()
     }
     
-    func hideBookmarksViewIfNedded() {
+    func hideFavoritesViewIfNedded() {
         guard hasLoadedURl else { return }
-        tabView.hideBookmarksView()
+        tabView.hideFavoritesView()
+        updateStatusBarColor()
     }
 }

@@ -82,7 +82,7 @@ private extension ViewController {
         webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = -offset + 10
         webBrowserView.addressBarScrollViewBottomConstraint?.constant = -offset
         webBrowserView.addressBarScrollView.isScrollEnabled = false
-        tabViewControllers[safe: currentTabIndex]?.showBookmarksView()
+        tabViewControllers[safe: currentTabIndex]?.showFavoritesView()
         setSideAddressBarsHidden(true)
     }
     

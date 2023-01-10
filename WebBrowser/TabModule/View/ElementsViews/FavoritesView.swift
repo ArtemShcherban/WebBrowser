@@ -11,7 +11,7 @@ protocol BookmarksViewDelegate: AnyObject {
     func collectionViewDidScroll(_: UIPanGestureRecognizer)
     func cancelButtonTapped()
     func trashButtonTapped()
-    func hideBookmarksViewIfNedded()
+    func hideFavoritesViewIfNedded()
 }
 
 final class FavoritesView: UIView {
@@ -235,7 +235,7 @@ private extension FavoritesView {
     }
     
     func hideKeyboard() {
-        delegate?.hideBookmarksViewIfNedded()
+        delegate?.hideFavoritesViewIfNedded()
         delegate?.cancelButtonTapped()
     }
     
@@ -260,6 +260,6 @@ private extension FavoritesView {
     
     func cancelFavoritesView() { // RENAME 🥸🥸🥸🥸🥸🥸
         cancelButton.addTarget(self, action: #selector(hideKeyboard), for: .touchUpInside)
-        delegate?.hideBookmarksViewIfNedded()
+        delegate?.hideFavoritesViewIfNedded()
     }
 }

@@ -39,13 +39,13 @@ final class TabView: UIView {
         statusBarBackgroundViewHeightConstraint?.constant = statusBarHeight + 20
     }
     
-    func showBookmarksView() {
+    func showFavoritesView() {
         UIView.animate(withDuration: 0.2) {
             self.favoritesView.alpha = 1
         }
     }
     
-    func hideBookmarksView() {
+    func hideFavoritesView() {
         UIView.animate(withDuration: 0.2) {
             self.favoritesView.alpha = 0
         }

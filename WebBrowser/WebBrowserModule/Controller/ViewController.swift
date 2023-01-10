@@ -201,7 +201,7 @@ extension ViewController: AddressBarDelegate {
     func reloadButtonTapped() {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
         tabViewController?.reload()
-        tabViewController?.hideBookmarksViewIfNedded()
+        tabViewController?.hideFavoritesViewIfNedded()
     }
     
     func requestWebsiteVersionButtonTapped(_ isMobileVersion: Bool) {

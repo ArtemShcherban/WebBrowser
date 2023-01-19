@@ -15,24 +15,13 @@ extension ViewController {
     
     func setHandlerOnKeyboardWillShow() {
         webBrowserModel.setKeyboardHandlerOnKeyboardWillShow { [weak self] notification in
-            guard  let self else { return }
-            if self.isAddressBarActive {
-                guard let tabViewController = self.tabViewControllers[safe: self.currentTabIndex]
-                else {
-                    return
-                }
-                tabViewController.cancelButtonHidden(false)
-                if tabViewController.favoritesView.collectionView.isEditingMode {
-                    tabViewController.favoritesView.editingIsFinished()
-                }
-                
-                self.animateWithKeyboard(for: notification) { keyboardFrame in
-                    self.updateAddressBarStateForKeyboardAppearing(with: keyboardFrame.height)
-                }
-            } else {
-                self.animateWithKeyboard(for: notification) { _ in
-                    self.updateDialogBoxStateForKeyboardAppearing()
-                }
+            guard let self else { return }
+            switch self.isAddressBarActive {
+            case true:
+                self.updateFavoritesViewWithCancellButton(hidden: false)
+                self.updateAddressBarStateForKeyboardAppearing(with: notification)
+            case false:
+                self.webBrowserView.dialogBox?.animateDialogBoaxAppearing(with: notification, view: self.view)
             }
         }
     }
@@ -40,21 +29,17 @@ extension ViewController {
     func setHandlerOnKeyboardWillHide() {
         webBrowserModel.setKeyboardHandlerOnKeyboardWillHide { [weak self] notification in
             guard let self else { return }
-            if self.isAddressBarActive {
+            switch self.isAddressBarActive {
+            case true:
                 self.isAddressBarActive = false
-                
-                guard let tabViewController = self.tabViewControllers[safe: self.currentTabIndex]
-                else {
-                    return
-                }
-                tabViewController.cancelButtonHidden(true)
-                
-                self.animateWithKeyboard(for: notification) { _ in
-                    self.updateAddressBarStateForKeyboardDisappearing()
-                }
-            } else {
-                self.animateWithKeyboard(for: notification) { _ in
-                    self.updateDialogBoxStateForKeyboardDisappearing()
+                self.updateFavoritesViewWithCancellButton(hidden: true)
+                self.updateAddressBarStateForKeyboardDisappearing(with: notification)
+            case false:
+                self.webBrowserView.dialogBox?.animateDialogBoxDisappearing(
+                    with: notification,
+                    view: self.view
+                ) {
+                    self.webBrowserView.dialogBox = nil
                 }
             }
         }
@@ -62,47 +47,24 @@ extension ViewController {
 }
 
 private extension ViewController {
-    func animateWithKeyboard(for notification: NSNotification, animation: ((CGRect) -> Void)?) {
-        guard
-            let frame = notification.keyboardEndFrame,
-            let duration = notification.keyboardAnimationDuration,
-            let curve = notification.keyboardAnimationCurve
-        else {
-            return
-        }
-        UIViewPropertyAnimator(duration: duration, curve: curve) {
-            animation?(frame)
-            self.view.layoutIfNeeded()
-        }.startAnimation()
+    func updateFavoritesViewWithCancellButton(hidden: Bool) {
+        guard let tabViewController = self.tabViewControllers[safe: self.currentTabIndex]
+        else { return }
+        tabViewController.cancelButton(isHidden: false)
+        tabViewController.finishEditingModeIfNeeded()
     }
     
-    func updateAddressBarStateForKeyboardAppearing(with keyboardHeight: CGFloat) {
-        webBrowserView.keyboardBackgroundView.isHidden = false
-        let offset = keyboardHeight - webBrowserView.safeAreaInsets.bottom
-        webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = -offset + 10
-        webBrowserView.addressBarScrollViewBottomConstraint?.constant = -offset
-        webBrowserView.addressBarScrollView.isScrollEnabled = false
+    func updateAddressBarStateForKeyboardAppearing(with notification: NSNotification) {
+        webBrowserView.animateAddressBarMovingUpwards(with: notification, and: self.view)
+        currentAddressBar.animateDomainLabelExtension(with: notification, view: self.view)
         tabViewControllers[safe: currentTabIndex]?.showFavoritesView()
         setSideAddressBarsHidden(true)
     }
     
-    func updateAddressBarStateForKeyboardDisappearing() {
-        webBrowserView.keyboardBackgroundView.isHidden = true
-        webBrowserView.keyboardBackgroundViewBottomConstraint?.constant = 0
-        webBrowserView.addressBarScrollViewBottomConstraint?.constant =
-        webBrowserView.addressBarExpandingFullyBottomOffset
-        webBrowserView.addressBarScrollView.isScrollEnabled = true
+    func updateAddressBarStateForKeyboardDisappearing(with notification: NSNotification) {
+        webBrowserView.animateAddressBarMovingDownwards(with: notification, view: self.view)
+        currentAddressBar.animateDomainLabelCollapsing(with: notification, view: self.view)
         setSideAddressBarsHidden(false)
-    }
-    
-    func updateDialogBoxStateForKeyboardAppearing() {
-        webBrowserView.dialogBox?.alpha = 1
-        webBrowserView.dialogBox?.dialogBoxViewBottomConstraints?.constant = -55
-    }
-    
-    func updateDialogBoxStateForKeyboardDisappearing() {
-        webBrowserView.dialogBox?.alpha = 0
-        webBrowserView.dialogBox = nil
     }
     
     func setSideAddressBarsHidden(_ isHidden: Bool) {
@@ -115,6 +77,8 @@ private extension ViewController {
     }
     
     func setHidden(_ isHidden: Bool, forRightAddressBar addressBar: AddressBar) {
+        // In some cases keyboard willShow is called multiple times.
+        // To prevent the address bar center from being offset multiple times we have to check if it is already offset
         if isHidden && addressBar.alpha == 0 {
             return
         }

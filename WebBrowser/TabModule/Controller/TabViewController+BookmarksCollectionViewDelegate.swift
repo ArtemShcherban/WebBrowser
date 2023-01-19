@@ -9,7 +9,7 @@ import UIKit
 
 extension TabViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView.cellForItem(at: indexPath) as? EditingCollectionViewCell != nil {
+        if collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell != nil {
             favoritesView.updateTrashButton()
         } else {
             let bookmark = favoritesModel.bookmarks[indexPath.row]
@@ -18,7 +18,7 @@ extension TabViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard collectionView.cellForItem(at: indexPath) as? EditingCollectionViewCell != nil
+        guard collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell != nil
         else { return }
         favoritesView.updateTrashButton()
     }

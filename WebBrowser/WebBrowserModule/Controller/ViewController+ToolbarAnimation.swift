@@ -14,7 +14,7 @@ extension ViewController: TabViewControllerDelegate {
         let thresholdBeforeAnimationComplete: CGFloat = 0.6
         let isScrollingDown = yOffsetChange < 0
         
-        if isScrollingDown && hideToolbar == false {
+        if isScrollingDown && toolbarIsHide == false {
             guard !isCollapsed else { return }
             
             if collapsingToolbarAnimator == nil || collapsingToolbarAnimator?.state == .inactive {
@@ -28,7 +28,7 @@ extension ViewController: TabViewControllerDelegate {
                 collapsingToolbarAnimator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
             }
         } else {
-            guard isCollapsed && hideToolbar == false else { return }
+            guard isCollapsed && toolbarIsHide == false else { return }
             
             if expandingToolbarAnimator == nil || expandingToolbarAnimator?.state == .inactive {
                 setupExpandingToolbarAnimator()
@@ -68,7 +68,7 @@ extension ViewController: TabViewControllerDelegate {
             return
         }
         addressBar.setLoadingProgress(0, animated: false)
-        addressBar.domainLabel.text = webBrowserModel.getDomain(from: url)
+        addressBar.domainTitleString = webBrowserModel.getDomain(from: url)
     }
     
     func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo progress: Float) {
@@ -81,7 +81,7 @@ extension ViewController: TabViewControllerDelegate {
     }
     
     func activateToolbar() {
-        guard isCollapsed && hideToolbar == false else { return }
+        guard isCollapsed && toolbarIsHide == false else { return }
         setupExpandingToolbarAnimator()
         expandingToolbarAnimator?.startAnimation()
         isCollapsed = false
@@ -121,8 +121,8 @@ extension ViewController {
             
             UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) { [weak self] in
                 guard let self else { return }
-                self.currentAddressBar.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 0.8)
-                self.currentAddressBar.domainLabel.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+//                self.currentAddressBar.containerView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.currentAddressBar.domainLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                 self.leftAddressBar?.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 0.8)
                 self.rightAddressBar?.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 0.8)
                 self.webBrowserView.addressBarScrollView.isScrollEnabled = false
@@ -186,7 +186,8 @@ extension ViewController {
             
             UIViewPropertyAnimator(duration: 0.2, curve: .easeIn) { [weak self] in
                 guard let self else { return }
-                self.currentAddressBar.containerView.transform = .identity
+//                self.currentAddressBar.containerView.transform = .identity
+                self.currentAddressBar.shadowView.transform = .identity
                 self.currentAddressBar.domainLabel.transform = .identity
                 self.leftAddressBar?.containerView.transform = .identity
                 self.rightAddressBar?.containerView.transform = .identity
@@ -226,7 +227,8 @@ extension ViewController {
     }
     
     private func setAddressBarContainersAlpha(_ alpha: CGFloat) {
-        currentAddressBar.containerView.alpha = alpha
+        currentAddressBar.textField.alpha = alpha
+        currentAddressBar.shadowView.alpha = alpha
         leftAddressBar?.containerView.alpha = alpha
         
         let rightAddressBarIndex = currentTabIndex + 1

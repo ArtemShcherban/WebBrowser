@@ -44,11 +44,18 @@
 		F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433C336296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift */; };
 		F44B7A51295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A50295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift */; };
 		F44B7A53295DB1E7003FA94E /* TabViewController+BookmarksCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A52295DB1E7003FA94E /* TabViewController+BookmarksCollectionViewDataSource.swift */; };
-		F44B7A55295EFA5B003FA94E /* EditingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A54295EFA5B003FA94E /* EditingCollectionViewCell.swift */; };
-		F44B7A59295F0DDF003FA94E /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A58295F0DDF003FA94E /* CustomCollectionViewCell.swift */; };
+		F44B7A55295EFA5B003FA94E /* EditingBookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B7A54295EFA5B003FA94E /* EditingBookmarkCell.swift */; };
+		F45253CD2972D34B005EC44E /* AnimatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253CC2972D34B005EC44E /* AnimatorFactory.swift */; };
+		F45253CF2972DD7E005EC44E /* WebBrowserView+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253CE2972DD7E005EC44E /* WebBrowserView+Animation.swift */; };
+		F45253D129731D5B005EC44E /* AddressBar+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253D029731D5B005EC44E /* AddressBar+Animation.swift */; };
+		F45253DB2975647B005EC44E /* DialogBox+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253DA2975647B005EC44E /* DialogBox+Animation.swift */; };
+		F45253DD2977F2C9005EC44E /* AddressBar+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253DC2977F2C9005EC44E /* AddressBar+Constraints.swift */; };
+		F45253DF29792638005EC44E /* AddressBar+AaButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253DE29792638005EC44E /* AddressBar+AaButtonDelegate.swift */; };
+		F45253E1297926A3005EC44E /* AddressBar+TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253E0297926A3005EC44E /* AddressBar+TextFieldDelegate.swift */; };
 		F47371132955C072002B4A5D /* BookmarksCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47371122955C072002B4A5D /* BookmarksCollectionView.swift */; };
+		F47D3F89296EEBB200B20B1B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47D3F88296EEBB200B20B1B /* UIViewExtension.swift */; };
 		F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93A2951E6830022B1CA /* TabModel.swift */; };
-		F48BE93D2954546C0022B1CA /* UIMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93C2954546C0022B1CA /* UIMenuButton.swift */; };
+		F48BE93D2954546C0022B1CA /* AaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93C2954546C0022B1CA /* AaButton.swift */; };
 		F492EB2F29584C2200A06F88 /* BookmarksHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB2E29584C2200A06F88 /* BookmarksHeaderView.swift */; };
 		F492EB322958628A00A06F88 /* WebBrowser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F492EB302958628A00A06F88 /* WebBrowser.xcdatamodeld */; };
 		F492EB372958676200A06F88 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB362958676200A06F88 /* CoreDataStack.swift */; };
@@ -57,7 +64,7 @@
 		F492EB4A2958732900A06F88 /* CDBookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB462958732900A06F88 /* CDBookmark+CoreDataProperties.swift */; };
 		F492EB4B2958732900A06F88 /* CDBookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB472958732900A06F88 /* CDBookmark+CoreDataClass.swift */; };
 		F492EB502958738B00A06F88 /* BookmarkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB4F2958738B00A06F88 /* BookmarkRepository.swift */; };
-		F4BDBB862956D4C700B79BC9 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB852956D4C700B79BC9 /* CollectionViewCell.swift */; };
+		F4BDBB862956D4C700B79BC9 /* BookmarkCellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB852956D4C700B79BC9 /* BookmarkCellCell.swift */; };
 		F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */; };
 		F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */; };
 		F4D292302945D94000E710CF /* DialogBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2922F2945D94000E710CF /* DialogBox.swift */; };
@@ -105,11 +112,18 @@
 		F433C336296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmarksCollection+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F44B7A50295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabViewController+BookmarksCollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		F44B7A52295DB1E7003FA94E /* TabViewController+BookmarksCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabViewController+BookmarksCollectionViewDataSource.swift"; sourceTree = "<group>"; };
-		F44B7A54295EFA5B003FA94E /* EditingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingCollectionViewCell.swift; sourceTree = "<group>"; };
-		F44B7A58295F0DDF003FA94E /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		F44B7A54295EFA5B003FA94E /* EditingBookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingBookmarkCell.swift; sourceTree = "<group>"; };
+		F45253CC2972D34B005EC44E /* AnimatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorFactory.swift; sourceTree = "<group>"; };
+		F45253CE2972DD7E005EC44E /* WebBrowserView+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebBrowserView+Animation.swift"; sourceTree = "<group>"; };
+		F45253D029731D5B005EC44E /* AddressBar+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+Animation.swift"; sourceTree = "<group>"; };
+		F45253DA2975647B005EC44E /* DialogBox+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DialogBox+Animation.swift"; sourceTree = "<group>"; };
+		F45253DC2977F2C9005EC44E /* AddressBar+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+Constraints.swift"; sourceTree = "<group>"; };
+		F45253DE29792638005EC44E /* AddressBar+AaButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+AaButtonDelegate.swift"; sourceTree = "<group>"; };
+		F45253E0297926A3005EC44E /* AddressBar+TextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+TextFieldDelegate.swift"; sourceTree = "<group>"; };
 		F47371122955C072002B4A5D /* BookmarksCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksCollectionView.swift; sourceTree = "<group>"; };
+		F47D3F88296EEBB200B20B1B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		F48BE93A2951E6830022B1CA /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
-		F48BE93C2954546C0022B1CA /* UIMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuButton.swift; sourceTree = "<group>"; };
+		F48BE93C2954546C0022B1CA /* AaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AaButton.swift; sourceTree = "<group>"; };
 		F492EB2E29584C2200A06F88 /* BookmarksHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksHeaderView.swift; sourceTree = "<group>"; };
 		F492EB312958628A00A06F88 /* WebBrowser.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WebBrowser.xcdatamodel; sourceTree = "<group>"; };
 		F492EB362958676200A06F88 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -118,7 +132,7 @@
 		F492EB462958732900A06F88 /* CDBookmark+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmark+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F492EB472958732900A06F88 /* CDBookmark+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmark+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F492EB4F2958738B00A06F88 /* BookmarkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRepository.swift; sourceTree = "<group>"; };
-		F4BDBB852956D4C700B79BC9 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		F4BDBB852956D4C700B79BC9 /* BookmarkCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCellCell.swift; sourceTree = "<group>"; };
 		F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListModel.swift; sourceTree = "<group>"; };
 		F4D2922F2945D94000E710CF /* DialogBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBox.swift; sourceTree = "<group>"; };
@@ -177,6 +191,7 @@
 				F400ADEB293B252300758820 /* SupportingFiles */,
 				F492EB4029586E6400A06F88 /* ObjectModels */,
 				F42D4E00295C1F3900824801 /* NetworkService */,
+				F45253E2297929BF005EC44E /* AnimatorFactory */,
 				F428675A29448431006A119E /* FilterListModule */,
 				F400AE0B293C8CA300758820 /* TabModule */,
 				F4286758294483E2006A119E /* WebBrowserModule */,
@@ -212,8 +227,9 @@
 		F400ADED293B255700758820 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F4286759294483F9006A119E /* ElementsViews */,
-				F400ADF1293B2CFC00758820 /* WebBrowserView.swift */,
+				F45253D8297563C3005EC44E /* AddressBar */,
+				F45253D72975639C005EC44E /* DialogBox */,
+				F45253D9297563F6005EC44E /* WebBrowserView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -244,6 +260,7 @@
 				F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */,
 				F400AE07293B834800758820 /* Array+Helpers.swift */,
 				F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */,
+				F47D3F88296EEBB200B20B1B /* UIViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -300,10 +317,9 @@
 				F400AE10293C8E4A00758820 /* FavoritesView.swift */,
 				F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */,
 				F47371122955C072002B4A5D /* BookmarksCollectionView.swift */,
-				F4BDBB852956D4C700B79BC9 /* CollectionViewCell.swift */,
+				F4BDBB852956D4C700B79BC9 /* BookmarkCellCell.swift */,
 				F492EB2E29584C2200A06F88 /* BookmarksHeaderView.swift */,
-				F44B7A54295EFA5B003FA94E /* EditingCollectionViewCell.swift */,
-				F44B7A58295F0DDF003FA94E /* CustomCollectionViewCell.swift */,
+				F44B7A54295EFA5B003FA94E /* EditingBookmarkCell.swift */,
 			);
 			path = ElementsViews;
 			sourceTree = "<group>";
@@ -316,19 +332,6 @@
 				F400ADEF293B256D00758820 /* Controller */,
 			);
 			path = WebBrowserModule;
-			sourceTree = "<group>";
-		};
-		F4286759294483F9006A119E /* ElementsViews */ = {
-			isa = PBXGroup;
-			children = (
-				F400ADF3293B2DF900758820 /* AddressBar.swift */,
-				F400ADF5293B2E2000758820 /* Toolbar.swift */,
-				F400ADF7293B369E00758820 /* AddressBar+TextField.swift */,
-				F4D2922F2945D94000E710CF /* DialogBox.swift */,
-				F423E364294740BB00EF6A11 /* DialogBoxTextField.swift */,
-				F48BE93C2954546C0022B1CA /* UIMenuButton.swift */,
-			);
-			path = ElementsViews;
 			sourceTree = "<group>";
 		};
 		F428675A29448431006A119E /* FilterListModule */ = {
@@ -382,6 +385,48 @@
 				F42D4E04295C21BF00824801 /* URLConstants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		F45253D72975639C005EC44E /* DialogBox */ = {
+			isa = PBXGroup;
+			children = (
+				F4D2922F2945D94000E710CF /* DialogBox.swift */,
+				F423E364294740BB00EF6A11 /* DialogBoxTextField.swift */,
+				F45253DA2975647B005EC44E /* DialogBox+Animation.swift */,
+			);
+			path = DialogBox;
+			sourceTree = "<group>";
+		};
+		F45253D8297563C3005EC44E /* AddressBar */ = {
+			isa = PBXGroup;
+			children = (
+				F48BE93C2954546C0022B1CA /* AaButton.swift */,
+				F400ADF3293B2DF900758820 /* AddressBar.swift */,
+				F45253DE29792638005EC44E /* AddressBar+AaButtonDelegate.swift */,
+				F45253D029731D5B005EC44E /* AddressBar+Animation.swift */,
+				F45253DC2977F2C9005EC44E /* AddressBar+Constraints.swift */,
+				F400ADF7293B369E00758820 /* AddressBar+TextField.swift */,
+				F45253E0297926A3005EC44E /* AddressBar+TextFieldDelegate.swift */,
+				F400ADF5293B2E2000758820 /* Toolbar.swift */,
+			);
+			path = AddressBar;
+			sourceTree = "<group>";
+		};
+		F45253D9297563F6005EC44E /* WebBrowserView */ = {
+			isa = PBXGroup;
+			children = (
+				F400ADF1293B2CFC00758820 /* WebBrowserView.swift */,
+				F45253CE2972DD7E005EC44E /* WebBrowserView+Animation.swift */,
+			);
+			path = WebBrowserView;
+			sourceTree = "<group>";
+		};
+		F45253E2297929BF005EC44E /* AnimatorFactory */ = {
+			isa = PBXGroup;
+			children = (
+				F45253CC2972D34B005EC44E /* AnimatorFactory.swift */,
+			);
+			path = AnimatorFactory;
 			sourceTree = "<group>";
 		};
 		F48BE9392951E65E0022B1CA /* Models */ = {
@@ -553,6 +598,8 @@
 				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F433C32B296D7FDD00FA9F4D /* URLModel.swift in Sources */,
+				F45253E1297926A3005EC44E /* AddressBar+TextFieldDelegate.swift in Sources */,
+				F45253DB2975647B005EC44E /* DialogBox+Animation.swift in Sources */,
 				F492EB372958676200A06F88 /* CoreDataStack.swift in Sources */,
 				F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */,
 				F400AE0D293C8CD600758820 /* TabViewController.swift in Sources */,
@@ -566,18 +613,20 @@
 				F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */,
 				F400AE08293B834800758820 /* Array+Helpers.swift in Sources */,
 				F42D4E05295C21BF00824801 /* URLConstants.swift in Sources */,
-				F44B7A55295EFA5B003FA94E /* EditingCollectionViewCell.swift in Sources */,
+				F44B7A55295EFA5B003FA94E /* EditingBookmarkCell.swift in Sources */,
+				F45253D129731D5B005EC44E /* AddressBar+Animation.swift in Sources */,
 				F492EB2F29584C2200A06F88 /* BookmarksHeaderView.swift in Sources */,
 				F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */,
 				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
 				F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */,
 				F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */,
-				F44B7A59295F0DDF003FA94E /* CustomCollectionViewCell.swift in Sources */,
 				F4D292302945D94000E710CF /* DialogBox.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
+				F45253DD2977F2C9005EC44E /* AddressBar+Constraints.swift in Sources */,
 				F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */,
 				F423E365294740BB00EF6A11 /* DialogBoxTextField.swift in Sources */,
+				F45253DF29792638005EC44E /* AddressBar+AaButtonDelegate.swift in Sources */,
 				F492EB322958628A00A06F88 /* WebBrowser.xcdatamodeld in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
 				F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */,
@@ -588,9 +637,11 @@
 				F492EB502958738B00A06F88 /* BookmarkRepository.swift in Sources */,
 				F492EB4B2958732900A06F88 /* CDBookmark+CoreDataClass.swift in Sources */,
 				F428675C2944849B006A119E /* FilterListView.swift in Sources */,
-				F48BE93D2954546C0022B1CA /* UIMenuButton.swift in Sources */,
+				F45253CD2972D34B005EC44E /* AnimatorFactory.swift in Sources */,
+				F48BE93D2954546C0022B1CA /* AaButton.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
-				F4BDBB862956D4C700B79BC9 /* CollectionViewCell.swift in Sources */,
+				F4BDBB862956D4C700B79BC9 /* BookmarkCellCell.swift in Sources */,
+				F47D3F89296EEBB200B20B1B /* UIViewExtension.swift in Sources */,
 				F44B7A51295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift in Sources */,
 				F42D4E07295C30CA00824801 /* NetworkServiceError.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
@@ -598,6 +649,7 @@
 				F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */,
 				F400ADD8293B244500758820 /* AppDelegate.swift in Sources */,
 				F400ADDA293B244500758820 /* SceneDelegate.swift in Sources */,
+				F45253CF2972DD7E005EC44E /* WebBrowserView+Animation.swift in Sources */,
 				F428676129448596006A119E /* FilterListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

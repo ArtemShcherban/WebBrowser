@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol BookmarksViewDelegate: AnyObject {
+protocol FavoritesViewDelegate: AnyObject {
     func collectionViewDidScroll(_: UIPanGestureRecognizer)
     func cancelButtonTapped()
     func trashButtonTapped()
@@ -28,7 +28,7 @@ final class FavoritesView: UIView {
     private(set) lazy var collectionView = BookmarksCollectionView()
     
     weak var collectionViewDelegate: TabViewController?
-    weak var delegate: BookmarksViewDelegate?
+    weak var delegate: FavoritesViewDelegate?
     
     override var alpha: CGFloat {
         willSet {
@@ -98,6 +98,7 @@ final class FavoritesView: UIView {
         editButton.isSelected.toggle()
         editButton.removeTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        collectionView.endInteractiveMovement()
         updateCollectionViewAfterEditing()
         updateTrashButton()
         cancelButtonHidden(false, hasLoadedURL: collectionViewDelegate?.hasLoadedURl ?? false)
@@ -110,9 +111,10 @@ final class FavoritesView: UIView {
         collectionView.isEditingMode = editButton.isSelected
         collectionView.allowsMultipleSelection = false
         collectionView.indexPathsForVisibleItems.forEach { indexPath in
-            guard let cell = collectionView.cellForItem(at: indexPath) as? EditingCollectionViewCell else {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell else {
                 return
             }
+            cell.isHighlighted = false
             UIView.animate(withDuration: 0.2) {
                 cell.roundImageView.alpha = 0
             } completion: { _ in
@@ -124,19 +126,16 @@ final class FavoritesView: UIView {
     }
     
     func collectionViewDeleteCells(at indexPaths: [IndexPath]) {
-        collectionView.deleteCells(at: indexPaths)
+        indexPaths.forEach { indexPath in
+            guard let cell = collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell else { return }
+            UIView.animate(withDuration: 0.05) {
+                cell.alpha = 0
+                cell.roundImageView.alpha = 0
+            }
+        }
+        collectionView.deleteItems(at: indexPaths)
         updateTrashButton()
     }
-    
-//    private func collectionViewUpdateAnimation() {
-//        collectionView.indexPathsForVisibleItems.forEach { indexPath in
-//            guard let cell = self.collectionView.cellForItem(at: indexPath) as? EditingCollectionViewCell
-//            else {
-//                return
-//            }
-//            cell.animateAppearance()
-//        }
-//    }
 }
 
 private extension FavoritesView {

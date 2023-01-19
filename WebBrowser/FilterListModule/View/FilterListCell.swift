@@ -47,4 +47,3 @@ private extension FilterListCell {
         addSubview(filterTextLabel)
     }
 }
-

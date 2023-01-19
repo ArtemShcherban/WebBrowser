@@ -8,7 +8,7 @@
 import UIKit
 
 final class BookmarksCollectionView: UICollectionView {
-    private lazy var longPressGesture: UILongPressGestureRecognizer = {
+    lazy var longPressGesture: UILongPressGestureRecognizer = {
         let longPressGesture = UILongPressGestureRecognizer(
             target: self,
             action: #selector(handleTapGesture(_:))
@@ -48,7 +48,7 @@ final class BookmarksCollectionView: UICollectionView {
     
     private func updateAnimation() {
         self.indexPathsForVisibleItems.forEach { indexPath in
-            guard let cell = self.cellForItem(at: indexPath) as? EditingCollectionViewCell
+            guard let cell = self.cellForItem(at: indexPath) as? EditingBookmarkCell
             else {
                 return
             }
@@ -94,13 +94,13 @@ private extension BookmarksCollectionView {
     
     func setupView() {
         register(
-            EditingCollectionViewCell.self,
-            forCellWithReuseIdentifier: EditingCollectionViewCell.editingCollectionViewCellReuseID
+            EditingBookmarkCell.self,
+            forCellWithReuseIdentifier: EditingBookmarkCell.editingCollectionViewCellReuseID
         )
         
         register(
-            CollectionViewCell.self,
-            forCellWithReuseIdentifier: CollectionViewCell.collectionViewCellReuseID
+            BookmarkCellCell.self,
+            forCellWithReuseIdentifier: BookmarkCellCell.collectionViewCellReuseID
         )
         
         register(
@@ -111,21 +111,13 @@ private extension BookmarksCollectionView {
         
         self.showsHorizontalScrollIndicator = false
     }
-//    
-//    func addLongPressGestureRecognizer() {
-////        longPressGesture.addTarget(self, action: #selector(handleTapGesture(_:)))
-////        let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
-////        longPressGesture.cancelsTouchesInView = true
-////        addGestureRecognizer(longPressGesture)
-//    }
 }
-
 
 @objc private extension BookmarksCollectionView {
     func handleTapGesture(_ sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: self)
         guard let indexPath = self.indexPathForItem(at: location) else { return }
-        guard let cell = cellForItem(at: indexPath) as? EditingCollectionViewCell else {
+        guard let cell = cellForItem(at: indexPath) as? EditingBookmarkCell else {
             return
         }
         
@@ -136,7 +128,6 @@ private extension BookmarksCollectionView {
         case .changed:
             let currentLocation = sender.location(in: self)
             self.updateInteractiveMovementTargetPosition(currentLocation)
-            print("Changed")
             updateAnimation()
         case .ended:
             endInteractiveMovement()

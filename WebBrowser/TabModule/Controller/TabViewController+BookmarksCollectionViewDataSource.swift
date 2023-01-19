@@ -45,8 +45,8 @@ extension TabViewController: UICollectionViewDataSource {
         for collectionView: UICollectionView, at indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: EditingCollectionViewCell.editingCollectionViewCellReuseID,
-            for: indexPath) as? EditingCollectionViewCell else {
+            withReuseIdentifier: EditingBookmarkCell.editingCollectionViewCellReuseID,
+            for: indexPath) as? EditingBookmarkCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: favoritesModel.bookmarks[indexPath.row])
@@ -57,8 +57,8 @@ extension TabViewController: UICollectionViewDataSource {
         for collectionView: UICollectionView, at indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CollectionViewCell.collectionViewCellReuseID,
-            for: indexPath) as? CollectionViewCell else {
+            withReuseIdentifier: BookmarkCellCell.collectionViewCellReuseID,
+            for: indexPath) as? BookmarkCellCell else {
             return UICollectionViewCell()
         }
         let bookmark = favoritesModel.bookmarks[indexPath.row]

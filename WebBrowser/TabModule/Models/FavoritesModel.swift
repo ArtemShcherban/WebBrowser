@@ -8,31 +8,19 @@
 import UIKit
 import WebKit
 
-//protocol FavotitesModelDelegate: AnyObject {
-////    func bookmarksChanged(_: [Bookmark])
-//}
-
 final class FavoritesModel {
     private var webView: WKWebView
     private let networkService: NetworkService
     private let bookmarkRepository: BookmarkRepository
-    lazy var bookmarks: [Bookmark] = [] //{
-   //     didSet {
-//            delegate?.bookmarksChanged(bookmarks)
- //       }
-  //  }
-    
-//    weak var delegate: FavotitesModelDelegate?
+    lazy var bookmarks: [Bookmark] = []
     
     init(
         webView: WKWebView,
-//        delegate: FavotitesModelDelegate?,
         networkService: NetworkService = NetworkService(),
         bookmarkRepository: BookmarkRepository =
         BookmarkRepository(coreDataStack: CoreDataStack.shared)
     ) {
         self.webView = webView
-//        self.delegate = delegate
         self.networkService = networkService
         self.bookmarkRepository = bookmarkRepository
     }
@@ -50,9 +38,7 @@ final class FavoritesModel {
         sortedIndexPaths.forEach { bookmarks.remove(at: $0.row) }
         bookmarkRepository.deleteCDBookmark(at: sortedIndexPaths.map { $0.row })
     }
-    
-    
-    
+     
     func updateBookmarks() {
         bookmarks = bookmarkRepository.getBookmarks()
     }
@@ -98,7 +84,7 @@ private extension FavoritesModel {
                 guard let tempIconImage = UIImage(data: data) else { return }
                 if tempIconImage.size.width > 64 {
                     iconImage = self.reduceFavoriteIconSize(tempIconImage: tempIconImage)
-                } else {
+                } else if tempIconImage.size.width >= 32 {
                     iconImage = tempIconImage
                 }
             case .failure(let error):
@@ -137,7 +123,7 @@ private extension FavoritesModel {
         let red = CGFloat(Int.random(in: 0...255)) / 255
         let green = CGFloat(Int.random(in: 0...255)) / 255
         let blue = CGFloat(Int.random(in: 0...255)) / 255
-        var backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
+        let backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         
         firstCharacterLabel.backgroundColor = backgroundColor
         firstCharacterLabel.textColor = backgroundColor.isDark ? .white : .darkGray

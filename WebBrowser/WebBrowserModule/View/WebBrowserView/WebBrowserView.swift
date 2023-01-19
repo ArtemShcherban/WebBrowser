@@ -98,8 +98,9 @@ final class WebBrowserView: UIView {
     
     func showDialogBox() {
         setupDialogBox()
-        addSubview(dialogBox ?? DialogBox())
-        dialogBox?.setConstraints()
+        guard let dialogBox = dialogBox else { return }
+        addSubview(dialogBox)
+        dialogBox.setConstraints()
     }
     
     func createPageBlockedDialogBox() -> UIAlertController {

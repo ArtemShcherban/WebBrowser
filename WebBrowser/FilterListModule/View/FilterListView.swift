@@ -29,7 +29,6 @@ final class FilterListView: UIView {
     }
 }
 
-// MARK: - private extension FilterListView
 private extension FilterListView {
     func setupView() {
         backgroundColor = .white
@@ -68,7 +67,6 @@ private extension FilterListView {
     }
 }
 
-// MARK: - @objc private extension FilterListView
 @objc private extension FilterListView {
     func backButtonTapped() {
         delegate?.backButtonTapped()

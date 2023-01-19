@@ -1,5 +1,5 @@
 //
-//  EditingCollectionViewCell.swift
+//  EditingBookmarkCell.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 30.12.2022.
@@ -8,8 +8,8 @@
 import UIKit
 import Foundation
 
-final class EditingCollectionViewCell: CollectionViewCell {
-    static let editingCollectionViewCellReuseID = String(describing: EditingCollectionViewCell.self)
+final class EditingBookmarkCell: BookmarkCellCell {
+    static let editingCollectionViewCellReuseID = String(describing: EditingBookmarkCell.self)
     
     var roundBackgroundView = UIView()
     var roundImageView = UIImageView()
@@ -42,7 +42,6 @@ final class EditingCollectionViewCell: CollectionViewCell {
     }
     
     override func animateAppearance() {
-//        roundImageView.alpha = 0
         self.transform = CGAffineTransform(rotationAngle: .pi / 180)
         
         UIView.animate(withDuration: 0.2) {
@@ -66,7 +65,7 @@ final class EditingCollectionViewCell: CollectionViewCell {
         }
     }
     
-   private func transformAnimation() {
+    private func transformAnimation() {
         switch isHighlighted {
         case true:
             UIView.animate(withDuration: 0.2) {
@@ -92,7 +91,7 @@ final class EditingCollectionViewCell: CollectionViewCell {
     }
 }
 
-private extension EditingCollectionViewCell {
+private extension EditingBookmarkCell {
     func setupFakeButton() {
         let padView = UIButton(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         addSubview(padView)
@@ -124,7 +123,7 @@ private extension EditingCollectionViewCell {
     }
     
     func setupRoundImageView() {
-        roundImageView.alpha = 1
+        roundImageView.alpha = 0
         roundImageView.backgroundColor = .black.withAlphaComponent(0.6)
         roundImageView.layer.cornerRadius = roundBackgroundView.layer.cornerRadius
         roundImageView.tintColor = .white

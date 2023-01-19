@@ -14,12 +14,25 @@ extension AddressBar.TextField {
     }
 }
 
+protocol TextFieldDelegate: UITextFieldDelegate {
+    func textFieldTextHasChanged()
+    func reloadButtonTapped()
+}
+
 extension AddressBar {
     final class TextField: UITextField {
         private lazy var paddingView = UIView()
         private lazy var magnifyingGlassImageView = UIImageView()
-        lazy var aAButton = UIMenuButton(type: .system)
         lazy var reloadButton = UIButton(type: .system)
+        
+        lazy var aAButton: AaButton? = {
+            if #available(iOS 14.0, *) {
+                let aAButton = AaButton(type: .system)
+                aAButton.showsMenuAsPrimaryAction = true
+                return aAButton
+            }
+            return nil
+        }()
         
         var activityState = State.inactive {
             didSet {
@@ -29,13 +42,19 @@ extension AddressBar {
                     leftView = paddingView
                     rightView = nil
                     selectAll(nil)
-                    textColor = .black
+                    textColor = .clear
                 case .inactive:
                     showDefaultPlaceholder()
                     leftView = hasText ? aAButton : magnifyingGlassImageView
                     rightView = hasText ? reloadButton : paddingView
                     textColor = .clear
                 }
+            }
+        }
+        
+        weak var owner: TextFieldDelegate? {
+            didSet {
+                delegate = owner
             }
         }
         
@@ -102,11 +121,20 @@ private extension AddressBar.TextField {
         keyboardType = .webSearch
         enablesReturnKeyAutomatically = true
         clipsToBounds = true
-//        becomeFirstResponder()
         setupMagnifyingGlassImageView()
         setupAaButton()
         setupReloadButton()
         activityState = .inactive
+        addTarget(self, action: #selector(textHasChangedDelegateAction), for: .editingChanged)
+        reloadButton.addTarget(self, action: #selector(reloadDelegateAction), for: .touchUpInside)
+    }
+    
+    @objc private func textHasChangedDelegateAction() {
+        owner?.textFieldTextHasChanged()
+    }
+    
+    @objc private func reloadDelegateAction() {
+        owner?.reloadButtonTapped()
     }
     
     func setupMagnifyingGlassImageView() {
@@ -119,6 +147,9 @@ private extension AddressBar.TextField {
     }
     
     func setupAaButton() {
+        guard let aAButton else { return }
+        aAButton.alpha = 0
+
         let scaleConfiguration = UIImage.SymbolConfiguration(scale: .medium)
         aAButton.setImage(
             UIImage(
@@ -132,6 +163,7 @@ private extension AddressBar.TextField {
     }
     
     func setupReloadButton() {
+        reloadButton.alpha = 0
         let scaleConfiguration = UIImage.SymbolConfiguration(scale: .medium)
         reloadButton.setImage(
             UIImage(

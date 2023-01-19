@@ -1,5 +1,5 @@
 //
-//  CollectionViewCell.swift
+//  BookmarkCellCell.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 24.12.2022.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
-    private(set) static var collectionViewCellReuseID = String(describing: CollectionViewCell.self)
+class BookmarkCellCell: UICollectionViewCell {
+    private(set) static var collectionViewCellReuseID = String(describing: BookmarkCellCell.self)
 
     private(set) lazy var iconImageView = UIImageView()
     private lazy var titleLabel = UILabel()
@@ -34,7 +34,7 @@ class CollectionViewCell: UICollectionViewCell {
     func animateAppearance() { }
 }
 
-private extension CollectionViewCell {
+private extension BookmarkCellCell {
     func setupView() {
         layer.cornerRadius = frame.width * 0.12
         setupContainerView()

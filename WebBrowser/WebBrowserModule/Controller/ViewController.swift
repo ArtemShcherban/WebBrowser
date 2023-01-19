@@ -18,7 +18,7 @@ final class ViewController: UIViewController {
     lazy var webBrowserModel = WebBrowserModel()
     lazy var hasHiddenTab = false
     lazy var isCollapsed = false
-    lazy var hideToolbar = false
+    lazy var toolbarIsHide = false
     lazy var isAddressBarActive = false
     lazy var currentTabIndex = 0 {
         didSet {
@@ -69,7 +69,7 @@ final class ViewController: UIViewController {
     }
     
     func hostHasChanged() { // MAYBE change place for that method
-        currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
+        currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
     }
     
     func heartButtonEnabled() {
@@ -78,6 +78,7 @@ final class ViewController: UIViewController {
 
     func hideKeyboard() {
         dismissKeyboard()
+        print("KEYBOARD")
     }
 }
 
@@ -101,8 +102,8 @@ private extension ViewController {
     
     func updateWebpageContentModeFor(_ tabViewController: TabViewController, and url: URL) {
         if tabViewController.hasURLHostChanged(in: url) {
-            currentAddressBar.setupTextFieldButtonMenuFor(contentMode: .mobile)
-            tabViewController.updateWebpagePreferencesWith(contentMode: .mobile)
+            currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
+            tabViewController.updateWebpagePreferences(with: .mobile)
         }
     }
     
@@ -145,7 +146,7 @@ private extension ViewController {
     }
     
     func addressBarTapped() {
-        hideToolbar = false
+        toolbarIsHide = false
         activateToolbar()
     }
 }
@@ -198,21 +199,19 @@ extension ViewController: AddressBarDelegate {
         updateToolbarButtons()
     }
     
-    func reloadButtonTapped() {
+    func reloadCurrentWebpage() {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
         tabViewController?.reload()
         tabViewController?.hideFavoritesViewIfNedded()
     }
     
-    func requestWebsiteVersionButtonTapped(_ isMobileVersion: Bool) {
+    func requestWebpageWith(contentMode: WKWebpagePreferences.ContentMode ) {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
-        isMobileVersion ?
-        tabViewController?.updateWebpagePreferencesWith(contentMode: .mobile) :
-        tabViewController?.updateWebpagePreferencesWith(contentMode: .desktop)
+        tabViewController?.updateWebpagePreferences(with: contentMode)
     }
     
-    func hideToolbarButtonTapped() {
-        hideToolbar = true
+    func hideToolbar() {
+        toolbarIsHide = true
         deactivateToolbar()
     }
 }
@@ -221,20 +220,20 @@ extension ViewController: WebBrowserViewDelegate {
     func goBackButtonTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
         let contentMode = tabViewController.getBackItemContentMode()
-        currentAddressBar.setupTextFieldButtonMenuFor(contentMode: contentMode)
+        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
         tabViewController.goBack()
     }
     
     func goForwardButtontTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
         let contentMode = tabViewController.getForwardItemContentMode()
-        currentAddressBar.setupTextFieldButtonMenuFor(contentMode: contentMode)
+        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
         tabViewController.goForward()
     }
     
     func heartButtonTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
-        let domain = currentAddressBar.domainLabel.text ?? String()
+        let domain = currentAddressBar.domainTitleString
         tabViewController.addBookmark(with: domain)
     }
     

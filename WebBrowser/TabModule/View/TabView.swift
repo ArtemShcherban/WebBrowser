@@ -40,9 +40,7 @@ final class TabView: UIView {
     }
     
     func showFavoritesView() {
-        UIView.animate(withDuration: 0.2) {
-            self.favoritesView.alpha = 1
-        }
+        favoritesView.alpha = 1
     }
     
     func hideFavoritesView() {

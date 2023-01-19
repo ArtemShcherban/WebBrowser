@@ -81,9 +81,10 @@ final class TabViewController: UIViewController {
         webView.load(URLRequest(url: url))
         hasLoadedURl = true
         hideFavoritesViewIfNedded()
+        delegate?.activateToolbar()
     }
     
-    func updateWebpagePreferencesWith(contentMode: WKWebpagePreferences.ContentMode) {
+    func updateWebpagePreferences(with contentMode: WKWebpagePreferences.ContentMode) {
         tabView.webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
         tabView.webView.reload()
     }
@@ -126,10 +127,6 @@ final class TabViewController: UIViewController {
         updateStatusBarColor()
     }
     
-    func cancelButtonHidden(_ isHidden: Bool) {
-        favoritesView.cancelButtonHidden(isHidden, hasLoadedURL: hasLoadedURl)
-    }
-    
     func hasURLHostChanged(in url: URL) -> Bool {
         if urlHost == url.host {
             return false
@@ -141,6 +138,16 @@ final class TabViewController: UIViewController {
     
     func moveCellAt(_ sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         favoritesModel.replaceBookmarksAt(sourceIndexPath, withAt: destinationIndexPath)
+    }
+    
+    func cancelButton(isHidden: Bool) {
+        favoritesView.cancelButtonHidden(isHidden, hasLoadedURL: hasLoadedURl)
+    }
+    
+    func finishEditingModeIfNeeded() {
+        if favoritesView.collectionView.isEditingMode {
+            favoritesView.editingIsFinished()
+        }
     }
 }
 
@@ -249,7 +256,7 @@ extension TabViewController: WKNavigationDelegate {
             }
             
             if hasURLHostChanged(in: url) || url.query != nil {
-                updateWebpagePreferencesWith(contentMode: .mobile)
+                updateWebpagePreferences(with: .mobile)
                 delegate?.hostHasChanged()
             }
             self.loadWebsite(from: url)
@@ -258,7 +265,6 @@ extension TabViewController: WKNavigationDelegate {
         default:
             break
         }
-        delegate?.activateToolbar()
         decisionHandler(.allow)
     }
     
@@ -267,7 +273,7 @@ extension TabViewController: WKNavigationDelegate {
     }
 }
 
-extension TabViewController: BookmarksViewDelegate {
+extension TabViewController: FavoritesViewDelegate {
     func cancelButtonTapped() {
         delegate?.hideKeyboard()
     }

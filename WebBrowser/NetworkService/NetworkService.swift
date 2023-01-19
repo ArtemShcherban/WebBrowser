@@ -25,7 +25,7 @@ final class NetworkService {
         guard let url = urlModel.horeseFavoriteIconURL(for: domain) else {
             complition(.failure(NetworkServiceError.couldnotCreateURL))
             return
-        }        
+        }
         Task {
             do {
                 let (data, urlResponse) = try await NetworkService.urlSession.data(for: URLRequest(url: url))

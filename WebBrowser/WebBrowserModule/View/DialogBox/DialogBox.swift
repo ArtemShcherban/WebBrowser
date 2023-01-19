@@ -81,7 +81,6 @@ private extension DialogBox {
     }
     
     func setupShadowView() {
-//        shadowView.layer.masksToBounds = false
         shadowView.layer.shadowColor = UIColor.black.cgColor
         shadowView.layer.shadowOffset = CGSize(width: 4, height: 0)
         shadowView.layer.shadowRadius = 5

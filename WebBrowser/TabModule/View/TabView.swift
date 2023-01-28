@@ -10,6 +10,7 @@ import WebKit
 
 final class TabView: UIView {
     private(set) var favoritesView: FavoritesView
+    private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()
     private(set) lazy var webView = WKWebView(
         frame: CGRect(
             x: 0,
@@ -18,8 +19,12 @@ final class TabView: UIView {
             height: 0.1
         )
     )
-   
-    private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()
+    
+    var pageloadedWithError = false {
+        didSet {
+            webView.scrollView.isScrollEnabled = !pageloadedWithError
+        }
+    }
     
     var statusBarBackgroundViewHeightConstraint: NSLayoutConstraint?
     
@@ -27,6 +32,7 @@ final class TabView: UIView {
         self.favoritesView = favoritesView
         super.init(frame: .zero)
         setupView()
+        backgroundColor = .systemTeal
     }
     
     required init?(coder: NSCoder) {

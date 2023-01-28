@@ -32,11 +32,17 @@ class WebBrowserModel {
     }
     
     func getDomain(from url: URL) -> String {
-        guard var domain = url.host else { return url.absoluteString }
-    
-        if domain.hasPrefix("www.") {
-            domain.removeFirst(4)
+        var domainLabelTitle = String()
+        
+        if let host = url.host {
+            domainLabelTitle = host
+        } else {
+            domainLabelTitle = url.absoluteString
         }
-        return domain
+        
+        if domainLabelTitle.hasPrefix("www.") {
+            domainLabelTitle.removeFirst(4)
+        }
+        return domainLabelTitle
     }
 }

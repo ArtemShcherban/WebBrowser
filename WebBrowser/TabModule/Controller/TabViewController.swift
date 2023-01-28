@@ -7,15 +7,14 @@
 
 import UIKit
 import WebKit
+import Combine
 
 protocol TabViewControllerDelegate: AnyObject {
     func tabViewControllerDidScroll(yOffsetChange: CGFloat)
     func tabViewControllerDidEndDraging()
     func tabViewController(_ tabViewController: TabViewController, didStartLoadingURL: URL)
     func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo: Float)
-    
     func tabViewController(_ tabViewController: TabViewController, selected: Bookmark)
-    
     func hostHasChanged()
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool)
     func heartButtonEnabled()
@@ -23,10 +22,10 @@ protocol TabViewControllerDelegate: AnyObject {
     func hideKeyboard()
 }
 
-final class TabViewController: UIViewController {
+final class TabViewController: UIViewController, TabModelDelegate {
     private lazy var tabView = TabView(favoritesView: favoritesView)
     private(set) lazy var favoritesView = FavoritesView(delegate: self)
-    private lazy var tabModel = TabModel(webView: tabView.webView)
+    private lazy var tabModel = TabModel(webView: tabView.webView, delegate: self)
     private(set) lazy var favoritesModel = FavoritesModel(webView: tabView.webView)
     private let filterListModel: FilterListModel
     
@@ -36,6 +35,12 @@ final class TabViewController: UIViewController {
     var currentURL: URL? {
         tabView.webView.url
     }
+    
+    var loadingWebpage: Webpage? {
+        tabModel.currentWebpage
+    }
+    
+    var navigationError: NSError?
     
     private var urlHost: String?
     
@@ -55,6 +60,7 @@ final class TabViewController: UIViewController {
         favoritesModel.updateBookmarks()
         self.view.alpha = isHidden ? 0 : 1
         self.view.transform = isHidden ? CGAffineTransform(scaleX: 0.8, y: 0.8) : .identity
+        isHidden ? nil : startBackForwardStackObserve()
         self.showFavoritesView()
     }
     
@@ -77,6 +83,8 @@ final class TabViewController: UIViewController {
     }
     
     func loadWebsite(from url: URL) {
+        navigationError = nil
+        tabModel.createWebpage(with: url)
         let webView = tabView.webView
         webView.load(URLRequest(url: url))
         hasLoadedURl = true
@@ -84,37 +92,50 @@ final class TabViewController: UIViewController {
         delegate?.activateToolbar()
     }
     
-    func updateWebpagePreferences(with contentMode: WKWebpagePreferences.ContentMode) {
+    func updateWebViewConfiguration(with contentMode: WKWebpagePreferences.ContentMode) {
         tabView.webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
-        tabView.webView.reload()
+        guard
+            let loadingWebpage,
+            let url = loadingWebpage.url,
+            loadingWebpage.error != nil else {
+            tabView.webView.reload()
+            return
+        }
+        tabView.webView.load(URLRequest(url: url))
     }
     
-    func getBackItemContentMode() -> WKWebpagePreferences.ContentMode {
-        tabModel.getBackItemContentMode()
+    func startBackForwardStackObserve() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(backForwardStackChanged),
+            name: .backForwardStackChanged,
+            object: nil
+        )
     }
     
-    func getForwardItemContentMode() -> WKWebpagePreferences.ContentMode {
-        tabModel.getForwardItemContentMode()
+    func removeBackForwardStackObserve() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: .backForwardStackChanged, object: nil)
+    }
+    
+    func contentModeForNextWebPage() -> WKWebpagePreferences.ContentMode {
+        tabModel.setContentModeForNextWebpage()
     }
     
     func reload() {
         tabView.webView.reload()
     }
-    
     func goBack() {
-        let webView = tabView.webView
-        if webView.backForwardList.backList.isEmpty {
-        }
-        webView.goBack()
+        tabModel.goBack()
     }
     
     func goForward() {
-        let webView = tabView.webView
-        webView.goForward()
+        tabModel.goForward()
     }
     
     func backForwardButtonStatus() -> (canGoBack: Bool, canGoForward: Bool) {
-        return (tabView.webView.canGoBack, tabView.webView.canGoForward)
+        return (tabModel.webpageBackForwardStack.canGoBack, tabModel.webpageBackForwardStack.canGoForward)
     }
     
     func addBookmark(with domain: String) {
@@ -162,15 +183,13 @@ private extension TabViewController {
         startProgressObserve()
         startThemeColorObserve()
         startUnderPageColorObserve()
-        startCanGoBackObserve()
-        startCanGoForwardObserve()
     }
     
     func startURLObserve() {
         urlObserver = tabView.webView.observe(\WKWebView.url, options: .new) { _, _ in
             guard let url = self.tabView.webView.url else { return }
             self.delegate?.tabViewController(self, didStartLoadingURL: url)
-            self.delegate?.heartButtonEnabled()
+            self.delegate?.heartButtonEnabled() // it should not be here🥸🥸🥸
         }
     }
     
@@ -206,22 +225,16 @@ private extension TabViewController {
         tabView.statusBarBackgroundView.setColor(color)
         setNeedsStatusBarAppearanceUpdate()
     }
-    
-    func startCanGoBackObserve() {
-        canGoBackObserver = tabView.webView.observe(\WKWebView.canGoBack, options: .new) { webView, _
-            in
-            self.delegate?.backForwardListHasChanged(webView.canGoBack, webView.canGoForward)
-        }
-    }
-    
-    func startCanGoForwardObserve() {
-        canGoForwardObserver = tabView.webView.observe(\WKWebView.canGoForward, options: .new) { webView, _ in
-            self.delegate?.backForwardListHasChanged(webView.canGoBack, webView.canGoForward)
-        }
-    }
 }
 
 @objc private extension TabViewController {
+    func backForwardStackChanged() {
+        delegate?.backForwardListHasChanged(
+            tabModel.webpageBackForwardStack.canGoBack,
+            tabModel.webpageBackForwardStack.canGoForward
+        )
+    }
+    
     func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer) {
         var yOffset: CGFloat = 0.0
         
@@ -256,7 +269,7 @@ extension TabViewController: WKNavigationDelegate {
             }
             
             if hasURLHostChanged(in: url) || url.query != nil {
-                updateWebpagePreferences(with: .mobile)
+                updateWebViewConfiguration(with: .mobile)
                 delegate?.hostHasChanged()
             }
             self.loadWebsite(from: url)
@@ -268,8 +281,32 @@ extension TabViewController: WKNavigationDelegate {
         decisionHandler(.allow)
     }
     
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        guard
+            let response = navigationResponse.response as? HTTPURLResponse,
+            (200..<300).contains(response.statusCode) else {
+            tabView.pageloadedWithError = true
+            decisionHandler(.allow)
+            return
+        }
+        tabView.pageloadedWithError = false
+        decisionHandler(.allow)
+    }
+    
+    func loadHTMLWebpage(for url: URL, with error: NSError?) {
+        let htmlString = HTML.webpageWith(error)
+        tabView.webView.loadHTMLString(htmlString, baseURL: url)
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation, withError error: Error) {
+        tabView.pageloadedWithError = true
+        navigationError = error as NSError
+        guard let url = loadingWebpage?.url else { return }
+        loadHTMLWebpage(for: url, with: navigationError)
+    }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
-        tabModel.updateCurrentItemContentMode()
+        tabModel.updateCurrentWebpage(error: navigationError)
     }
 }
 

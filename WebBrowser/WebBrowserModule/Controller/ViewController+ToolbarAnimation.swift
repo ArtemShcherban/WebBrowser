@@ -121,7 +121,6 @@ extension ViewController {
             
             UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) { [weak self] in
                 guard let self else { return }
-//                self.currentAddressBar.containerView.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.currentAddressBar.domainLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                 self.leftAddressBar?.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 0.8)
                 self.rightAddressBar?.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 0.8)
@@ -186,7 +185,6 @@ extension ViewController {
             
             UIViewPropertyAnimator(duration: 0.2, curve: .easeIn) { [weak self] in
                 guard let self else { return }
-//                self.currentAddressBar.containerView.transform = .identity
                 self.currentAddressBar.shadowView.transform = .identity
                 self.currentAddressBar.domainLabel.transform = .identity
                 self.leftAddressBar?.containerView.transform = .identity

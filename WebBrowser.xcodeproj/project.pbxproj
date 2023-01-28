@@ -52,8 +52,8 @@
 		F45253DD2977F2C9005EC44E /* AddressBar+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253DC2977F2C9005EC44E /* AddressBar+Constraints.swift */; };
 		F45253DF29792638005EC44E /* AddressBar+AaButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253DE29792638005EC44E /* AddressBar+AaButtonDelegate.swift */; };
 		F45253E1297926A3005EC44E /* AddressBar+TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253E0297926A3005EC44E /* AddressBar+TextFieldDelegate.swift */; };
+		F45253E8297AA4AC005EC44E /* HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45253E7297AA4AC005EC44E /* HTML.swift */; };
 		F47371132955C072002B4A5D /* BookmarksCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47371122955C072002B4A5D /* BookmarksCollectionView.swift */; };
-		F47D3F89296EEBB200B20B1B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47D3F88296EEBB200B20B1B /* UIViewExtension.swift */; };
 		F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93A2951E6830022B1CA /* TabModel.swift */; };
 		F48BE93D2954546C0022B1CA /* AaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BE93C2954546C0022B1CA /* AaButton.swift */; };
 		F492EB2F29584C2200A06F88 /* BookmarksHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB2E29584C2200A06F88 /* BookmarksHeaderView.swift */; };
@@ -68,6 +68,9 @@
 		F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */; };
 		F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */; };
 		F4D292302945D94000E710CF /* DialogBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2922F2945D94000E710CF /* DialogBox.swift */; };
+		F4EFE8322987F8FE00DA7578 /* Webpage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFE8312987F8FE00DA7578 /* Webpage.swift */; };
+		F4EFE8342987F96100DA7578 /* WebpagesBackForwardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */; };
+		F4EFE8362987FA0400DA7578 /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFE8352987FA0400DA7578 /* NotificationNameExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,8 +123,8 @@
 		F45253DC2977F2C9005EC44E /* AddressBar+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+Constraints.swift"; sourceTree = "<group>"; };
 		F45253DE29792638005EC44E /* AddressBar+AaButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+AaButtonDelegate.swift"; sourceTree = "<group>"; };
 		F45253E0297926A3005EC44E /* AddressBar+TextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressBar+TextFieldDelegate.swift"; sourceTree = "<group>"; };
+		F45253E7297AA4AC005EC44E /* HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTML.swift; sourceTree = "<group>"; };
 		F47371122955C072002B4A5D /* BookmarksCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksCollectionView.swift; sourceTree = "<group>"; };
-		F47D3F88296EEBB200B20B1B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		F48BE93A2951E6830022B1CA /* TabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabModel.swift; sourceTree = "<group>"; };
 		F48BE93C2954546C0022B1CA /* AaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AaButton.swift; sourceTree = "<group>"; };
 		F492EB2E29584C2200A06F88 /* BookmarksHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksHeaderView.swift; sourceTree = "<group>"; };
@@ -136,6 +139,9 @@
 		F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListModel.swift; sourceTree = "<group>"; };
 		F4D2922F2945D94000E710CF /* DialogBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBox.swift; sourceTree = "<group>"; };
+		F4EFE8312987F8FE00DA7578 /* Webpage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webpage.swift; sourceTree = "<group>"; };
+		F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpagesBackForwardStack.swift; sourceTree = "<group>"; };
+		F4EFE8352987FA0400DA7578 /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,7 +266,7 @@
 				F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */,
 				F400AE07293B834800758820 /* Array+Helpers.swift */,
 				F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */,
-				F47D3F88296EEBB200B20B1B /* UIViewExtension.swift */,
+				F4EFE8352987FA0400DA7578 /* NotificationNameExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				F42D4E04295C21BF00824801 /* URLConstants.swift */,
+				F45253E7297AA4AC005EC44E /* HTML.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -454,6 +461,8 @@
 			children = (
 				F492EB4129586E8000A06F88 /* Bookmark.swift */,
 				F492EB43295871A700A06F88 /* BookmarksCollection.swift */,
+				F4EFE8312987F8FE00DA7578 /* Webpage.swift */,
+				F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */,
 			);
 			path = ObjectModels;
 			sourceTree = "<group>";
@@ -593,8 +602,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4EFE8362987FA0400DA7578 /* NotificationNameExtension.swift in Sources */,
 				F400AE11293C8E4A00758820 /* FavoritesView.swift in Sources */,
 				F492EB44295871A700A06F88 /* BookmarksCollection.swift in Sources */,
+				F4EFE8322987F8FE00DA7578 /* Webpage.swift in Sources */,
 				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F433C32B296D7FDD00FA9F4D /* URLModel.swift in Sources */,
@@ -620,6 +631,7 @@
 				F400AE00293B705D00758820 /* KeyboardManager.swift in Sources */,
 				F400ADDC293B244500758820 /* ViewController.swift in Sources */,
 				F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */,
+				F4EFE8342987F96100DA7578 /* WebpagesBackForwardStack.swift in Sources */,
 				F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */,
 				F4D292302945D94000E710CF /* DialogBox.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
@@ -628,6 +640,7 @@
 				F423E365294740BB00EF6A11 /* DialogBoxTextField.swift in Sources */,
 				F45253DF29792638005EC44E /* AddressBar+AaButtonDelegate.swift in Sources */,
 				F492EB322958628A00A06F88 /* WebBrowser.xcdatamodeld in Sources */,
+				F45253E8297AA4AC005EC44E /* HTML.swift in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
 				F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */,
 				F400AE0F293C8D1800758820 /* TabView.swift in Sources */,
@@ -641,7 +654,6 @@
 				F48BE93D2954546C0022B1CA /* AaButton.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
 				F4BDBB862956D4C700B79BC9 /* BookmarkCellCell.swift in Sources */,
-				F47D3F89296EEBB200B20B1B /* UIViewExtension.swift in Sources */,
 				F44B7A51295DB196003FA94E /* TabViewController+BookmarksCollectionViewDelegate.swift in Sources */,
 				F42D4E07295C30CA00824801 /* NetworkServiceError.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,

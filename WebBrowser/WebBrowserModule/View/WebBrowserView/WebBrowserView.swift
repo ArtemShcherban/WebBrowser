@@ -20,7 +20,6 @@ final class WebBrowserView: UIView {
     var dialogBox: DialogBox?
     var optionalDialogBox: DialogBox?
     
-    //    lazy var cancelButton = UIButton(type: .system)
     lazy var tabScrollView = UIScrollView()
     lazy var tabsStackView = UIStackView()
     

@@ -28,11 +28,21 @@ final class Toolbar: UIToolbar {
 private extension Toolbar {
     func setupButtonImage() {
         let weightConfiguration = UIImage.SymbolConfiguration(weight: .semibold)
-        goBackButton.image = UIImage(systemName: "chevron.left.circle", withConfiguration: weightConfiguration)
-        goForwardButton.image = UIImage(systemName: "chevron.right.circle", withConfiguration: weightConfiguration)
-        heartButton.image = UIImage(systemName: "heart", withConfiguration: weightConfiguration)
-        plusButton.image = UIImage(systemName: "plus.circle", withConfiguration: weightConfiguration)
-        listButton.image = UIImage(systemName: "list.bullet", withConfiguration: weightConfiguration)
+        goBackButton.image = UIImage(
+            systemName: "chevron.left.circle", withConfiguration: weightConfiguration
+        )
+        goForwardButton.image = UIImage(
+            systemName: "chevron.right.circle", withConfiguration: weightConfiguration
+        )
+        heartButton.image = UIImage(
+            systemName: "heart", withConfiguration: weightConfiguration
+        )
+        plusButton.image = UIImage(
+            systemName: "plus.circle", withConfiguration: weightConfiguration
+        )
+        listButton.image = UIImage(
+            systemName: "list.bullet", withConfiguration: weightConfiguration
+        )
     }
     
     func setBarButtonItems() {

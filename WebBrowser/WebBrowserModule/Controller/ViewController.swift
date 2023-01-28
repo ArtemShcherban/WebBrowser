@@ -44,6 +44,18 @@ final class ViewController: UIViewController {
         webBrowserView.addressBars[safe: currentTabIndex + 1]
     }
     
+    var currentTabViewController: TabViewController {
+        tabViewControllers[currentTabIndex]
+    }
+    
+    var leftTabViewController: TabViewController? {
+        tabViewControllers[safe: currentTabIndex - 1]
+    }
+    
+    var rightTabViewController: TabViewController? {
+        tabViewControllers[safe: currentTabIndex + 1]
+    }
+    
     override var childForStatusBarStyle: UIViewController? {
         tabViewControllers[safe: currentTabIndex]
     }
@@ -78,7 +90,6 @@ final class ViewController: UIViewController {
 
     func hideKeyboard() {
         dismissKeyboard()
-        print("KEYBOARD")
     }
 }
 
@@ -103,7 +114,7 @@ private extension ViewController {
     func updateWebpageContentModeFor(_ tabViewController: TabViewController, and url: URL) {
         if tabViewController.hasURLHostChanged(in: url) {
             currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
-            tabViewController.updateWebpagePreferences(with: .mobile)
+            tabViewController.updateWebViewConfiguration(with: .mobile)
         }
     }
     
@@ -119,10 +130,13 @@ private extension ViewController {
     func updateAddressBarsAfterTabChange() {
         currentAddressBar.isUserInteractionEnabled = true
         currentAddressBar.setSideButtonsHiden(false)
+        currentTabViewController.startBackForwardStackObserve()
         leftAddressBar?.isUserInteractionEnabled = false
         leftAddressBar?.setSideButtonsHiden(true)
+        leftTabViewController?.removeBackForwardStackObserve()
         rightAddressBar?.isUserInteractionEnabled = false
         rightAddressBar?.setSideButtonsHiden(true)
+        rightTabViewController?.removeBackForwardStackObserve()
     }
     
     func updateToolbarButtons() {
@@ -167,13 +181,15 @@ extension ViewController { // TabViewControllerDelegate🥸🥸🥸
 
 extension ViewController: AddressBarDelegate {
     func addressBarWillBeginEditing(_ addressBar: AddressBar) {
-        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else {
+        guard
+            let tabViewController = tabViewControllers[safe: currentTabIndex],
+                tabViewController.hasLoadedURl else {
             return
         }
+              
         if
-            tabViewController.hasLoadedURl,
-            let urlString = tabViewController.currentURL?.absoluteString {
-            addressBar.textField.text = urlString
+            let url = tabViewController.loadingWebpage?.url {
+            addressBar.textField.text = url.absoluteString
         }
     }
     
@@ -202,12 +218,11 @@ extension ViewController: AddressBarDelegate {
     func reloadCurrentWebpage() {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
         tabViewController?.reload()
-        tabViewController?.hideFavoritesViewIfNedded()
     }
     
     func requestWebpageWith(contentMode: WKWebpagePreferences.ContentMode ) {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
-        tabViewController?.updateWebpagePreferences(with: contentMode)
+        tabViewController?.updateWebViewConfiguration(with: contentMode)
     }
     
     func hideToolbar() {
@@ -219,16 +234,16 @@ extension ViewController: AddressBarDelegate {
 extension ViewController: WebBrowserViewDelegate {
     func goBackButtonTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
-        let contentMode = tabViewController.getBackItemContentMode()
-        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
         tabViewController.goBack()
+        let contentMode = tabViewController.contentModeForNextWebPage()
+        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
     }
     
     func goForwardButtontTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
-        let contentMode = tabViewController.getForwardItemContentMode()
-        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
         tabViewController.goForward()
+        let contentMode = tabViewController.contentModeForNextWebPage()
+        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
     }
     
     func heartButtonTapped() {

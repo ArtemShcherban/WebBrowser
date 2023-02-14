@@ -8,7 +8,7 @@
 import UIKit
 
 extension DialogBox {
-    func animateDialogBoaxAppearing(with notification: NSNotification, view: UIView) {
+    func animateDialogBoxAppearing(with notification: NSNotification, view: UIView) {
         let animator = AnimatorFactory.animateWithKeyboard(
             for: notification,
             view: view
@@ -38,6 +38,7 @@ extension DialogBox {
     
     private func updateDialogBoxStateForKeyboardAppearing() {
         alpha = 1
-        dialogBoxViewBottomConstraints?.constant = -55
+        dialogBoxViewBottomConstraints?.constant =
+        Interface.orientation == .portrait ? -55 : -36
     }
 }

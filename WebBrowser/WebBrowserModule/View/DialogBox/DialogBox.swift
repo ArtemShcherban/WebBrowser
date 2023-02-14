@@ -34,7 +34,7 @@ final class DialogBox: UIView {
     }
     
     func setConstraints() {
-        guard let superview = superview as? WebBrowserView else { return }
+        guard let superview = superview as? BrowserView else { return }
         translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -76,7 +76,6 @@ private extension DialogBox {
     
     func setupContainerView() {
         containerView.layer.cornerRadius = 10
-        containerView.backgroundColor = .green
         addSubview(containerView)
     }
     
@@ -123,6 +122,7 @@ private extension DialogBox {
         textField.textAlignment = .center
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .words
+        textField.addTarget(self, action: #selector(dialogBoxTextFieldDidChanged), for: .editingChanged)
         dialogBoxView.addSubview(textField)
     }
     
@@ -228,5 +228,28 @@ private extension DialogBox {
             cancelButton.trailingAnchor.constraint(equalTo: buttonsView.trailingAnchor),
             cancelButton.bottomAnchor.constraint(equalTo: buttonsView.bottomAnchor)
         ])
+    }
+}
+
+private extension DialogBox {
+@objc func dialogBoxTextFieldDidChanged() {
+        checkForSpaces()
+        updateAddFilterButton()
+    }
+    
+    func checkForSpaces() {
+        guard let text = textField.text else { return }
+        if text.last == " " {
+            textField.text?.remove(at: text.index(before: text.endIndex))
+        }
+    }
+    
+    func updateAddFilterButton() {
+        guard let count = textField.text?.count else { return }
+        if count >= 3 {
+            addButton.isEnabled = true
+        } else {
+            addButton.isEnabled = false
+        }
     }
 }

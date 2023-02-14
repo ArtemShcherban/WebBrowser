@@ -19,10 +19,10 @@ final class NetworkService {
     let urlModel = URLModel()
     
     func loadIconData(
-        for domain: String,
+        for host: String,
         complition: @escaping ((Result<Data, NetworkServiceError>) -> Void)
     ) {
-        guard let url = urlModel.horeseFavoriteIconURL(for: domain) else {
+        guard let url = urlModel.horeseFavoriteIconURL(for: host) else {
             complition(.failure(NetworkServiceError.couldnotCreateURL))
             return
         }

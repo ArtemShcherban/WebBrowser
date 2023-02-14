@@ -1,5 +1,5 @@
 //
-//  TabViewController.swift
+//  PortraitTabController.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 04.12.2022.
@@ -7,26 +7,30 @@
 
 import UIKit
 import WebKit
-import Combine
 
-protocol TabViewControllerDelegate: AnyObject {
+protocol OLDTabViewControllerDelegate: AnyObject {
     func tabViewControllerDidScroll(yOffsetChange: CGFloat)
     func tabViewControllerDidEndDraging()
-    func tabViewController(_ tabViewController: TabViewController, didStartLoadingURL: URL)
-    func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo: Float)
-    func tabViewController(_ tabViewController: TabViewController, selected: Bookmark)
+    
+    func tabViewController(_ tabViewController: SuperTabViewController, didStartLoadingURL: URL)
+    func tabViewController(_ tabViewController: SuperTabViewController, didChangeLoadingProgressTo: Float)
+    func bookmarkWasSelected(_ tabViewController: SuperTabViewController, selected: Bookmark)
     func hostHasChanged()
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool)
     func heartButtonEnabled()
     func activateToolbar()
     func hideKeyboard()
 }
+extension OLDTabViewControllerDelegate {
+    func tabViewControllerDidScroll(yOffsetChange: CGFloat) { }
+    func tabViewControllerDidEndDraging() { }
+}
 
-final class TabViewController: UIViewController, TabModelDelegate {
-    private lazy var tabView = TabView(favoritesView: favoritesView)
-    private(set) lazy var favoritesView = FavoritesView(delegate: self)
+final class PortraitTabController: SuperTabViewController, TabModelDelegate {
+    private(set) lazy var tabView = TabView(favoritesView: favoritesView)
+    private(set) lazy var favoritesView = FavoritesView(favoritesModel: FavoritesModel())
     private lazy var tabModel = TabModel(webView: tabView.webView, delegate: self)
-    private(set) lazy var favoritesModel = FavoritesModel(webView: tabView.webView)
+    private(set) lazy var favoritesModel = FavoritesModel()
     private let filterListModel: FilterListModel
     
     lazy var hasLoadedURl = false
@@ -51,7 +55,9 @@ final class TabViewController: UIViewController, TabModelDelegate {
     private var canGoBackObserver: NSKeyValueObservation?
     private var canGoForwardObserver: NSKeyValueObservation?
     
-    weak var delegate: TabViewControllerDelegate?
+    weak var delegate: OLDTabViewControllerDelegate?
+//    weak var superDelegate: S
+    weak var controller: ViewController?
     
     ///// ?????? maybe remove alpha and transform to separate method
     init(isHidden: Bool, with filterListModel: FilterListModel) {
@@ -124,14 +130,14 @@ final class TabViewController: UIViewController, TabModelDelegate {
     }
     
     func reload() {
-        tabView.webView.reload()
+//        tabView.webView.reload()
     }
     func goBack() {
-        tabModel.goBack()
+//        tabModel.goBack()
     }
     
     func goForward() {
-        tabModel.goForward()
+//        tabModel.goForward()
     }
     
     func backForwardButtonStatus() -> (canGoBack: Bool, canGoForward: Bool) {
@@ -139,7 +145,7 @@ final class TabViewController: UIViewController, TabModelDelegate {
     }
     
     func addBookmark(with domain: String) {
-        favoritesModel.saveBookmark(with: domain)
+//        favoritesModel.saveBookmark(with: domain)
     }
     
     func showFavoritesView() {
@@ -172,7 +178,7 @@ final class TabViewController: UIViewController, TabModelDelegate {
     }
 }
 
-private extension TabViewController {
+private extension PortraitTabController {
     func setupWebView() {
         tabView.webView.scrollView.panGestureRecognizer.addTarget(
             self,
@@ -227,7 +233,7 @@ private extension TabViewController {
     }
 }
 
-@objc private extension TabViewController {
+@objc private extension PortraitTabController {
     func backForwardStackChanged() {
         delegate?.backForwardListHasChanged(
             tabModel.webpageBackForwardStack.canGoBack,
@@ -257,7 +263,7 @@ private extension TabViewController {
     }
 }
 
-extension TabViewController: WKNavigationDelegate {
+extension PortraitTabController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let url = navigationAction.request.url else { return }
         switch navigationAction.navigationType {
@@ -310,7 +316,7 @@ extension TabViewController: WKNavigationDelegate {
     }
 }
 
-extension TabViewController: FavoritesViewDelegate {
+extension PortraitTabController: FavoritesViewDelegate {
     func cancelButtonTapped() {
         delegate?.hideKeyboard()
     }

@@ -38,11 +38,14 @@ extension AddressBar {
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
         shadowView.layer.shadowRadius = 7
         shadowView.layer.shadowOpacity = 0.5
+        shadowView.alpha = Interface.orientation == .portrait ? 1 : 0
         containerView.addSubview(shadowView)
     }
     
-    func textFieldConstraint(for anchor: NSLayoutXAxisAnchor) -> NSLayoutConstraint? {
+    func textFieldConstraint<T>(for anchor: NSLayoutAnchor<T>) -> NSLayoutConstraint? {
         switch anchor {
+        case textField.heightAnchor:
+            return textField.heightAnchor.constraint(equalToConstant: 0)
         case textField.leadingAnchor:
             return textField.leadingAnchor.constraint(
                 equalTo: containerView.leadingAnchor,
@@ -64,10 +67,13 @@ extension AddressBar {
         textField.translatesAutoresizingMaskIntoConstraints = false
         guard
             let textFieldLeadingConstraint,
-            let textFieldTrailingConstraint else { return }
+            let textFieldTrailingConstraint,
+            let textFieldHeightConstraint  else { return }
         
+        textFieldHeightConstraint.constant = Interface.orientation == .portrait ? 46 : 40
+            
         NSLayoutConstraint.activate([
-            textField.heightAnchor.constraint(equalToConstant: 46),
+            textFieldHeightConstraint,
             textFieldLeadingConstraint,
             textFieldTrailingConstraint,
             textField.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
@@ -114,7 +120,7 @@ extension AddressBar {
             domainLabelMaxLeadingConstraint,
             domainLabelMinLeadingConstraint,
             domainLabelCenterXConstraint,
-            domainLabel.centerYAnchor.constraint(equalTo: textField.centerYAnchor)
+            domainLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     
@@ -130,11 +136,21 @@ extension AddressBar {
         let widthOffset = superview.frame.minX
         
         NSLayoutConstraint.activate([
-            addressBarProgressView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -widthOffset),
-            addressBarProgressView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: widthOffset),
-            addressBarProgressView.bottomAnchor.constraint(equalTo: textField.topAnchor),
+            addressBarProgressView.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: -widthOffset),
+            addressBarProgressView.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: widthOffset),
             addressBarProgressView.heightAnchor.constraint(equalToConstant: 3.0)
         ])
+        
+        if Interface.orientation == .portrait {
+            addressBarProgressView.bottomAnchor.constraint(
+                equalTo: textField.topAnchor
+            ).isActive = true
+        } else {
+            addressBarProgressView.bottomAnchor.constraint(
+                equalTo: textField.bottomAnchor,
+                constant: -10
+            ).isActive = true
+        }
         return addressBarProgressView
     }
     

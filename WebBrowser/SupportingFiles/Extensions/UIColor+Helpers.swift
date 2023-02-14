@@ -8,8 +8,15 @@
 import UIKit
 
 extension UIColor {
-    static let textFieldGray = UIColor(
+    static let placeholderGray = UIColor(
         white: 138 / 255,
+        alpha: 1
+    )
+    
+    static let textFieldGray = UIColor(
+        red: 227 / 255,
+        green: 228 / 255,
+        blue: 227 / 255,
         alpha: 1
     )
     

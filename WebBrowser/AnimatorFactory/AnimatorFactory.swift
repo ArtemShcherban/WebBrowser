@@ -8,6 +8,27 @@
 import UIKit
 
 enum AnimatorFactory {
+    static func animator(
+        for browserView: BrowserView,
+        duration: TimeInterval,
+        animation:  (() -> Void)?,
+        completion: (() -> Void)?
+    ) -> UIViewPropertyAnimator {
+        let animator = UIViewPropertyAnimator(duration: duration, curve: .linear)
+        
+        animator.addAnimations {
+            animation?()
+            browserView.layoutIfNeeded()
+        }
+        
+        animator.addCompletion { _ in
+            completion?()
+            browserView.layoutIfNeeded()
+        }
+
+        return animator
+    }
+    
     static func animateWithKeyboard(
         for notification: NSNotification,
         view: UIView,

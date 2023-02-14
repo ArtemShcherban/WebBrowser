@@ -10,7 +10,6 @@ import WebKit
 
 protocol AddressBarDelegate: AnyObject {
     func addressBarWillBeginEditing(_ addressBar: AddressBar)
-    func addressBarDidBeginEditing()
     func addressBar(_ addressBar: AddressBar, didReturnWithText: String)
     func requestWebpageWith(contentMode: WKWebpagePreferences.ContentMode)
     func hideToolbar()
@@ -36,11 +35,14 @@ final class AddressBar: UIView, UIEditMenuInteractionDelegate {
             domainLabel.text = domainTitleString
         }
     }
+    var isActive = false
     
     private(set) lazy var shadowView = UIView()
     private lazy var progressView = UIProgressView()
     
     let textFieldPadding: CGFloat = 4
+    private(set) lazy
+    var textFieldHeightConstraint = textFieldConstraint(for: textField.heightAnchor)
     private(set) lazy
     var textFieldLeadingConstraint = textFieldConstraint(for: textField.leadingAnchor)
     private(set) lazy
@@ -58,7 +60,9 @@ final class AddressBar: UIView, UIEditMenuInteractionDelegate {
     
     private var isMobileVersion = true
     
+    weak var controller: AddressBarDelegate?
     weak var delegate: AddressBarDelegate?
+    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -75,9 +79,24 @@ final class AddressBar: UIView, UIEditMenuInteractionDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        switch Interface.orientation {
+        case .portrait:
+            textFieldHeightConstraint?.constant = 46
+            textField.layer.cornerRadius = 12
+            textField.backgroundColor = .white
+            shadowView.alpha = 1
+        case .landscape:
+            textFieldHeightConstraint?.constant = 40
+            textField.layer.cornerRadius = 10
+            textField.backgroundColor = .textFieldGray
+            shadowView.alpha = 0
+        }
+    }
+    
     func setSideButtonsHiden(_ isHidden: Bool) {
         UIView.animate(withDuration: 0.2) {
-            self.textField.leftView?.alpha = isHidden ? 0 :1
+            self.textField.leftView?.alpha = isHidden ? 0 : 1
             self.textField.rightView?.alpha = isHidden ? 0 : 1
         }
     }
@@ -95,6 +114,7 @@ final class AddressBar: UIView, UIEditMenuInteractionDelegate {
     func updateAfterLoadingBookmark(text: String) {
         addressBarText = text
         textField.text = text
+        textField.textColor = .black
         showInactiveStyle()
     }
     

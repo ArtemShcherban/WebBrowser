@@ -10,6 +10,7 @@ import WebKit
 
 struct Webpage: Equatable {
     var url: URL?
+    var title: String?
     var error: NSError?
     var contentMode: WKWebpagePreferences.ContentMode
 }

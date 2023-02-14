@@ -82,7 +82,7 @@ extension AddressBar {
             self.textFieldLeadingConstraint?.constant = self.textFieldPadding
             self.textFieldTrailingConstraint?.constant = -self.textFieldPadding
             self.textField.textColor = .clear
-            self.shadowView.alpha = 1
+            self.shadowView.alpha = Interface.orientation == .portrait ? 1 : 0
         }
     }
     

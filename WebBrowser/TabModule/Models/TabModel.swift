@@ -29,6 +29,7 @@ class TabModel {
     }
     
     func updateCurrentWebpage(error: NSError?) {
+        webpageBackForwardStack.currentWebpage?.title = webView.title
         webpageBackForwardStack.currentWebpage?.error = error
         webpageBackForwardStack.currentWebpage?.contentMode =
         webView.configuration.defaultWebpagePreferences.preferredContentMode

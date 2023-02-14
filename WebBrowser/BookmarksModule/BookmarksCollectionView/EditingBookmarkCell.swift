@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-final class EditingBookmarkCell: BookmarkCellCell {
+final class EditingBookmarkCell: BookmarkCell {
     static let editingCollectionViewCellReuseID = String(describing: EditingBookmarkCell.self)
     
     var roundBackgroundView = UIView()

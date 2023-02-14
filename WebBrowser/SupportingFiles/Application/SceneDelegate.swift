@@ -13,7 +13,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
+        if Interface.orientation == .landscape {
+            let navigationController = UINavigationController(rootViewController: HorizontalBrowserController())
+            navigationController.navigationBar.isHidden = true
+            window?.rootViewController = navigationController
+        } else {
+            window?.rootViewController = VerticalBrowserController()
+        }
+       
         window?.makeKeyAndVisible()
     }
 

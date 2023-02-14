@@ -6,27 +6,24 @@
 //
 
 import UIKit
-import WebKit
 
 final class FavoritesModel {
-    private var webView: WKWebView
     private let networkService: NetworkService
     private let bookmarkRepository: BookmarkRepository
     lazy var bookmarks: [Bookmark] = []
     
     init(
-        webView: WKWebView,
         networkService: NetworkService = NetworkService(),
         bookmarkRepository: BookmarkRepository =
         BookmarkRepository(coreDataStack: CoreDataStack.shared)
     ) {
-        self.webView = webView
         self.networkService = networkService
         self.bookmarkRepository = bookmarkRepository
+        updateBookmarks()
     }
     
-    func saveBookmark(with domain: String) {
-        guard let bookmark = createBookmark(with: domain) else { return }
+    func saveBookmark(with currentWebpage: Webpage) {
+        guard let bookmark = createBookmark(with: currentWebpage) else { return }
         bookmarkRepository.save(bookmark: bookmark)
         updateBookmarks()
     }
@@ -57,12 +54,11 @@ final class FavoritesModel {
 }
 
 private extension FavoritesModel {
-    func createBookmark(with domain: String) -> Bookmark? {
-        guard let url = webView.url else {
-            print("Could not create Bookmark")
+    func createBookmark(with currentWebpage: Webpage) -> Bookmark? {
+        guard let url = currentWebpage.url else {
             return nil
         }
-        let title = webView.title ?? String()
+        let title = currentWebpage.title ?? String()
         
         let bookmark = Bookmark(
             title: title,
@@ -70,15 +66,15 @@ private extension FavoritesModel {
             date: Date(),
             icon: imageFromTitle(title: title)
         )
-        
-        getFavoriteIconImage(for: domain, and: url)
+        guard let host = url.host else { return bookmark }
+        getFavoriteIconImage(for: host, and: url)
         
         return bookmark
     }
     
-    func getFavoriteIconImage(for domain: String, and url: URL) {
+    func getFavoriteIconImage(for host: String, and url: URL) {
         var iconImage: UIImage?
-        networkService.loadIconData(for: domain) { result in
+        networkService.loadIconData(for: host) { result in
             switch result {
             case .success(let data):
                 guard let tempIconImage = UIImage(data: data) else { return }

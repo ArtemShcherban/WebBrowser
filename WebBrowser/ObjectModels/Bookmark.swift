@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Bookmark {
+class Bookmark: NSObject {
     var title: String
     var url: URL
     var date: Date

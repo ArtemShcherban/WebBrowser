@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
     var collapsingToolbarAnimator: UIViewPropertyAnimator?
     var expandingToolbarAnimator: UIViewPropertyAnimator?
     
-    lazy var tabViewControllers: [TabViewController] = []
+    lazy var tabViewControllers: [PortraitTabController] = []
     
     var currentAddressBar: AddressBar {
         webBrowserView.addressBars[currentTabIndex]
@@ -44,21 +44,23 @@ final class ViewController: UIViewController {
         webBrowserView.addressBars[safe: currentTabIndex + 1]
     }
     
-    var currentTabViewController: TabViewController {
+    var currentTabViewController: PortraitTabController {
         tabViewControllers[currentTabIndex]
     }
     
-    var leftTabViewController: TabViewController? {
+    var leftTabViewController: PortraitTabController? {
         tabViewControllers[safe: currentTabIndex - 1]
     }
     
-    var rightTabViewController: TabViewController? {
+    var rightTabViewController: PortraitTabController? {
         tabViewControllers[safe: currentTabIndex + 1]
     }
     
     override var childForStatusBarStyle: UIViewController? {
         tabViewControllers[safe: currentTabIndex]
     }
+    
+    var webViews: [WKWebView] = []
     
     override func loadView() {
         super.loadView()
@@ -75,17 +77,25 @@ final class ViewController: UIViewController {
         setupAddressBarExpandingTap()
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        updateToolbarButtons()
+//        let landscapeViewController = LandscapeTabViewController()
+//        landscapeViewController.modalPresentationStyle = .overFullScreen
+//        present(landscapeViewController, animated: true)
+    
+    }
+    
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool) {
-        let backForwardButtonStatus = (canGoBack, canGoForward)
-        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
+//        let backForwardButtonStatus = (canGoBack, canGoForward)
+//        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
     }
     
     func hostHasChanged() { // MAYBE change place for that method
-        currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
+//        currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
     }
     
     func heartButtonEnabled() {
-        webBrowserView.toolbar.heartButton.isEnabled = true
+        webBrowserView.toolbar?.heartButton.isEnabled = true
     }
 
     func hideKeyboard() {
@@ -104,14 +114,15 @@ private extension ViewController {
         webBrowserView.addAddressBar(isHidden: isHidden, withDelegate: self)
     }
     
-    func openNewTabIfNeeded(tabViewController: TabViewController) {
+    func openNewTabIfNeeded(tabViewController: PortraitTabController) {
+        guard Interface.orientation == .landscape else { return }
         let isLastTab = currentTabIndex == tabViewControllers.count - 1
         if isLastTab, !tabViewController.hasLoadedURl {
             openNewTab(isHidden: true)
         }
     }
     
-    func updateWebpageContentModeFor(_ tabViewController: TabViewController, and url: URL) {
+    func updateWebpageContentModeFor(_ tabViewController: PortraitTabController, and url: URL) {
         if tabViewController.hasURLHostChanged(in: url) {
             currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
             tabViewController.updateWebViewConfiguration(with: .mobile)
@@ -119,8 +130,9 @@ private extension ViewController {
     }
     
     func addTabViewController(isHidden: Bool) {
-        let tabViewController = TabViewController(isHidden: isHidden, with: filterListModel)
+        let tabViewController = PortraitTabController(isHidden: isHidden, with: filterListModel)
         tabViewController.delegate = self
+        tabViewController.controller = self
         tabViewControllers.append(tabViewController)
         addChild(tabViewController)
         tabViewController.didMove(toParent: self)
@@ -140,9 +152,9 @@ private extension ViewController {
     }
     
     func updateToolbarButtons() {
-        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
-        let backForwardButtonStatus = tabViewController.backForwardButtonStatus()
-        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
+//        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
+//        let backForwardButtonStatus = tabViewController.backForwardButtonStatus()
+//        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
     }
     
     func setupAddressBarExpandingTap() {
@@ -155,9 +167,9 @@ private extension ViewController {
 }
 
 @objc private extension ViewController {
-    func cancelButtonTapped() {
-        dismissKeyboard()
-    }
+//    func cancelButtonTapped() {
+//        dismissKeyboard()
+//    }
     
     func addressBarTapped() {
         toolbarIsHide = false
@@ -166,10 +178,11 @@ private extension ViewController {
 }
 
 extension ViewController { // TabViewControllerDelegate🥸🥸🥸
-    func tabViewController(
-        _ tabViewController: TabViewController,
+    func bookmarkWasSelected(
+        _ tabViewController: SuperTabViewController,
         selected bookmark: Bookmark
     ) {
+       guard let tabViewController = tabViewController as? PortraitTabController else { return }
         openNewTabIfNeeded(tabViewController: tabViewController)
         updateWebpageContentModeFor(tabViewController, and: bookmark.url)
         tabViewController.loadWebsite(from: bookmark.url)
@@ -181,16 +194,16 @@ extension ViewController { // TabViewControllerDelegate🥸🥸🥸
 
 extension ViewController: AddressBarDelegate {
     func addressBarWillBeginEditing(_ addressBar: AddressBar) {
-        guard
-            let tabViewController = tabViewControllers[safe: currentTabIndex],
-                tabViewController.hasLoadedURl else {
-            return
-        }
-              
-        if
-            let url = tabViewController.loadingWebpage?.url {
-            addressBar.textField.text = url.absoluteString
-        }
+//        guard
+//            let tabViewController = tabViewControllers[safe: currentTabIndex],
+//                tabViewController.hasLoadedURl else {
+//            return
+//        }
+//              
+//        if
+//            let url = tabViewController.loadingWebpage?.url {
+//            addressBar.textField.text = url.absoluteString
+//        }
     }
     
     func addressBarDidBeginEditing() {

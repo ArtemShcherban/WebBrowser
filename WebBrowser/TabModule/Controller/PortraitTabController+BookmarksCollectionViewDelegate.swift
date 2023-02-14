@@ -1,5 +1,5 @@
 //
-//  TabViewController+BookmarksCollectionViewDelegate.swift
+//  PortraitTabController+BookmarksCollectionViewDelegate.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 29.12.2022.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-extension TabViewController: UICollectionViewDelegate {
+extension PortraitTabController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell != nil {
             favoritesView.updateTrashButton()
         } else {
             let bookmark = favoritesModel.bookmarks[indexPath.row]
-            delegate?.tabViewController(self, selected: bookmark)
+            controller?.bookmarkWasSelected(self, selected: bookmark)
         }
     }
     

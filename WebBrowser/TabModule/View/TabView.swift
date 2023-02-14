@@ -11,7 +11,7 @@ import WebKit
 final class TabView: UIView {
     private(set) var favoritesView: FavoritesView
     private(set) lazy var statusBarBackgroundView = StatusBarBackgroundView()
-    private(set) lazy var webView = WKWebView(
+    lazy var webView = WKWebView(
         frame: CGRect(
             x: 0,
             y: 0,
@@ -27,12 +27,12 @@ final class TabView: UIView {
     }
     
     var statusBarBackgroundViewHeightConstraint: NSLayoutConstraint?
+    var webViewTopConstraint: NSLayoutConstraint?
     
     init(favoritesView: FavoritesView) {
         self.favoritesView = favoritesView
         super.init(frame: .zero)
         setupView()
-        backgroundColor = .systemTeal
     }
     
     required init?(coder: NSCoder) {
@@ -43,6 +43,14 @@ final class TabView: UIView {
         super.layoutSubviews()
         let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0
         statusBarBackgroundViewHeightConstraint?.constant = statusBarHeight + 20
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        updateWebViewConstraints()
+    }
+    
+    private func updateWebViewConstraints() {
+        
     }
     
     func showFavoritesView() {
@@ -78,7 +86,7 @@ private extension TabView {
         setupShadowView()
         setupWebView()
         setupStatusBarBackgroundView()
-        setupBookmarksView()
+        setupFavoritesView()
     }
     
     func setupShadowView() {
@@ -104,7 +112,7 @@ private extension TabView {
         ])
     }
     
-    func setupWebView() {
+   public func setupWebView() {
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
         webView.scrollView.contentInset = .zero
@@ -112,15 +120,19 @@ private extension TabView {
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         
+        webViewTopConstraint = webView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor)
+        guard let webViewTopConstraint else { return }
+        webViewTopConstraint.constant = Interface.orientation == .portrait ? 0 : 56
+        
         NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            webViewTopConstraint,
             webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
-    func setupBookmarksView() {
+    func setupFavoritesView() {
         favoritesView.alpha = 0
         addSubview(favoritesView)
         favoritesView.translatesAutoresizingMaskIntoConstraints = false

@@ -110,8 +110,8 @@ extension AddressBar {
 
 private extension AddressBar.TextField {
     func setupView() {
-        layer.cornerRadius = 12
-        backgroundColor = .white
+        layer.cornerRadius = Interface.orientation == .portrait ? 12 : 10
+        backgroundColor = Interface.orientation == .portrait ? .white : .textFieldGray
         clearButtonMode = .whileEditing
         returnKeyType = .go
         leftViewMode = .always
@@ -142,7 +142,7 @@ private extension AddressBar.TextField {
             systemName: "magnifyingglass"
         )
         magnifyingGlassImageView.image?.withRenderingMode(.alwaysTemplate)
-        magnifyingGlassImageView.tintColor = UIColor.textFieldGray
+        magnifyingGlassImageView.tintColor = UIColor.placeholderGray
         magnifyingGlassImageView.contentMode = .scaleAspectFit
     }
     
@@ -180,7 +180,7 @@ private extension AddressBar.TextField {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         let attributies: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.textFieldGray,
+            .foregroundColor: UIColor.placeholderGray,
             .paragraphStyle: paragraphStyle
         ]
         attributedPlaceholder = NSAttributedString(string: "Search or enter website", attributes: attributies)

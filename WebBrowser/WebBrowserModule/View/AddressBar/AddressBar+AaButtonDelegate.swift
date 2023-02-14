@@ -10,19 +10,19 @@ import WebKit
 
 extension AddressBar: AaButtonDelegate {
     func contextMenuWillShow() {
-        delegate?.aAButtonMenuWillShow()
+        controller?.aAButtonMenuWillShow()
     }
     
     func contextMenuWillHide() {
-        delegate?.aAButtonMenuWillHide()
+        controller?.aAButtonMenuWillHide()
     }
 
     func hideToolbarButtonTapped() {
-        delegate?.hideToolbar()
+        controller?.hideToolbar()
     }
     
     func versionRequestButtonTapped(with contentMode: WKWebpagePreferences.ContentMode) {
-        delegate?.requestWebpageWith(contentMode: contentMode)
+        controller?.requestWebpageWith(contentMode: contentMode)
         textField.aAButton?.setupContextMenu(for: contentMode)
     }
 }

@@ -15,6 +15,8 @@ protocol FavoritesViewDelegate: AnyObject {
 }
 
 final class FavoritesView: UIView {
+    private(set) var favoritesModel: FavoritesModel
+    private var dataSource: DataSource
     private lazy var toolbar = UIToolbar(
         frame: CGRect(
             x: 0,
@@ -27,8 +29,20 @@ final class FavoritesView: UIView {
     private lazy var editButton = UIButton(type: .system)
     private(set) lazy var collectionView = BookmarksCollectionView()
     
-    weak var collectionViewDelegate: TabViewController?
-    weak var delegate: FavoritesViewDelegate?
+    var toolbarTopConstraints: NSLayoutConstraint?
+    
+//    var collectionViewToolbarTopConstraint: NSLayoutConstraint?
+    var collectionViewFavViewTopConstraint: NSLayoutConstraint?
+    
+//    weak var collectionDelegate: TabViewController?
+    weak var collectionViewDelegate: PortraitTabController?
+    
+    weak var tabController: TabViewController? {
+        didSet {
+            collectionView.delegate = tabController
+            collectionView.reloadData()
+        }
+    }
     
     override var alpha: CGFloat {
         willSet {
@@ -36,15 +50,38 @@ final class FavoritesView: UIView {
         }
     }
     
-    init(delegate: TabViewController) {
+    init(favoritesModel: FavoritesModel) {
+        self.favoritesModel = favoritesModel
+        self.dataSource = DataSource(favoritesModel: favoritesModel)
         super.init(frame: .zero)
-        self.delegate = delegate
-        self.collectionViewDelegate = delegate
         setupView()
     }
     
+//    init(delegate: PortraitTabController?) { // DELETE
+//        self.favoritesModel = FavoritesModel()
+//        self.dataSource = DataSource(favoritesModel: favoritesModel)
+//        super.init(frame: .zero)
+////        self.delegate = delegate
+////        self.collectionViewDelegate = delegate
+//        setupView()
+//    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        updateInterface()
+    }
+    
+    private func updateInterface() {
+        switch Interface.orientation {
+        case .portrait:
+            toolbarTopConstraints?.constant = 0
+        case .landscape:
+            toolbarTopConstraints?.constant = -110
+            collectionView.reloadData()
+        }
     }
     
     func cancelButtonHidden(_ isHidden: Bool, hasLoadedURL: Bool) {
@@ -68,31 +105,6 @@ final class FavoritesView: UIView {
             self.collectionView.indexPathsForSelectedItems?.isEmpty ?? false ? 0 : 1
         }
     }
-    
-//    func editingIsFinished() {
-//        editButton.isSelected.toggle()
-//        if let indexPaths = collectionView.indexPathsForSelectedItems {
-//            indexPaths.forEach { collectionView.deselectItem(at: $0, animated: true) }
-//        }
-//        updateTrashButton()
-//        cancelButtonHidden(false, hasLoadedURL: collectionViewDelegate?.hasLoadedURl ?? false)
-//        collectionView.isEditingMode = editButton.isSelected
-//        collectionView.allowsMultipleSelection = false
-//        editButton.removeTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
-//        editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
-//        collectionView.indexPathsForVisibleItems.forEach { indexPath in
-//            guard let cell = collectionView.cellForItem(at: indexPath) as? EditingCollectionViewCell else {
-//                return
-//            }
-//            UIView.animate(withDuration: 0.2) {
-//                cell.roundImageView.alpha = 0
-//            } completion: { _ in
-//                if indexPath.row == self.collectionView.indexPathsForVisibleItems.count - 1 {
-//                    self.collectionView.reloadData()
-//                }
-//            }
-//        }
-//    }
     
     func editingIsFinished() {
         editButton.isSelected.toggle()
@@ -126,13 +138,13 @@ final class FavoritesView: UIView {
     }
     
     func collectionViewDeleteCells(at indexPaths: [IndexPath]) {
-        indexPaths.forEach { indexPath in
-            guard let cell = collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell else { return }
-            UIView.animate(withDuration: 0.05) {
-                cell.alpha = 0
-                cell.roundImageView.alpha = 0
-            }
-        }
+//        indexPaths.forEach { indexPath in
+//            guard let cell = collectionView.cellForItem(at: indexPath) as? EditingBookmarkCell else { return }
+//            UIView.animate(withDuration: 0.05) {
+//                cell.alpha = 0
+//                cell.roundImageView.alpha = 0
+//            }
+//        }
         collectionView.deleteItems(at: indexPaths)
         updateTrashButton()
     }
@@ -140,7 +152,6 @@ final class FavoritesView: UIView {
 
 private extension FavoritesView {
     func setupView() {
-        backgroundColor = .white
         setupToolbar()
         setupCollectionView()
         setupEditButton()
@@ -149,36 +160,85 @@ private extension FavoritesView {
     }
     
     func setupToolbar() {
+        guard Interface.orientation == .portrait else { return }
         addSubview(toolbar)
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         
+        toolbarTopConstraints = toolbar.topAnchor.constraint(equalTo: self.topAnchor)
+//        toolbarTopConstraints?.constant = Interface.orientation == .portrait ? -0 : -110
+        guard let toolbarTopConstraints else { return }
+        
         NSLayoutConstraint.activate([
-            toolbar.topAnchor.constraint(equalTo: self.topAnchor),
+            toolbarTopConstraints,
             toolbar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            toolbar.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.12)
+//            toolbar.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.12)
+            toolbar.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
     func setupCollectionView() {
+        collectionView.backgroundColor = .white
         collectionView.panGestureRecognizer.addTarget(
             self,
             action: #selector(panGestureDelegateAction(_:))
         )
-        collectionView.backgroundColor = .white
-        collectionView.dataSource = collectionViewDelegate
-        collectionView.delegate = collectionViewDelegate
+        collectionView.dataSource = dataSource
         collectionView.layer.masksToBounds = false
         insertSubview(collectionView, belowSubview: toolbar)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        if Interface.orientation == .portrait {
+            collectionViewFavViewTopConstraint = collectionView.topAnchor.constraint(
+                equalTo: self.toolbar.bottomAnchor,
+                constant: 0.0
+            )
+        } else {
+            collectionViewFavViewTopConstraint = collectionView.topAnchor.constraint(
+                equalTo: self.topAnchor
+            )
+        }
+        
+        guard let collectionViewFavViewTopConstraint else { return }
+        
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: 3),
+            collectionViewFavViewTopConstraint,
             collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
+    
+//    func setupCollectionView() {
+//        collectionView.panGestureRecognizer.addTarget(
+//            self,
+//            action: #selector(panGestureDelegateAction(_:))
+//        )
+//        collectionView.backgroundColor = .white
+//        collectionView.dataSource = collectionViewDelegate
+//        collectionView.delegate = collectionViewDelegate
+//        collectionView.layer.masksToBounds = false
+//        insertSubview(collectionView, belowSubview: toolbar)
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        collectionViewTopConstraint = collectionView.topAnchor.constraint(equalTo: self.topAnchor)
+//        if traitCollection.horizontalSizeClass == .compact {
+//            collectionViewTopConstraint?.constant = toolbar.frame.height + 3
+//        } else {
+//            collectionViewTopConstraint?.constant = 0
+//        }
+//        guard let collectionViewTopConstraint else { return }
+//
+//
+//
+//        NSLayoutConstraint.activate([
+////            collectionViewTopConstraintForVerticalInterface,
+//            collectionViewTopConstraint,
+//            collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+//            collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+//        ])
+//    }
     
     func setupEditButton() {
         editButton.tintColor = .clear
@@ -230,17 +290,17 @@ private extension FavoritesView {
 
 @objc private extension FavoritesView {
     func panGestureDelegateAction(_ sender: UIPanGestureRecognizer) {
-        delegate?.collectionViewDidScroll(sender)
+        tabController?.collectionViewDidScroll(sender)
     }
     
     func hideKeyboard() {
-        delegate?.hideFavoritesViewIfNedded()
-        delegate?.cancelButtonTapped()
+        tabController?.hideFavoritesViewIfNedded()
+        tabController?.cancelButtonTapped()
     }
     
     func editButtonTapped() {
         editButton.isSelected.toggle()
-        collectionViewDelegate?.delegate?.hideKeyboard()
+        tabController?.controller?.hideKeyboard()
         cancelButtonHidden(true, hasLoadedURL: false)
         collectionView.isEditingMode = editButton.isSelected
         editButton.removeTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
@@ -254,11 +314,11 @@ private extension FavoritesView {
     }
     
     func trashButtonTapped() {
-        delegate?.trashButtonTapped()
+        tabController?.trashButtonTapped()
     }
     
     func cancelFavoritesView() { // RENAME 🥸🥸🥸🥸🥸🥸
         cancelButton.addTarget(self, action: #selector(hideKeyboard), for: .touchUpInside)
-        delegate?.hideFavoritesViewIfNedded()
+        tabController?.hideFavoritesViewIfNedded()
     }
 }

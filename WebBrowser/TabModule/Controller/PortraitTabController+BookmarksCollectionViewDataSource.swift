@@ -1,5 +1,5 @@
 //
-//  TabViewController+BookmarksCollectionViewDataSource.swift
+//  PortraitTabController+BookmarksCollectionViewDataSource.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 29.12.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension TabViewController: UICollectionViewDataSource {
+extension PortraitTabController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }
@@ -21,9 +21,9 @@ extension TabViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         if collectionView.isEditingMode {
-            return createEditingCollectionViewCell(for: collectionView, at: indexPath)
+            return createEditingBookmarkCell(for: collectionView, at: indexPath)
         } else {
-            let cell = createCollectionViewCell(for: collectionView, at: indexPath)
+            let cell = createBookmarkCell(for: collectionView, at: indexPath)
             return cell
         }
     }
@@ -41,7 +41,7 @@ extension TabViewController: UICollectionViewDataSource {
         return headerView
     }
     
-    private func createEditingCollectionViewCell(
+    private func createEditingBookmarkCell(
         for collectionView: UICollectionView, at indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
@@ -53,12 +53,12 @@ extension TabViewController: UICollectionViewDataSource {
         return cell
     }
     
-    private func createCollectionViewCell(
+    private func createBookmarkCell(
         for collectionView: UICollectionView, at indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: BookmarkCellCell.collectionViewCellReuseID,
-            for: indexPath) as? BookmarkCellCell else {
+            withReuseIdentifier: BookmarkCell.collectionViewCellReuseID,
+            for: indexPath) as? BookmarkCell else {
             return UICollectionViewCell()
         }
         let bookmark = favoritesModel.bookmarks[indexPath.row]

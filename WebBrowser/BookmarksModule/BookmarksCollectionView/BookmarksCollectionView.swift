@@ -29,11 +29,10 @@ final class BookmarksCollectionView: UICollectionView {
     
     override init(
         frame: CGRect,
-        collectionViewLayout
-        layout: UICollectionViewLayout
+        collectionViewLayout layout: UICollectionViewLayout?
     ) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewLayout())
-        collectionViewLayout = setupCompositionalLayout()
+        chooseCompositionalLayout()
         setupView()
     }
     
@@ -46,6 +45,24 @@ final class BookmarksCollectionView: UICollectionView {
         updateAnimation()
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        chooseCompositionalLayout()
+    }
+}
+
+private extension BookmarksCollectionView {
+    private func chooseCompositionalLayout() {
+        if
+            traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular {
+            collectionViewLayout = setupVerticalCompositionalLayout()
+        } else if
+            traitCollection.horizontalSizeClass == .regular ||
+                (traitCollection.verticalSizeClass == .compact && traitCollection.horizontalSizeClass == .compact) {
+            collectionViewLayout = setupLandscapeCompositionalLayout()
+        }
+    }
+    
     private func updateAnimation() {
         self.indexPathsForVisibleItems.forEach { indexPath in
             guard let cell = self.cellForItem(at: indexPath) as? EditingBookmarkCell
@@ -55,10 +72,8 @@ final class BookmarksCollectionView: UICollectionView {
             cell.animateAppearance()
         }
     }
-}
-
-private extension BookmarksCollectionView {
-    func setupCompositionalLayout() -> UICollectionViewCompositionalLayout {
+    
+    func setupVerticalCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let cellSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1 / 4),
             heightDimension: .fractionalHeight(1)
@@ -79,7 +94,42 @@ private extension BookmarksCollectionView {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1 / 20)
+//            heightDimension: .fractionalHeight(1 / 20)
+            heightDimension: .absolute(47.0)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        let collectionViewCompositionalLayout = UICollectionViewCompositionalLayout(section: section)
+        
+        return collectionViewCompositionalLayout
+    }
+    
+    func setupLandscapeCompositionalLayout() -> UICollectionViewCompositionalLayout {
+        let cellSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1 / 6),
+            heightDimension: .fractionalHeight(1)
+        )
+        let cell = NSCollectionLayoutItem(layoutSize: cellSize)
+        cell.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
+        
+        let cellGroupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1 / 3)
+        )
+        
+        let cellGroup = NSCollectionLayoutGroup.horizontal(layoutSize: cellGroupSize, subitems: [cell])
+        cellGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 80, bottom: 0, trailing: 80)
+
+        let section = NSCollectionLayoutSection(group: cellGroup)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2)
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(47.0)
         )
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
@@ -99,8 +149,8 @@ private extension BookmarksCollectionView {
         )
         
         register(
-            BookmarkCellCell.self,
-            forCellWithReuseIdentifier: BookmarkCellCell.collectionViewCellReuseID
+            BookmarkCell.self,
+            forCellWithReuseIdentifier: BookmarkCell.collectionViewCellReuseID
         )
         
         register(
@@ -110,6 +160,7 @@ private extension BookmarksCollectionView {
         )
         
         self.showsHorizontalScrollIndicator = false
+        self.showsVerticalScrollIndicator = false
     }
 }
 
@@ -128,6 +179,7 @@ private extension BookmarksCollectionView {
         case .changed:
             let currentLocation = sender.location(in: self)
             self.updateInteractiveMovementTargetPosition(currentLocation)
+            print(currentLocation)
             updateAnimation()
         case .ended:
             endInteractiveMovement()

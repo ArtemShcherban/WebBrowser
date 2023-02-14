@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension ViewController: TabViewControllerDelegate {
+extension ViewController: OLDTabViewControllerDelegate {    
     func tabViewControllerDidScroll(yOffsetChange: CGFloat) {
         let offsetChangeBeforeFullAnimation: CGFloat = 30
         let animationFractionComplete = abs(yOffsetChange) / offsetChangeBeforeFullAnimation
@@ -61,23 +61,25 @@ extension ViewController: TabViewControllerDelegate {
         expandingToolbarAnimator = nil
     }
     
-    func tabViewController(_ tabViewController: TabViewController, didStartLoadingURL url: URL) {
-        guard
-            let tabIndex = tabViewControllers.firstIndex(of: tabViewController),
-            let addressBar = webBrowserView.addressBars[safe: tabIndex] else {
-            return
-        }
-        addressBar.setLoadingProgress(0, animated: false)
-        addressBar.domainTitleString = webBrowserModel.getDomain(from: url)
+    func tabViewController(_ tabViewController: SuperTabViewController, didStartLoadingURL url: URL) {
+//        guard
+//            let tabViewController = tabViewController as? PortraitTabController,
+//            let tabIndex = tabViewControllers.firstIndex(of: tabViewController),
+//            let addressBar = webBrowserView.addressBars[safe: tabIndex] else {
+//            return
+//        }
+//        addressBar.setLoadingProgress(0, animated: false)
+//        addressBar.domainTitleString = webBrowserModel.getDomain(from: url)
     }
     
-    func tabViewController(_ tabViewController: TabViewController, didChangeLoadingProgressTo progress: Float) {
-        guard
-            let tabIndex = tabViewControllers.firstIndex(of: tabViewController),
-            let addressBar = webBrowserView.addressBars[safe: tabIndex] else {
-            return
-        }
-        addressBar.setLoadingProgress(progress, animated: true)
+    func tabViewController(_ tabViewController: SuperTabViewController, didChangeLoadingProgressTo progress: Float) {
+//        guard
+//            let tabViewController = tabViewController as? PortraitTabController,
+//            let tabIndex = tabViewControllers.firstIndex(of: tabViewController),
+//            let addressBar = webBrowserView.addressBars[safe: tabIndex] else {
+//            return
+//        }
+//        addressBar.setLoadingProgress(progress, animated: true)
     }
     
     func activateToolbar() {

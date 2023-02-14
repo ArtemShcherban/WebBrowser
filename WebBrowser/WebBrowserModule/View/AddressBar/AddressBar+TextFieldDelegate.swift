@@ -17,18 +17,18 @@ extension AddressBar: TextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_: UITextField) -> Bool {
-        delegate?.addressBarWillBeginEditing(self)
+        controller?.addressBarWillBeginEditing(self)
         return true
     }
     
     func textFieldDidBeginEditing(_: UITextField) {
-        delegate?.addressBarDidBeginEditing()
+        isActive = true
     }
     
     func textFieldShouldReturn(_: UITextField) -> Bool {
         addressBarText = textField.text
         showInactiveStyle()
-        delegate?.addressBar(self, didReturnWithText: addressBarText ?? "")
+        controller?.addressBar(self, didReturnWithText: addressBarText ?? "")
         return true
     }
     

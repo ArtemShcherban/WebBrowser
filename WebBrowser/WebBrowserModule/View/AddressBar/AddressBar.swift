@@ -11,11 +11,11 @@ import WebKit
 protocol AddressBarDelegate: AnyObject {
     func addressBarWillBeginEditing(_ addressBar: AddressBar)
     func addressBar(_ addressBar: AddressBar, didReturnWithText: String)
-    func requestWebpageWith(contentMode: WKWebpagePreferences.ContentMode)
+    func requestWebsiteWith(contentMode: WKWebpagePreferences.ContentMode)
     func hideToolbar()
     func aAButtonMenuWillShow()
     func aAButtonMenuWillHide()
-    func reloadCurrentWebpage()
+    func reloadCurrentWebsite()
 }
 
 final class AddressBar: UIView, UIEditMenuInteractionDelegate {

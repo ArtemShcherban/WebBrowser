@@ -70,7 +70,6 @@ class VerticalBrowserController: BrowserViewController {
         currentAddressBar.setSideButtonsHiden(false)
         currentTabController.startBackForwardStackObserve()
         updateSideAddressBarsAfterTabChange()
-        super.updateAddressBarAfterTabChange()
     }
     
     override func bookmarkWasSelected(_ tabViewController: TabViewController, selected: Bookmark) {

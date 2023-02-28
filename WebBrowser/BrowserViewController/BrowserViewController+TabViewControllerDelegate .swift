@@ -45,7 +45,10 @@ extension BrowserViewController: TabViewControllerDelegate {
     
     func backForwardListHasChanged(_ canGoBack: Bool, _ canGoForward: Bool) {
         let backForwardButtonStatus = (canGoBack, canGoForward)
-        browserView.enableToolbarButtons(with: backForwardButtonStatus)
+        browserView.enableToolbarButtons(
+            with: backForwardButtonStatus,
+            and: currentTabController.hasLoadedURl
+        )
     }
     
     func heartButtonEnabled(_ isEnabled: Bool) {

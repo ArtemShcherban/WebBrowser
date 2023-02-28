@@ -123,6 +123,10 @@ class TabViewController: UIViewController, TabModelDelegate {
         favoritesModel.saveBookmark(with: currentWebpage)
     }
     
+    func backForwardButtonStatus() -> (canGoBack: Bool, canGoForward: Bool) {
+        return (tabModel.webpageBackForwardStack.canGoBack, tabModel.webpageBackForwardStack.canGoForward)
+    }
+    
     func updateWebViewConfiguration(with contentMode: WKWebpagePreferences.ContentMode) {
         tabView.webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
         guard

@@ -22,7 +22,7 @@ extension AddressBar: AaButtonDelegate {
     }
     
     func versionRequestButtonTapped(with contentMode: WKWebpagePreferences.ContentMode) {
-        controller?.requestWebpageWith(contentMode: contentMode)
+        controller?.requestWebsiteWith(contentMode: contentMode)
         textField.aAButton?.setupContextMenu(for: contentMode)
     }
 }

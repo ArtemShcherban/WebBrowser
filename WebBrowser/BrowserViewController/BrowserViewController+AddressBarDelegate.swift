@@ -30,16 +30,26 @@ extension BrowserViewController: AddressBarDelegate {
         dismissKeyboard()
     }
         
-    func requestWebpageWith(contentMode: WKWebpagePreferences.ContentMode) { }
+    func requestWebsiteWith(contentMode: WKWebpagePreferences.ContentMode) {
+        let tabViewController = tabViewControllers[safe: currentTabIndex]
+        tabViewController?.updateWebViewConfiguration(with: contentMode)
+    }
     
     func hideToolbar() {
         toolbarIsHide = true
         deactivateToolbar()
     }
     
-    func aAButtonMenuWillShow() { }
+    func aAButtonMenuWillShow() {
+        browserView.disableToolbarButtons()
+    }
     
-    func aAButtonMenuWillHide() { }
+    func aAButtonMenuWillHide() {
+        updateToolbarButtons()
+    }
     
-    func reloadCurrentWebpage() { }
+    func reloadCurrentWebsite() {
+        let tabViewController = tabViewControllers[safe: currentTabIndex]
+        tabViewController?.reload()
+    }
 }

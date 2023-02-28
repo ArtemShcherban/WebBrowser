@@ -7,8 +7,6 @@
 
 import UIKit
 
-import UIKit
-
 class BrowserModel {
     private let keyboardManager: KeyboardManager
     private let urlGenerator: URLGenerator
@@ -49,4 +47,3 @@ class BrowserModel {
         return domainLabelTitle
     }
 }
-

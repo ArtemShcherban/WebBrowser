@@ -52,13 +52,14 @@ class VerticalBrowserView: BrowserView {
     var addressBarPageWidth: CGFloat {
         frame.width + addressBarWidthOffset + addressBarStackViewSpacing
     }
-//    weak var delegate: WebBrowserViewDelegate?
+    
     override var controller: BrowserViewController? {
         didSet {
             guard let controller = controller as? VerticalBrowserController else { return }
             addressBarScrollView.delegate = controller
         }
     }
+    
     override var addressBars: [AddressBar] {
         return addressBarStackView.arrangedSubviews as? [AddressBar] ?? []
     }
@@ -109,10 +110,6 @@ class VerticalBrowserView: BrowserView {
         
         dialogBox.addAction(addOKAction)
         return dialogBox
-    }
-    
-    func disableToolbarButtons() {
-        toolbar.items?.forEach { $0.isEnabled = false }
     }
 }
 

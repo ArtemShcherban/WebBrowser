@@ -152,8 +152,8 @@ private extension ViewController {
     }
     
     func updateToolbarButtons() {
-//        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
-//        let backForwardButtonStatus = tabViewController.backForwardButtonStatus()
+        guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
+        let backForwardButtonStatus = tabViewController.backForwardButtonStatus()
 //        webBrowserView.enableToolbarButtons(with: backForwardButtonStatus)
     }
     
@@ -228,12 +228,12 @@ extension ViewController: AddressBarDelegate {
         updateToolbarButtons()
     }
     
-    func reloadCurrentWebpage() {
+    func reloadCurrentWebsite() {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
         tabViewController?.reload()
     }
     
-    func requestWebpageWith(contentMode: WKWebpagePreferences.ContentMode ) {
+    func requestWebsiteWith(contentMode: WKWebpagePreferences.ContentMode ) {
         let tabViewController = tabViewControllers[safe: currentTabIndex]
         tabViewController?.updateWebViewConfiguration(with: contentMode)
     }

@@ -42,9 +42,16 @@ class BrowserView: UIView {
         dialogBox.setConstraints()
     }
     
-    func enableToolbarButtons(with backForwardButtonStatus: (canGoBack: Bool, canGoForward: Bool)) {
+    func disableToolbarButtons() {
+        toolbar.items?.forEach { $0.isEnabled = false }
+    }
+    
+    func enableToolbarButtons(
+        with backForwardButtonStatus: (canGoBack: Bool, canGoForward: Bool),
+        and heartButtonisEnabled: Bool
+    ) {
         backForwardButtonStatusChanged(status: backForwardButtonStatus)
-        toolbar.heartButton.isEnabled = true
+        toolbar.heartButton.isEnabled = heartButtonisEnabled
         toolbar.plusButton.isEnabled = true
         toolbar.listButton.isEnabled = true
         toolbar.addTabButton?.isEnabled = true

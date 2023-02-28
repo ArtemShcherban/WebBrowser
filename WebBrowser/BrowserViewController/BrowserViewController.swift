@@ -48,12 +48,12 @@ class BrowserViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateAddressBarAfterTabChange() {
-        NotificationCenter.default.post(name: .backForwardStackChanged, object: nil)
-        heartButtonEnabled(currentTabController.hasLoadedURl)
-    }
+    func updateAddressBarAfterTabChange() { }
     
-    func updateToolbarButtons() { }
+    func updateToolbarButtons() {
+        let backForwardButtonStatus = currentTabController.backForwardButtonStatus()
+        browserView.enableToolbarButtons(with: backForwardButtonStatus, and: currentTabController.hasLoadedURl)
+    }
     
     func addTabViewController(isHidden: Bool = false) {
         var tabController: TabViewController

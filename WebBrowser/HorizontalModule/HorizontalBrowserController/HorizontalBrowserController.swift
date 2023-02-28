@@ -41,6 +41,5 @@ class HorizontalBrowserController: BrowserViewController {
         currentAddressBar.textField.text = url?.absoluteString
         currentAddressBar.domainTitleString = browserModel.getDomain(from: url)
         currentAddressBar.textField.activityState = .inactive
-        super.updateAddressBarAfterTabChange()
     }
 }

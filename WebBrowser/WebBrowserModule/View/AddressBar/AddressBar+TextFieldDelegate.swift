@@ -13,7 +13,7 @@ extension AddressBar: TextFieldDelegate {
     }
     
     func reloadButtonTapped() {
-        delegate?.reloadCurrentWebpage()
+        controller?.reloadCurrentWebsite()
     }
     
     func textFieldShouldBeginEditing(_: UITextField) -> Bool {

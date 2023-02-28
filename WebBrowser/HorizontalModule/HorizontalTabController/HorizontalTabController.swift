@@ -34,6 +34,3 @@ class HorizontalTabController: TabViewController {
         super.viewDidLoad()
     }
 }
-
-private extension HorizontalTabController {
-}

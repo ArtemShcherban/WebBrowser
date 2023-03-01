@@ -33,4 +33,16 @@ class HorizontalTabController: TabViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func showFavoritesView() {
+        if hasLoadedURl && horizontalTabView.favoritesPopUpView == nil {
+            horizontalTabView.showFavoritesPopUpView()
+        } else if !hasLoadedURl {
+            super.showFavoritesView()
+        }
+    }
+    
+    @objc func yellowViewtapped() {
+        controller?.dismissKeyboard()
+    }
 }

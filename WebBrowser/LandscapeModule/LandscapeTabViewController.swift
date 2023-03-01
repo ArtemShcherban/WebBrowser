@@ -9,7 +9,7 @@ import UIKit
 
 class LandscapeTabViewController: SuperTabViewController {
     private lazy var favoritesModel = FavoritesModel()
-    private lazy var favoritesView = BookmarksView(controller: self)
+    private lazy var favoritesView = BookmarksViewOLD(controller: self)
     private(set) lazy var landscapeTabView = LandscapeTabView(favoritesView: favoritesView)
 
     weak var controller: LandscapeViewController?

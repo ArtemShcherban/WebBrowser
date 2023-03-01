@@ -1,5 +1,5 @@
 //
-//  BookmarksView.swift
+//  BookmarksViewOLD.swift
 //  WebBrowser
 //
 //  Created by Artem Shcherban on 07.02.2023.
@@ -14,7 +14,7 @@ protocol BookmarksViewDelegate: AnyObject {
     func hideFavoritesViewIfNedded()
 }
 
-final class BookmarksView: UIView {
+final class BookmarksViewOLD: UIView {
     private lazy var bookmarkPresentTransition = BookmarkPresentTransition()
     let dataSource = DataSource(favoritesModel: FavoritesModel())
     private lazy var toolbar = UIToolbar(
@@ -156,7 +156,7 @@ final class BookmarksView: UIView {
 //    }
 }
 
-private extension BookmarksView {
+private extension BookmarksViewOLD {
     func setupView() {
 //        setupToolbar()
         setupCollectionView()
@@ -259,7 +259,7 @@ private extension BookmarksView {
     }
 }
 
-@objc private extension BookmarksView {
+@objc private extension BookmarksViewOLD {
     func panGestureDelegateAction(_ sender: UIPanGestureRecognizer) {
         delegate?.collectionViewDidScroll(sender)
     }
@@ -295,7 +295,7 @@ private extension BookmarksView {
     }
 }
 
-extension BookmarksView: UIViewControllerTransitioningDelegate {
+extension BookmarksViewOLD: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         bookmarkPresentTransition
     }

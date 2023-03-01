@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 final class LandscapeTabView: UIView {
-    var favoritesView: BookmarksView
+    var favoritesView: BookmarksViewOLD
     
     lazy var webView = WKWebView(frame: CGRect(
         x: 0,
@@ -18,7 +18,7 @@ final class LandscapeTabView: UIView {
         height: 0.1)
     )
     
-    init(favoritesView: BookmarksView) {
+    init(favoritesView: BookmarksViewOLD) {
         self.favoritesView = favoritesView
         super.init(frame: CGRect.zero)
         setupView()

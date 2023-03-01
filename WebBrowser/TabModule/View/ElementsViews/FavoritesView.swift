@@ -32,7 +32,7 @@ final class FavoritesView: UIView {
     var toolbarTopConstraints: NSLayoutConstraint?
     
 //    var collectionViewToolbarTopConstraint: NSLayoutConstraint?
-    var collectionViewFavViewTopConstraint: NSLayoutConstraint?
+    var collectionViewTopConstraint: NSLayoutConstraint?
     
 //    weak var collectionDelegate: TabViewController?
     weak var collectionViewDelegate: PortraitTabController?
@@ -183,62 +183,30 @@ private extension FavoritesView {
             self,
             action: #selector(panGestureDelegateAction(_:))
         )
-        collectionView.dataSource = dataSource
         collectionView.layer.masksToBounds = false
         insertSubview(collectionView, belowSubview: toolbar)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         if Interface.orientation == .portrait {
-            collectionViewFavViewTopConstraint = collectionView.topAnchor.constraint(
+            collectionViewTopConstraint = collectionView.topAnchor.constraint(
                 equalTo: self.toolbar.bottomAnchor,
                 constant: 0.0
             )
         } else {
-            collectionViewFavViewTopConstraint = collectionView.topAnchor.constraint(
+            collectionViewTopConstraint = collectionView.topAnchor.constraint(
                 equalTo: self.topAnchor
             )
         }
         
-        guard let collectionViewFavViewTopConstraint else { return }
+        guard let collectionViewTopConstraint else { return }
         
         NSLayoutConstraint.activate([
-            collectionViewFavViewTopConstraint,
+            collectionViewTopConstraint,
             collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-    
-//    func setupCollectionView() {
-//        collectionView.panGestureRecognizer.addTarget(
-//            self,
-//            action: #selector(panGestureDelegateAction(_:))
-//        )
-//        collectionView.backgroundColor = .white
-//        collectionView.dataSource = collectionViewDelegate
-//        collectionView.delegate = collectionViewDelegate
-//        collectionView.layer.masksToBounds = false
-//        insertSubview(collectionView, belowSubview: toolbar)
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        collectionViewTopConstraint = collectionView.topAnchor.constraint(equalTo: self.topAnchor)
-//        if traitCollection.horizontalSizeClass == .compact {
-//            collectionViewTopConstraint?.constant = toolbar.frame.height + 3
-//        } else {
-//            collectionViewTopConstraint?.constant = 0
-//        }
-//        guard let collectionViewTopConstraint else { return }
-//
-//
-//
-//        NSLayoutConstraint.activate([
-////            collectionViewTopConstraintForVerticalInterface,
-//            collectionViewTopConstraint,
-//            collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-//        ])
-//    }
     
     func setupEditButton() {
         editButton.tintColor = .clear

@@ -29,6 +29,13 @@ final class VerticalTabView: SuperTabView {
         statusBarBackgroundViewHeightConstraint?.constant = statusBarHeight + 20
     }
     
+    override func hideFavoritesView() {
+        super.hideFavoritesView()
+        if favoritesView.collectionView.isEditingMode {
+            favoritesView.editingIsFinished()
+        }
+    }
+    
 //    func showFavoritesView() {
 //        favoritesView.alpha = 1
 //    }

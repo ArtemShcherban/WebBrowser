@@ -45,14 +45,6 @@ final class TabView: UIView {
         statusBarBackgroundViewHeightConstraint?.constant = statusBarHeight + 20
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        updateWebViewConstraints()
-    }
-    
-    private func updateWebViewConstraints() {
-        
-    }
-    
     func showFavoritesView() {
         favoritesView.alpha = 1
     }
@@ -60,9 +52,6 @@ final class TabView: UIView {
     func hideFavoritesView() {
         UIView.animate(withDuration: 0.2) {
             self.favoritesView.alpha = 0
-        }
-        if favoritesView.collectionView.isEditingMode {
-            favoritesView.editingIsFinished()
         }
     }
     
@@ -112,7 +101,7 @@ private extension TabView {
         ])
     }
     
-   public func setupWebView() {
+    func setupWebView() {
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
         webView.scrollView.contentInset = .zero

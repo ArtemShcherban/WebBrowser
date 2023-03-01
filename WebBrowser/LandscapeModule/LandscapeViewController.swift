@@ -140,7 +140,7 @@ extension LandscapeViewController: OLDTabViewControllerDelegate {
 ////        nextViewController.landscapeWebBrowserView.backgroundColor = backgroundColor
 //
 //    landscapeWebBrowserView = LandscapeWebBrowserView()
-//    landscapeWebBrowserView.favoritesView = BookmarksView(controller: self)
+//    landscapeWebBrowserView.favoritesView = BookmarksViewOLD(controller: self)
 //    landscapeWebBrowserView.showFavoritesView()
 //    landscapeWebBrowserView.backgroundColor = backgroundColor
 //    let button = UIButton(frame: CGRect(x: 200, y: 100, width: 200, height: 50))

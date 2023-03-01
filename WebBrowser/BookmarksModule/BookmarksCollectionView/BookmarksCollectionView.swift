@@ -7,11 +7,18 @@
 
 import UIKit
 
+enum CollectionViewType {
+    case vertical
+    case horizontal
+    case mini
+}
+
 final class BookmarksCollectionView: UICollectionView {
+    private let bookmarksDataSource = DataSource(favoritesModel: FavoritesModel())
     lazy var longPressGesture: UILongPressGestureRecognizer = {
         let longPressGesture = UILongPressGestureRecognizer(
             target: self,
-            action: #selector(handleTapGesture(_:))
+            action: #selector(handleLongPressGesture(_:))
         )
         longPressGesture.cancelsTouchesInView = true
         return longPressGesture
@@ -27,12 +34,13 @@ final class BookmarksCollectionView: UICollectionView {
         }
     }
     
-    override init(
-        frame: CGRect,
-        collectionViewLayout layout: UICollectionViewLayout?
-    ) {
-        super.init(frame: frame, collectionViewLayout: UICollectionViewLayout())
-        chooseCompositionalLayout()
+    init(collectionViewType: CollectionViewType? = nil) {
+        super.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        if collectionViewType == .mini {
+            collectionViewLayout = setupMiniCompositionalLayout()
+        } else {
+            chooseCompositionalLayout()
+        }
         setupView()
     }
     
@@ -46,24 +54,26 @@ final class BookmarksCollectionView: UICollectionView {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+        guard
+            traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass &&
+                traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass else { return }
         chooseCompositionalLayout()
     }
 }
 
 private extension BookmarksCollectionView {
-    private func chooseCompositionalLayout() {
+    func chooseCompositionalLayout() {
         if
             traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular {
             collectionViewLayout = setupVerticalCompositionalLayout()
         } else if
             traitCollection.horizontalSizeClass == .regular ||
                 (traitCollection.verticalSizeClass == .compact && traitCollection.horizontalSizeClass == .compact) {
-            collectionViewLayout = setupLandscapeCompositionalLayout()
+            collectionViewLayout = setupHorizontalCompositionalLayout()
         }
     }
     
-    private func updateAnimation() {
+    func updateAnimation() {
         self.indexPathsForVisibleItems.forEach { indexPath in
             guard let cell = self.cellForItem(at: indexPath) as? EditingBookmarkCell
             else {
@@ -76,7 +86,7 @@ private extension BookmarksCollectionView {
     func setupVerticalCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let cellSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1 / 4),
-            heightDimension: .fractionalHeight(1)
+            heightDimension: .fractionalHeight(1.0)
         )
         let cell = NSCollectionLayoutItem(layoutSize: cellSize)
         cell.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
@@ -94,24 +104,24 @@ private extension BookmarksCollectionView {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-//            heightDimension: .fractionalHeight(1 / 20)
             heightDimension: .absolute(47.0)
         )
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading)
+            alignment: .topLeading
+        )
         section.boundarySupplementaryItems = [sectionHeader]
         
-        let collectionViewCompositionalLayout = UICollectionViewCompositionalLayout(section: section)
+        let verticalCompositionalLayout = UICollectionViewCompositionalLayout(section: section)
         
-        return collectionViewCompositionalLayout
+        return verticalCompositionalLayout
     }
     
-    func setupLandscapeCompositionalLayout() -> UICollectionViewCompositionalLayout {
+    func setupHorizontalCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let cellSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1 / 6),
-            heightDimension: .fractionalHeight(1)
+            heightDimension: .fractionalHeight(1.0)
         )
         let cell = NSCollectionLayoutItem(layoutSize: cellSize)
         cell.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12)
@@ -134,15 +144,54 @@ private extension BookmarksCollectionView {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading)
+            alignment: .topLeading
+        )
         section.boundarySupplementaryItems = [sectionHeader]
         
-        let collectionViewCompositionalLayout = UICollectionViewCompositionalLayout(section: section)
+        let horizontalCompositionalLayout = UICollectionViewCompositionalLayout(section: section)
         
-        return collectionViewCompositionalLayout
+        return horizontalCompositionalLayout
+    }
+    
+    func setupMiniCompositionalLayout() -> UICollectionViewLayout {
+        let cellSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1 / 6),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        
+        let cell = NSCollectionLayoutItem(layoutSize: cellSize)
+        cell.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1 / 2 - 0.09)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [cell])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(47.0)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        let miniCompositionalLayout = UICollectionViewCompositionalLayout(section: section)
+        
+        return miniCompositionalLayout
     }
     
     func setupView() {
+        dataSource = bookmarksDataSource
         register(
             EditingBookmarkCell.self,
             forCellWithReuseIdentifier: EditingBookmarkCell.editingCollectionViewCellReuseID
@@ -159,13 +208,13 @@ private extension BookmarksCollectionView {
             withReuseIdentifier: BookmarksHeaderView.reuseidentifier
         )
         
-        self.showsHorizontalScrollIndicator = false
-        self.showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
     }
 }
 
 @objc private extension BookmarksCollectionView {
-    func handleTapGesture(_ sender: UILongPressGestureRecognizer) {
+    func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: self)
         guard let indexPath = self.indexPathForItem(at: location) else { return }
         guard let cell = cellForItem(at: indexPath) as? EditingBookmarkCell else {
@@ -189,11 +238,8 @@ private extension BookmarksCollectionView {
                 let cell = cellForItem(at: index) else { return }
             cell.isHighlighted = false
             updateAnimation()
-
-            print("Ended")
         default:
-            print("Default")
+            break
         }
-        print("TAP GESTURE")
     }
 }

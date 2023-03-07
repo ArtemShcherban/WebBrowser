@@ -32,8 +32,8 @@ final class BookmarkRepository {
             cdBookmark.date = bookmark.date
             let iconData = bookmark.icon?.pngData()
             cdBookmark.icon = iconData
-            coreDataStack.sychronizeConext()
         }
+        coreDataStack.sychronizeConext()
     }
     
     func deleteCDBookmark(at indexes: [Int]) {
@@ -48,8 +48,8 @@ final class BookmarkRepository {
                 else { return }
                 coreDataStack.backgroundContext.delete(cdBookmark)
             }
-            coreDataStack.sychronizeConext()
         }
+        coreDataStack.sychronizeConext()
     }
     
     func replaceCDBookmark(at sourceIndex: Int, to destinationIndex: Int) {
@@ -81,8 +81,7 @@ final class BookmarkRepository {
     
     func updateBookmarkWith(
         _ iconPNGData: Data,
-        and url: URL,
-        completion: @escaping (() -> Void)
+        and url: URL
     ) {
         let fetchRequest: NSFetchRequest = CDBookmark.fetchRequest()
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CDBookmark.url), url as NSURL)
@@ -95,6 +94,5 @@ final class BookmarkRepository {
             cdBookmarks.forEach { $0.icon = iconPNGData }
         }
         coreDataStack.sychronizeConext()
-        completion()
     }
 }

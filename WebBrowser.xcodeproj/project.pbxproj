@@ -24,9 +24,9 @@
 		F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */; };
 		F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */; };
 		F400AE08293B834800758820 /* Array+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE07293B834800758820 /* Array+Helpers.swift */; };
-		F400AE0F293C8D1800758820 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE0E293C8D1800758820 /* TabView.swift */; };
+		F400AE0F293C8D1800758820 /* TabViewOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE0E293C8D1800758820 /* TabViewOLD.swift */; };
 		F400AE11293C8E4A00758820 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE10293C8E4A00758820 /* FavoritesView.swift */; };
-		F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */; };
+		F400AE15293C904600758820 /* TabViewOLD+StatusBarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE14293C904600758820 /* TabViewOLD+StatusBarBackgroundView.swift */; };
 		F400AE17293C991500758820 /* ViewController+ToolbarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */; };
 		F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE18293CE46E00758820 /* URLGenerator.swift */; };
 		F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F400AE1B293DCC2A00758820 /* URLValidator.swift */; };
@@ -34,17 +34,13 @@
 		F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423E36629475DA700EF6A11 /* FilterListCell.swift */; };
 		F428675C2944849B006A119E /* FilterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428675B2944849B006A119E /* FilterListView.swift */; };
 		F428676129448596006A119E /* FilterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428676029448596006A119E /* FilterListViewController.swift */; };
-		F42CCA16299BFEA200C677D2 /* LandscapeBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA12299BFEA200C677D2 /* LandscapeBrowserView.swift */; };
-		F42CCA17299BFEA200C677D2 /* LandscapeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA13299BFEA200C677D2 /* LandscapeTabView.swift */; };
-		F42CCA18299BFEA200C677D2 /* LandscapeTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA14299BFEA200C677D2 /* LandscapeTabViewController.swift */; };
-		F42CCA19299BFEA200C677D2 /* LandscapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA15299BFEA200C677D2 /* LandscapeViewController.swift */; };
 		F42CCA1B299BFF4B00C677D2 /* AaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA1A299BFF4B00C677D2 /* AaButton.swift */; };
 		F42CCA21299BFF7900C677D2 /* BrowserViewController+BrowserViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA1C299BFF7900C677D2 /* BrowserViewController+BrowserViewDelegate.swift */; };
 		F42CCA22299BFF7900C677D2 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA1D299BFF7900C677D2 /* BrowserViewController.swift */; };
 		F42CCA23299BFF7900C677D2 /* BrowserViewController+AddressBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA1E299BFF7900C677D2 /* BrowserViewController+AddressBarDelegate.swift */; };
 		F42CCA24299BFF7900C677D2 /* BrowserViewController+KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA1F299BFF7900C677D2 /* BrowserViewController+KeyboardManager.swift */; };
 		F42CCA25299BFF7900C677D2 /* BrowserViewController+TabViewControllerDelegate .swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA20299BFF7900C677D2 /* BrowserViewController+TabViewControllerDelegate .swift */; };
-		F42CCA2C299BFF9300C677D2 /* SuperTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA26299BFF9300C677D2 /* SuperTabView.swift */; };
+		F42CCA2C299BFF9300C677D2 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA26299BFF9300C677D2 /* TabView.swift */; };
 		F42CCA2D299BFF9300C677D2 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA27299BFF9300C677D2 /* TabViewController.swift */; };
 		F42CCA2E299BFF9300C677D2 /* TabViewController+CollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA28299BFF9300C677D2 /* TabViewController+CollectionViewDelegate.swift */; };
 		F42CCA2F299BFF9300C677D2 /* TabViewController+FavoritesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42CCA29299BFF9300C677D2 /* TabViewController+FavoritesViewDelegate.swift */; };
@@ -64,14 +60,7 @@
 		F42D4E05295C21BF00824801 /* URLConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E04295C21BF00824801 /* URLConstants.swift */; };
 		F42D4E07295C30CA00824801 /* NetworkServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D4E06295C30CA00824801 /* NetworkServiceError.swift */; };
 		F42FE68D298CEFF000E60932 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE68C298CEFF000E60932 /* Interface.swift */; };
-		F42FE68F299116EF00E60932 /* NewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE68E299116EF00E60932 /* NewViewController.swift */; };
-		F42FE69C299268CA00E60932 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE69B299268CA00E60932 /* BookmarksViewController.swift */; };
-		F42FE69E29926D5700E60932 /* BookmarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE69D29926D5600E60932 /* BookmarkModel.swift */; };
-		F42FE6A02992784D00E60932 /* BookmarksViewOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE69F2992784D00E60932 /* BookmarksViewOLD.swift */; };
-		F42FE6A329927AED00E60932 /* BookmarkPresentTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6A229927AED00E60932 /* BookmarkPresentTransition.swift */; };
-		F42FE6A529928F5300E60932 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6A429928F5300E60932 /* DataSource.swift */; };
-		F42FE6AE29955FF800E60932 /* OLDTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6AD29955FF800E60932 /* OLDTabViewController.swift */; };
-		F42FE6F429976C4600E60932 /* SuperFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6F329976C4500E60932 /* SuperFavoritesView.swift */; };
+		F42FE6A529928F5300E60932 /* BookmarksCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6A429928F5300E60932 /* BookmarksCollectionDataSource.swift */; };
 		F42FE6F629977B3C00E60932 /* VerticalBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6F529977B3C00E60932 /* VerticalBrowserView.swift */; };
 		F42FE6F82997874000E60932 /* VerticalTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42FE6F72997874000E60932 /* VerticalTabController.swift */; };
 		F433C32B296D7FDD00FA9F4D /* URLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433C32A296D7FDD00FA9F4D /* URLModel.swift */; };
@@ -112,6 +101,8 @@
 		F4D292302945D94000E710CF /* DialogBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2922F2945D94000E710CF /* DialogBox.swift */; };
 		F4E9BCDC29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9BCDB29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift */; };
 		F4E9BCE129AF39AE00ADB10D /* FavoritesPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9BCE029AF39AE00ADB10D /* FavoritesPopUpView.swift */; };
+		F4E9BCE929B0FAEE00ADB10D /* FavoritesViewToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9BCE829B0FAEE00ADB10D /* FavoritesViewToolbar.swift */; };
+		F4E9BCEB29B3819100ADB10D /* BookmarksCollectionView+CompositionalLayouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9BCEA29B3819000ADB10D /* BookmarksCollectionView+CompositionalLayouts.swift */; };
 		F4EFE8322987F8FE00DA7578 /* Webpage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFE8312987F8FE00DA7578 /* Webpage.swift */; };
 		F4EFE8342987F96100DA7578 /* WebpagesBackForwardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */; };
 		F4EFE8362987FA0400DA7578 /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFE8352987FA0400DA7578 /* NotificationNameExtension.swift */; };
@@ -139,9 +130,9 @@
 		F400AE03293B730E00758820 /* ViewController+KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+KeyboardManager.swift"; sourceTree = "<group>"; };
 		F400AE05293B7DBE00758820 /* NSNotification+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Helpers.swift"; sourceTree = "<group>"; };
 		F400AE07293B834800758820 /* Array+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Helpers.swift"; sourceTree = "<group>"; };
-		F400AE0E293C8D1800758820 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		F400AE0E293C8D1800758820 /* TabViewOLD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewOLD.swift; sourceTree = "<group>"; };
 		F400AE10293C8E4A00758820 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
-		F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab+StatusBarBackgroundView.swift"; sourceTree = "<group>"; };
+		F400AE14293C904600758820 /* TabViewOLD+StatusBarBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabViewOLD+StatusBarBackgroundView.swift"; sourceTree = "<group>"; };
 		F400AE16293C991500758820 /* ViewController+ToolbarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ToolbarAnimation.swift"; sourceTree = "<group>"; };
 		F400AE18293CE46E00758820 /* URLGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLGenerator.swift; sourceTree = "<group>"; };
 		F400AE1B293DCC2A00758820 /* URLValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLValidator.swift; sourceTree = "<group>"; };
@@ -149,17 +140,13 @@
 		F423E36629475DA700EF6A11 /* FilterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListCell.swift; sourceTree = "<group>"; };
 		F428675B2944849B006A119E /* FilterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListView.swift; sourceTree = "<group>"; };
 		F428676029448596006A119E /* FilterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListViewController.swift; sourceTree = "<group>"; };
-		F42CCA12299BFEA200C677D2 /* LandscapeBrowserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeBrowserView.swift; sourceTree = "<group>"; };
-		F42CCA13299BFEA200C677D2 /* LandscapeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeTabView.swift; sourceTree = "<group>"; };
-		F42CCA14299BFEA200C677D2 /* LandscapeTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeTabViewController.swift; sourceTree = "<group>"; };
-		F42CCA15299BFEA200C677D2 /* LandscapeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeViewController.swift; sourceTree = "<group>"; };
 		F42CCA1A299BFF4B00C677D2 /* AaButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AaButton.swift; path = WebBrowser/FilterListModule/AaButton.swift; sourceTree = SOURCE_ROOT; };
 		F42CCA1C299BFF7900C677D2 /* BrowserViewController+BrowserViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrowserViewController+BrowserViewDelegate.swift"; sourceTree = "<group>"; };
 		F42CCA1D299BFF7900C677D2 /* BrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		F42CCA1E299BFF7900C677D2 /* BrowserViewController+AddressBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrowserViewController+AddressBarDelegate.swift"; sourceTree = "<group>"; };
 		F42CCA1F299BFF7900C677D2 /* BrowserViewController+KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrowserViewController+KeyboardManager.swift"; sourceTree = "<group>"; };
 		F42CCA20299BFF7900C677D2 /* BrowserViewController+TabViewControllerDelegate .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrowserViewController+TabViewControllerDelegate .swift"; sourceTree = "<group>"; };
-		F42CCA26299BFF9300C677D2 /* SuperTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperTabView.swift; sourceTree = "<group>"; };
+		F42CCA26299BFF9300C677D2 /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		F42CCA27299BFF9300C677D2 /* TabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		F42CCA28299BFF9300C677D2 /* TabViewController+CollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TabViewController+CollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		F42CCA29299BFF9300C677D2 /* TabViewController+FavoritesViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TabViewController+FavoritesViewDelegate.swift"; sourceTree = "<group>"; };
@@ -179,14 +166,7 @@
 		F42D4E04295C21BF00824801 /* URLConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstants.swift; sourceTree = "<group>"; };
 		F42D4E06295C30CA00824801 /* NetworkServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceError.swift; sourceTree = "<group>"; };
 		F42FE68C298CEFF000E60932 /* Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interface.swift; sourceTree = "<group>"; };
-		F42FE68E299116EF00E60932 /* NewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewViewController.swift; sourceTree = "<group>"; };
-		F42FE69B299268CA00E60932 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
-		F42FE69D29926D5600E60932 /* BookmarkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkModel.swift; sourceTree = "<group>"; };
-		F42FE69F2992784D00E60932 /* BookmarksViewOLD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewOLD.swift; sourceTree = "<group>"; };
-		F42FE6A229927AED00E60932 /* BookmarkPresentTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkPresentTransition.swift; sourceTree = "<group>"; };
-		F42FE6A429928F5300E60932 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		F42FE6AD29955FF800E60932 /* OLDTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLDTabViewController.swift; sourceTree = "<group>"; };
-		F42FE6F329976C4500E60932 /* SuperFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperFavoritesView.swift; sourceTree = "<group>"; };
+		F42FE6A429928F5300E60932 /* BookmarksCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksCollectionDataSource.swift; sourceTree = "<group>"; };
 		F42FE6F529977B3C00E60932 /* VerticalBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalBrowserView.swift; sourceTree = "<group>"; };
 		F42FE6F72997874000E60932 /* VerticalTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabController.swift; sourceTree = "<group>"; };
 		F433C32A296D7FDD00FA9F4D /* URLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLModel.swift; sourceTree = "<group>"; };
@@ -227,6 +207,8 @@
 		F4D2922F2945D94000E710CF /* DialogBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBox.swift; sourceTree = "<group>"; };
 		F4E9BCDB29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HorizontalBrowserView+ToolbarAnimation.swift"; sourceTree = "<group>"; };
 		F4E9BCE029AF39AE00ADB10D /* FavoritesPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPopUpView.swift; sourceTree = "<group>"; };
+		F4E9BCE829B0FAEE00ADB10D /* FavoritesViewToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewToolbar.swift; sourceTree = "<group>"; };
+		F4E9BCEA29B3819000ADB10D /* BookmarksCollectionView+CompositionalLayouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarksCollectionView+CompositionalLayouts.swift"; sourceTree = "<group>"; };
 		F4EFE8312987F8FE00DA7578 /* Webpage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webpage.swift; sourceTree = "<group>"; };
 		F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpagesBackForwardStack.swift; sourceTree = "<group>"; };
 		F4EFE8352987FA0400DA7578 /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
@@ -282,23 +264,18 @@
 		F400ADD6293B244500758820 /* WebBrowser */ = {
 			isa = PBXGroup;
 			children = (
-				F42CCA11299BFE7E00C677D2 /* New Group */,
 				F45253E2297929BF005EC44E /* AnimatorFactory */,
-				F42FE6A129927A8B00E60932 /* BookmarksModule */,
-				F428675A29448431006A119E /* FilterListModule */,
-				F42FE69A2992688100E60932 /* LandscapeModule */,
 				F42D4E00295C1F3900824801 /* NetworkService */,
 				F492EB4029586E6400A06F88 /* ObjectModels */,
 				F400ADEB293B252300758820 /* SupportingFiles */,
-				F400AE0B293C8CA300758820 /* TabModule */,
-				F4286758294483E2006A119E /* WebBrowserModule */,
+				F42FE6A129927A8B00E60932 /* BookmarksModule */,
+				F428675A29448431006A119E /* FilterListModule */,
+				F4E9BCEE29B388FC00ADB10D /* BrowserModule */,
+				F4BFF2052997B43100040AAC /* HorizontalBrowserModule */,
+				F4BFF2022997B1C800040AAC /* VerticalBrowserModule */,
+				F4E9BCF129B3923800ADB10D /* WebpagesBackForwardStack */,
 				F492EB332958644F00A06F88 /* CoreData */,
-				F4BFF1FE29979AAE00040AAC /* BrowserView.swift */,
-				F4515E7D299A7CD000B5A6C5 /* BrowserModel.swift */,
-				F4515E79299A7B0E00B5A6C5 /* BrowserViewController */,
-				F4515E7A299A7B3A00B5A6C5 /* TabViewController */,
-				F4BFF2052997B43100040AAC /* HorizontalModule */,
-				F4BFF2022997B1C800040AAC /* VerticalModule */,
+				F40C505329B726760027C2D1 /* OLD MODULES */,
 			);
 			path = WebBrowser;
 			sourceTree = "<group>";
@@ -323,19 +300,8 @@
 			children = (
 				F400ADD7293B244500758820 /* AppDelegate.swift */,
 				F400ADD9293B244500758820 /* SceneDelegate.swift */,
-				F42FE68E299116EF00E60932 /* NewViewController.swift */,
 			);
 			path = Application;
-			sourceTree = "<group>";
-		};
-		F400ADED293B255700758820 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				F45253D8297563C3005EC44E /* AddressBar */,
-				F45253D72975639C005EC44E /* DialogBox */,
-				F45253D9297563F6005EC44E /* WebBrowserView */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		F400ADEE293B256500758820 /* Model */ = {
@@ -381,10 +347,8 @@
 		F400AE0B293C8CA300758820 /* TabModule */ = {
 			isa = PBXGroup;
 			children = (
-				F48BE9392951E65E0022B1CA /* Models */,
 				F400AE12293C901D00758820 /* View */,
 				F400AE13293C902900758820 /* Controller */,
-				F42FE6AD29955FF800E60932 /* OLDTabViewController.swift */,
 			);
 			path = TabModule;
 			sourceTree = "<group>";
@@ -393,7 +357,8 @@
 			isa = PBXGroup;
 			children = (
 				F428675729448382006A119E /* ElementsViews */,
-				F400AE0E293C8D1800758820 /* TabView.swift */,
+				F400AE0E293C8D1800758820 /* TabViewOLD.swift */,
+				F400AE14293C904600758820 /* TabViewOLD+StatusBarBackgroundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -417,13 +382,36 @@
 			path = URLGenerator;
 			sourceTree = "<group>";
 		};
-		F428675729448382006A119E /* ElementsViews */ = {
+		F40C505129B724290027C2D1 /* FavoritesView */ = {
 			isa = PBXGroup;
 			children = (
 				F400AE10293C8E4A00758820 /* FavoritesView.swift */,
+				F4E9BCE829B0FAEE00ADB10D /* FavoritesViewToolbar.swift */,
 				F4E9BCE029AF39AE00ADB10D /* FavoritesPopUpView.swift */,
-				F400AE14293C904600758820 /* Tab+StatusBarBackgroundView.swift */,
-				F42FE6F329976C4500E60932 /* SuperFavoritesView.swift */,
+			);
+			path = FavoritesView;
+			sourceTree = "<group>";
+		};
+		F40C505229B724D40027C2D1 /* FavoritesMdel */ = {
+			isa = PBXGroup;
+			children = (
+				F42D4DFE295C1C9E00824801 /* FavoritesModel.swift */,
+			);
+			path = FavoritesMdel;
+			sourceTree = "<group>";
+		};
+		F40C505329B726760027C2D1 /* OLD MODULES */ = {
+			isa = PBXGroup;
+			children = (
+				F400AE0B293C8CA300758820 /* TabModule */,
+				F4286758294483E2006A119E /* WebBrowserModule */,
+			);
+			path = "OLD MODULES";
+			sourceTree = "<group>";
+		};
+		F428675729448382006A119E /* ElementsViews */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = ElementsViews;
 			sourceTree = "<group>";
@@ -433,7 +421,7 @@
 			children = (
 				F400ADEF293B256D00758820 /* Controller */,
 				F400ADEE293B256500758820 /* Model */,
-				F400ADED293B255700758820 /* View */,
+				F45253D9297563F6005EC44E /* WebBrowserView */,
 			);
 			path = WebBrowserModule;
 			sourceTree = "<group>";
@@ -471,13 +459,6 @@
 				F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		F42CCA11299BFE7E00C677D2 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		F42CCA40299CF49300C677D2 /* VerticalBrowserController */ = {
@@ -539,26 +520,10 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		F42FE69A2992688100E60932 /* LandscapeModule */ = {
-			isa = PBXGroup;
-			children = (
-				F42CCA12299BFEA200C677D2 /* LandscapeBrowserView.swift */,
-				F42CCA13299BFEA200C677D2 /* LandscapeTabView.swift */,
-				F42CCA14299BFEA200C677D2 /* LandscapeTabViewController.swift */,
-				F42CCA15299BFEA200C677D2 /* LandscapeViewController.swift */,
-			);
-			path = LandscapeModule;
-			sourceTree = "<group>";
-		};
 		F42FE6A129927A8B00E60932 /* BookmarksModule */ = {
 			isa = PBXGroup;
 			children = (
 				F42FE6A62993AC3100E60932 /* BookmarksCollectionView */,
-				F42FE69B299268CA00E60932 /* BookmarksViewController.swift */,
-				F42FE69D29926D5600E60932 /* BookmarkModel.swift */,
-				F42FE69F2992784D00E60932 /* BookmarksViewOLD.swift */,
-				F42FE6A229927AED00E60932 /* BookmarkPresentTransition.swift */,
-				F42FE6A429928F5300E60932 /* DataSource.swift */,
 			);
 			path = BookmarksModule;
 			sourceTree = "<group>";
@@ -567,9 +532,11 @@
 			isa = PBXGroup;
 			children = (
 				F4BDBB852956D4C700B79BC9 /* BookmarkCell.swift */,
+				F42FE6A429928F5300E60932 /* BookmarksCollectionDataSource.swift */,
 				F47371122955C072002B4A5D /* BookmarksCollectionView.swift */,
-				F44B7A54295EFA5B003FA94E /* EditingBookmarkCell.swift */,
+				F4E9BCEA29B3819000ADB10D /* BookmarksCollectionView+CompositionalLayouts.swift */,
 				F492EB2E29584C2200A06F88 /* BookmarksHeaderView.swift */,
+				F44B7A54295EFA5B003FA94E /* EditingBookmarkCell.swift */,
 			);
 			path = BookmarksCollectionView;
 			sourceTree = "<group>";
@@ -589,7 +556,6 @@
 		F4515E7A299A7B3A00B5A6C5 /* TabViewController */ = {
 			isa = PBXGroup;
 			children = (
-				F42CCA26299BFF9300C677D2 /* SuperTabView.swift */,
 				F42CCA27299BFF9300C677D2 /* TabViewController.swift */,
 				F42CCA28299BFF9300C677D2 /* TabViewController+CollectionViewDelegate.swift */,
 				F42CCA29299BFF9300C677D2 /* TabViewController+FavoritesViewDelegate.swift */,
@@ -640,15 +606,6 @@
 			path = AnimatorFactory;
 			sourceTree = "<group>";
 		};
-		F48BE9392951E65E0022B1CA /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F48BE93A2951E6830022B1CA /* TabModel.swift */,
-				F42D4DFE295C1C9E00824801 /* FavoritesModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		F492EB332958644F00A06F88 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -666,7 +623,6 @@
 				F492EB4129586E8000A06F88 /* Bookmark.swift */,
 				F492EB43295871A700A06F88 /* BookmarksCollection.swift */,
 				F4EFE8312987F8FE00DA7578 /* Webpage.swift */,
-				F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */,
 			);
 			path = ObjectModels;
 			sourceTree = "<group>";
@@ -690,7 +646,7 @@
 			path = CoreDataRepository;
 			sourceTree = "<group>";
 		};
-		F4BFF2022997B1C800040AAC /* VerticalModule */ = {
+		F4BFF2022997B1C800040AAC /* VerticalBrowserModule */ = {
 			isa = PBXGroup;
 			children = (
 				F42CCA40299CF49300C677D2 /* VerticalBrowserController */,
@@ -698,10 +654,10 @@
 				F42CCA42299CF4CD00C677D2 /* VerticalTabController */,
 				F42CCA43299CF4E600C677D2 /* VerticalTabView */,
 			);
-			path = VerticalModule;
+			path = VerticalBrowserModule;
 			sourceTree = "<group>";
 		};
-		F4BFF2052997B43100040AAC /* HorizontalModule */ = {
+		F4BFF2052997B43100040AAC /* HorizontalBrowserModule */ = {
 			isa = PBXGroup;
 			children = (
 				F4E9BCDD29A4ED2C00ADB10D /* HorizontalBrowserController */,
@@ -709,7 +665,7 @@
 				F4E9BCDE29A4ED4C00ADB10D /* HorizontalTabController */,
 				F4E9BCDF29A4ED5A00ADB10D /* HorizontalTabView */,
 			);
-			path = HorizontalModule;
+			path = HorizontalBrowserModule;
 			sourceTree = "<group>";
 		};
 		F4E9BCDA29A4ECDB00ADB10D /* HorizontalBrowserView */ = {
@@ -744,6 +700,63 @@
 				F42CCA33299BFFAB00C677D2 /* HorizontalTabView.swift */,
 			);
 			path = HorizontalTabView;
+			sourceTree = "<group>";
+		};
+		F4E9BCEC29B3889400ADB10D /* TabView */ = {
+			isa = PBXGroup;
+			children = (
+				F42CCA26299BFF9300C677D2 /* TabView.swift */,
+			);
+			path = TabView;
+			sourceTree = "<group>";
+		};
+		F4E9BCEE29B388FC00ADB10D /* BrowserModule */ = {
+			isa = PBXGroup;
+			children = (
+				F45253D8297563C3005EC44E /* AddressBar */,
+				F45253D72975639C005EC44E /* DialogBox */,
+				F4E9BCF029B3892E00ADB10D /* BrowserModel */,
+				F4E9BCEF29B3892200ADB10D /* BrowserView */,
+				F4515E79299A7B0E00B5A6C5 /* BrowserViewController */,
+				F40C505229B724D40027C2D1 /* FavoritesMdel */,
+				F40C505129B724290027C2D1 /* FavoritesView */,
+				F4E9BCF229B3937600ADB10D /* TabModel */,
+				F4E9BCEC29B3889400ADB10D /* TabView */,
+				F4515E7A299A7B3A00B5A6C5 /* TabViewController */,
+			);
+			path = BrowserModule;
+			sourceTree = "<group>";
+		};
+		F4E9BCEF29B3892200ADB10D /* BrowserView */ = {
+			isa = PBXGroup;
+			children = (
+				F4BFF1FE29979AAE00040AAC /* BrowserView.swift */,
+			);
+			path = BrowserView;
+			sourceTree = "<group>";
+		};
+		F4E9BCF029B3892E00ADB10D /* BrowserModel */ = {
+			isa = PBXGroup;
+			children = (
+				F4515E7D299A7CD000B5A6C5 /* BrowserModel.swift */,
+			);
+			path = BrowserModel;
+			sourceTree = "<group>";
+		};
+		F4E9BCF129B3923800ADB10D /* WebpagesBackForwardStack */ = {
+			isa = PBXGroup;
+			children = (
+				F4EFE8332987F96100DA7578 /* WebpagesBackForwardStack.swift */,
+			);
+			path = WebpagesBackForwardStack;
+			sourceTree = "<group>";
+		};
+		F4E9BCF229B3937600ADB10D /* TabModel */ = {
+			isa = PBXGroup;
+			children = (
+				F48BE93A2951E6830022B1CA /* TabModel.swift */,
+			);
+			path = TabModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -864,7 +877,6 @@
 			files = (
 				F4EFE8362987FA0400DA7578 /* NotificationNameExtension.swift in Sources */,
 				F42FE6F629977B3C00E60932 /* VerticalBrowserView.swift in Sources */,
-				F42CCA18299BFEA200C677D2 /* LandscapeTabViewController.swift in Sources */,
 				F400AE11293C8E4A00758820 /* FavoritesView.swift in Sources */,
 				F42CCA2F299BFF9300C677D2 /* TabViewController+FavoritesViewDelegate.swift in Sources */,
 				F4BFF211299A523700040AAC /* VerticalTabView+StatusBackgroundView.swift in Sources */,
@@ -872,7 +884,6 @@
 				F42CCA2D299BFF9300C677D2 /* TabViewController.swift in Sources */,
 				F4EFE8322987F8FE00DA7578 /* Webpage.swift in Sources */,
 				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
-				F42FE69C299268CA00E60932 /* BookmarksViewController.swift in Sources */,
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F433C32B296D7FDD00FA9F4D /* URLModel.swift in Sources */,
 				F45253E1297926A3005EC44E /* AddressBar+TextFieldDelegate.swift in Sources */,
@@ -882,10 +893,8 @@
 				F492EB372958676200A06F88 /* CoreDataStack.swift in Sources */,
 				F400ADF8293B369E00758820 /* AddressBar+TextField.swift in Sources */,
 				F4E9BCE129AF39AE00ADB10D /* FavoritesPopUpView.swift in Sources */,
-				F42FE6A329927AED00E60932 /* BookmarkPresentTransition.swift in Sources */,
 				F4E9BCDC29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift in Sources */,
 				F492EB4229586E8000A06F88 /* Bookmark.swift in Sources */,
-				F42CCA16299BFEA200C677D2 /* LandscapeBrowserView.swift in Sources */,
 				F451AD28299B9F4900CE9B50 /* VerticalTabController+FavoritesViewDelegate.swift in Sources */,
 				F42CCA23299BFF7900C677D2 /* BrowserViewController+AddressBarDelegate.swift in Sources */,
 				F492EB4A2958732900A06F88 /* CDBookmark+CoreDataProperties.swift in Sources */,
@@ -902,7 +911,7 @@
 				F42CCA1B299BFF4B00C677D2 /* AaButton.swift in Sources */,
 				F44B7A55295EFA5B003FA94E /* EditingBookmarkCell.swift in Sources */,
 				F45253D129731D5B005EC44E /* AddressBar+Animation.swift in Sources */,
-				F42FE6A529928F5300E60932 /* DataSource.swift in Sources */,
+				F42FE6A529928F5300E60932 /* BookmarksCollectionDataSource.swift in Sources */,
 				F492EB2F29584C2200A06F88 /* BookmarksHeaderView.swift in Sources */,
 				F42CCA37299BFFAB00C677D2 /* HorizontalTabView.swift in Sources */,
 				F400AE19293CE46E00758820 /* URLGenerator.swift in Sources */,
@@ -911,7 +920,6 @@
 				F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */,
 				F4EFE8342987F96100DA7578 /* WebpagesBackForwardStack.swift in Sources */,
 				F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */,
-				F42FE6AE29955FF800E60932 /* OLDTabViewController.swift in Sources */,
 				F4D292302945D94000E710CF /* DialogBox.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
 				F451AD2C299BDA4300CE9B50 /* PortraitTabController+BookmarksCollectionViewDataSource.swift in Sources */,
@@ -920,36 +928,34 @@
 				F45253DD2977F2C9005EC44E /* AddressBar+Constraints.swift in Sources */,
 				F400ADF4293B2DF900758820 /* AddressBar.swift in Sources */,
 				F423E365294740BB00EF6A11 /* DialogBoxTextField.swift in Sources */,
-				F42CCA17299BFEA200C677D2 /* LandscapeTabView.swift in Sources */,
 				F45253DF29792638005EC44E /* AddressBar+AaButtonDelegate.swift in Sources */,
 				F492EB322958628A00A06F88 /* WebBrowser.xcdatamodeld in Sources */,
 				F42CCA3F299CF47800C677D2 /* VerticalBrowserController+AddressBarAnimation.swift in Sources */,
+				F4E9BCEB29B3819100ADB10D /* BookmarksCollectionView+CompositionalLayouts.swift in Sources */,
 				F45253E8297AA4AC005EC44E /* HTML.swift in Sources */,
 				F400AE06293B7DBE00758820 /* NSNotification+Helpers.swift in Sources */,
 				F42CCA36299BFFAB00C677D2 /* HorizontalTabController.swift in Sources */,
 				F4515E7E299A7CD000B5A6C5 /* BrowserModel.swift in Sources */,
+				F4E9BCE929B0FAEE00ADB10D /* FavoritesViewToolbar.swift in Sources */,
 				F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */,
 				F4BFF20D2997D0EB00040AAC /* VerticalTabView.swift in Sources */,
-				F400AE0F293C8D1800758820 /* TabView.swift in Sources */,
-				F400AE15293C904600758820 /* Tab+StatusBarBackgroundView.swift in Sources */,
+				F400AE0F293C8D1800758820 /* TabViewOLD.swift in Sources */,
+				F400AE15293C904600758820 /* TabViewOLD+StatusBarBackgroundView.swift in Sources */,
 				F433C335296DA06900FA9F4D /* CDBookmarksCollection+CoreDataClass.swift in Sources */,
 				F423E36729475DA700EF6A11 /* FilterListCell.swift in Sources */,
 				F492EB502958738B00A06F88 /* BookmarkRepository.swift in Sources */,
 				F492EB4B2958732900A06F88 /* CDBookmark+CoreDataClass.swift in Sources */,
 				F42CCA21299BFF7900C677D2 /* BrowserViewController+BrowserViewDelegate.swift in Sources */,
-				F42FE69E29926D5700E60932 /* BookmarkModel.swift in Sources */,
 				F428675C2944849B006A119E /* FilterListView.swift in Sources */,
 				F45253CD2972D34B005EC44E /* AnimatorFactory.swift in Sources */,
 				F42CCA45299D423E00C677D2 /* VerticalBrowserController+KeyboardManager.swift in Sources */,
-				F42FE6F429976C4600E60932 /* SuperFavoritesView.swift in Sources */,
 				F4BFF1FF29979AAE00040AAC /* BrowserView.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
-				F42FE68F299116EF00E60932 /* NewViewController.swift in Sources */,
 				F4BDBB862956D4C700B79BC9 /* BookmarkCell.swift in Sources */,
 				F42D4E07295C30CA00824801 /* NetworkServiceError.swift in Sources */,
 				F42CCA39299BFFAB00C677D2 /* HorizontalBrowserController.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
-				F42CCA2C299BFF9300C677D2 /* SuperTabView.swift in Sources */,
+				F42CCA2C299BFF9300C677D2 /* TabView.swift in Sources */,
 				F42D4E02295C1F5400824801 /* NetworkService.swift in Sources */,
 				F42FE68D298CEFF000E60932 /* Interface.swift in Sources */,
 				F451AD22299B793900CE9B50 /* VerticalBrowserView+Animation.swift in Sources */,
@@ -959,12 +965,10 @@
 				F400ADDA293B244500758820 /* SceneDelegate.swift in Sources */,
 				F45253CF2972DD7E005EC44E /* WebBrowserView+Animation.swift in Sources */,
 				F451AD2E299BDA4300CE9B50 /* PortraitTabController+BookmarksCollectionViewDelegate.swift in Sources */,
-				F42FE6A02992784D00E60932 /* BookmarksViewOLD.swift in Sources */,
 				F42CCA4929A2178600C677D2 /* VerticalBrowserView+ToolbarAnimation.swift in Sources */,
 				F428676129448596006A119E /* FilterListViewController.swift in Sources */,
 				F42CCA22299BFF7900C677D2 /* BrowserViewController.swift in Sources */,
 				F42CCA2E299BFF9300C677D2 /* TabViewController+CollectionViewDelegate.swift in Sources */,
-				F42CCA19299BFEA200C677D2 /* LandscapeViewController.swift in Sources */,
 				F42FE6F82997874000E60932 /* VerticalTabController.swift in Sources */,
 				F42CCA4B29A4DECA00C677D2 /* VerticalBrowserController+TabViewControllerDelegate.swift in Sources */,
 			);

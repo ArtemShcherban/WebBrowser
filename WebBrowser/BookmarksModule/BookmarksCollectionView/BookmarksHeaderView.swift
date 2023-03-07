@@ -24,7 +24,7 @@ private extension BookmarksHeaderView {
     func setupView() {
         let titleLabel = UILabel()
         titleLabel.text = "Favorites"
-        titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        titleLabel.font = UIFont.systemFont(ofSize: 21, weight: .bold)
         titleLabel.sizeToFit()
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -8,7 +8,15 @@
 import Foundation
 
 extension Notification.Name {
-    static var backForwardStackChanged: Notification.Name {
-        return .init(rawValue: "BackForwardStackChanged")
+    static var backForwardStackHasChanged: Notification.Name {
+        return .init(rawValue: "BackForwardStackHasChanged")
+    }
+    
+    static var bookmarksRepositoryHasChanged: NSNotification.Name {
+        return .init(rawValue: "BookmarksRepositoryHasChanged")
+    }
+    
+    static var bookmarksCollectionHasChanged: Notification.Name {
+        return .init(rawValue: "BookmarksCollectionHasChanged")
     }
 }

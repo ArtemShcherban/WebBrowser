@@ -27,7 +27,6 @@ public class CDBookmark: NSManagedObject {
             date: self.date,
             icon: icon
         )
-        print("\(bookmark.title) ------ \(bookmark.icon?.size)")
         return bookmark
     }
 }

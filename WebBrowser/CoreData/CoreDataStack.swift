@@ -64,6 +64,7 @@ final class CoreDataStack {
         do {
             try backgroundContext.save()
             saveContext()
+            NotificationCenter.default.post(name: .bookmarksRepositoryHasChanged, object: nil)
         } catch let error as NSError {
             print("Couldn't synhronize contexts. Error: \(error), \(error.userInfo)")
         }

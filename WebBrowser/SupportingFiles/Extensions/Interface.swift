@@ -21,10 +21,8 @@ enum Interface {
         }
         if scene.traitCollection.horizontalSizeClass == .compact
             && scene.traitCollection.verticalSizeClass == .regular {
-            print("VERTICAL")
             return .portrait
         } else {
-            print("HORIZONTAL")
             return .landscape
         }
     }

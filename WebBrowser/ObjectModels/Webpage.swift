@@ -11,6 +11,7 @@ import WebKit
 struct Webpage: Equatable {
     var url: URL?
     var title: String?
+    var favoriteIcon: UIImage?
     var error: NSError?
     var contentMode: WKWebpagePreferences.ContentMode
 }

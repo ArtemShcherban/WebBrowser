@@ -54,22 +54,23 @@ private extension FavoritesModel {
             title: title,
             url: url,
             date: Date(),
-            icon: imageFromTitle(title: title)
+            icon: title.convertFirstCharacterToImage(with: CGSize(width: 64, height: 64))
         )
-        guard let host = url.host else { return bookmark }
-        getFavoriteIconImage(for: host, and: url)
+        
+        getBookmarkFavoriteIconImage(for: url)
         
         return bookmark
     }
     
-    func getFavoriteIconImage(for host: String, and url: URL) {
+    func getBookmarkFavoriteIconImage(for url: URL) {
+        guard let host = url.host else { return }
         var iconImage: UIImage?
         networkService.loadIconData(for: host) { result in
             switch result {
             case .success(let data):
                 guard let tempIconImage = UIImage(data: data) else { return }
                 if tempIconImage.size.width > 64 {
-                    iconImage = self.reduceFavoriteIconSize(tempIconImage: tempIconImage)
+                    iconImage = tempIconImage.changeSizeTo(width: 50, height: 50)
                 } else if tempIconImage.size.width >= 32 {
                     iconImage = tempIconImage
                 }
@@ -81,46 +82,5 @@ private extension FavoritesModel {
                 let iconPNGData = iconImage.pngData() else { return }
             self.bookmarkRepository.updateBookmarkWith(iconPNGData, and: url)
         }
-    }
-    
-    func reduceFavoriteIconSize(tempIconImage: UIImage) -> UIImage? {
-        let newIconSize = CGSize(width: 50, height: 50)
-        UIGraphicsBeginImageContextWithOptions(newIconSize, false, 0.0)
-        tempIconImage.draw(in: CGRect(
-            x: 0,
-            y: 0,
-            width: newIconSize.width,
-            height: newIconSize.height)
-        )
-        guard let newImage = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    
-    func imageFromTitle(title: String) -> UIImage? {
-        guard let firstCharacter = title.first else { return nil }
-        let firstCharacterString = String(firstCharacter).uppercased()
-        
-        let frame = CGRect(x: 0, y: 0, width: 64, height: 64)
-        let firstCharacterLabel = UILabel(frame: frame)
-        let red = CGFloat(Int.random(in: 0...255)) / 255
-        let green = CGFloat(Int.random(in: 0...255)) / 255
-        let blue = CGFloat(Int.random(in: 0...255)) / 255
-        let backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
-        
-        firstCharacterLabel.backgroundColor = backgroundColor
-        firstCharacterLabel.textColor = backgroundColor.isDark ? .white : .darkGray
-        firstCharacterLabel.font = UIFont.systemFont(ofSize: 40, weight: .light)
-        firstCharacterLabel.text = firstCharacterString
-        firstCharacterLabel.textAlignment = .center
-        
-        UIGraphicsBeginImageContext(frame.size)
-        if let context = UIGraphicsGetCurrentContext() {
-            firstCharacterLabel.layer.render(in: context)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            return image
-        }
-        return nil
     }
 }

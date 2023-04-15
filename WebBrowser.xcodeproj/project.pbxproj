@@ -91,12 +91,21 @@
 		F492EB4A2958732900A06F88 /* CDBookmark+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB462958732900A06F88 /* CDBookmark+CoreDataProperties.swift */; };
 		F492EB4B2958732900A06F88 /* CDBookmark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB472958732900A06F88 /* CDBookmark+CoreDataClass.swift */; };
 		F492EB502958738B00A06F88 /* BookmarkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492EB4F2958738B00A06F88 /* BookmarkRepository.swift */; };
+		F49EE39929B735C700298103 /* TabsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49EE39829B735C700298103 /* TabsCollectionView.swift */; };
+		F49EE39B29B7435500298103 /* TabsCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49EE39A29B7435500298103 /* TabsCollectionViewDataSource.swift */; };
+		F49EE3BD29B75B4900298103 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49EE3BC29B75B4900298103 /* TabCell.swift */; };
+		F49EE3BF29B76A8900298103 /* TabsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49EE3BE29B76A8900298103 /* TabsCollectionViewModel.swift */; };
+		F49EE3C329B8BDAB00298103 /* HorizontalBrowserView+TabsCollectionViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49EE3C229B8BDAB00298103 /* HorizontalBrowserView+TabsCollectionViewAnimation.swift */; };
 		F4BDBB862956D4C700B79BC9 /* BookmarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB852956D4C700B79BC9 /* BookmarkCell.swift */; };
 		F4BDBB88295701EE00B79BC9 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */; };
 		F4BFF1FD299789BB00040AAC /* VerticalBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BFF1FC299789BB00040AAC /* VerticalBrowserController.swift */; };
 		F4BFF1FF29979AAE00040AAC /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BFF1FE29979AAE00040AAC /* BrowserView.swift */; };
 		F4BFF20D2997D0EB00040AAC /* VerticalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BFF20C2997D0EB00040AAC /* VerticalTabView.swift */; };
 		F4BFF211299A523700040AAC /* VerticalTabView+StatusBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BFF210299A523700040AAC /* VerticalTabView+StatusBackgroundView.swift */; };
+		F4CB3EFE29C9B2F100BE6F6E /* HorizontalBrowserController+AddressBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB3EFD29C9B2F100BE6F6E /* HorizontalBrowserController+AddressBarDelegate.swift */; };
+		F4CB3F0029C9C96E00BE6F6E /* Headline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB3EFF29C9C96E00BE6F6E /* Headline.swift */; };
+		F4CB3F0229C9D63200BE6F6E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB3F0129C9D63200BE6F6E /* UIImageExtension.swift */; };
+		F4CB3F0429CC351100BE6F6E /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB3F0329CC351100BE6F6E /* StringExtension.swift */; };
 		F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */; };
 		F4D292302945D94000E710CF /* DialogBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2922F2945D94000E710CF /* DialogBox.swift */; };
 		F4E9BCDC29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9BCDB29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift */; };
@@ -197,12 +206,21 @@
 		F492EB462958732900A06F88 /* CDBookmark+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmark+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F492EB472958732900A06F88 /* CDBookmark+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CDBookmark+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F492EB4F2958738B00A06F88 /* BookmarkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRepository.swift; sourceTree = "<group>"; };
+		F49EE39829B735C700298103 /* TabsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionView.swift; sourceTree = "<group>"; };
+		F49EE39A29B7435500298103 /* TabsCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		F49EE3BC29B75B4900298103 /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
+		F49EE3BE29B76A8900298103 /* TabsCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewModel.swift; sourceTree = "<group>"; };
+		F49EE3C229B8BDAB00298103 /* HorizontalBrowserView+TabsCollectionViewAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HorizontalBrowserView+TabsCollectionViewAnimation.swift"; sourceTree = "<group>"; };
 		F4BDBB852956D4C700B79BC9 /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		F4BFF1FC299789BB00040AAC /* VerticalBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalBrowserController.swift; sourceTree = "<group>"; };
 		F4BFF1FE29979AAE00040AAC /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		F4BFF20C2997D0EB00040AAC /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
 		F4BFF210299A523700040AAC /* VerticalTabView+StatusBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VerticalTabView+StatusBackgroundView.swift"; sourceTree = "<group>"; };
+		F4CB3EFD29C9B2F100BE6F6E /* HorizontalBrowserController+AddressBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HorizontalBrowserController+AddressBarDelegate.swift"; sourceTree = "<group>"; };
+		F4CB3EFF29C9C96E00BE6F6E /* Headline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headline.swift; sourceTree = "<group>"; };
+		F4CB3F0129C9D63200BE6F6E /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		F4CB3F0329CC351100BE6F6E /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		F4CFA15F29448D4900F45BC0 /* FilterListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListModel.swift; sourceTree = "<group>"; };
 		F4D2922F2945D94000E710CF /* DialogBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogBox.swift; sourceTree = "<group>"; };
 		F4E9BCDB29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HorizontalBrowserView+ToolbarAnimation.swift"; sourceTree = "<group>"; };
@@ -332,6 +350,8 @@
 				F4BDBB87295701EE00B79BC9 /* UIViewControllerExtension.swift */,
 				F4EFE8352987FA0400DA7578 /* NotificationNameExtension.swift */,
 				F42FE68C298CEFF000E60932 /* Interface.swift */,
+				F4CB3F0129C9D63200BE6F6E /* UIImageExtension.swift */,
+				F4CB3F0329CC351100BE6F6E /* StringExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -392,12 +412,12 @@
 			path = FavoritesView;
 			sourceTree = "<group>";
 		};
-		F40C505229B724D40027C2D1 /* FavoritesMdel */ = {
+		F40C505229B724D40027C2D1 /* FavoritesModel */ = {
 			isa = PBXGroup;
 			children = (
 				F42D4DFE295C1C9E00824801 /* FavoritesModel.swift */,
 			);
-			path = FavoritesMdel;
+			path = FavoritesModel;
 			sourceTree = "<group>";
 		};
 		F40C505329B726760027C2D1 /* OLD MODULES */ = {
@@ -407,6 +427,17 @@
 				F4286758294483E2006A119E /* WebBrowserModule */,
 			);
 			path = "OLD MODULES";
+			sourceTree = "<group>";
+		};
+		F40C924E29EA880B007E70A9 /* TabsCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				F49EE39829B735C700298103 /* TabsCollectionView.swift */,
+				F49EE39A29B7435500298103 /* TabsCollectionViewDataSource.swift */,
+				F49EE3BC29B75B4900298103 /* TabCell.swift */,
+				F49EE3BE29B76A8900298103 /* TabsCollectionViewModel.swift */,
+			);
+			path = TabsCollectionView;
 			sourceTree = "<group>";
 		};
 		F428675729448382006A119E /* ElementsViews */ = {
@@ -623,6 +654,7 @@
 				F492EB4129586E8000A06F88 /* Bookmark.swift */,
 				F492EB43295871A700A06F88 /* BookmarksCollection.swift */,
 				F4EFE8312987F8FE00DA7578 /* Webpage.swift */,
+				F4CB3EFF29C9C96E00BE6F6E /* Headline.swift */,
 			);
 			path = ObjectModels;
 			sourceTree = "<group>";
@@ -664,6 +696,7 @@
 				F4E9BCDA29A4ECDB00ADB10D /* HorizontalBrowserView */,
 				F4E9BCDE29A4ED4C00ADB10D /* HorizontalTabController */,
 				F4E9BCDF29A4ED5A00ADB10D /* HorizontalTabView */,
+				F40C924E29EA880B007E70A9 /* TabsCollectionView */,
 			);
 			path = HorizontalBrowserModule;
 			sourceTree = "<group>";
@@ -673,6 +706,7 @@
 			children = (
 				F42CCA34299BFFAB00C677D2 /* HorizontalBrowserView.swift */,
 				F4E9BCDB29A4ECF700ADB10D /* HorizontalBrowserView+ToolbarAnimation.swift */,
+				F49EE3C229B8BDAB00298103 /* HorizontalBrowserView+TabsCollectionViewAnimation.swift */,
 			);
 			path = HorizontalBrowserView;
 			sourceTree = "<group>";
@@ -681,6 +715,7 @@
 			isa = PBXGroup;
 			children = (
 				F42CCA35299BFFAB00C677D2 /* HorizontalBrowserController.swift */,
+				F4CB3EFD29C9B2F100BE6F6E /* HorizontalBrowserController+AddressBarDelegate.swift */,
 				F42CCA4C29A4E85300C677D2 /* HorizontalBrowserController+TabViewControllerDelegate.swift */,
 			);
 			path = HorizontalBrowserController;
@@ -718,7 +753,7 @@
 				F4E9BCF029B3892E00ADB10D /* BrowserModel */,
 				F4E9BCEF29B3892200ADB10D /* BrowserView */,
 				F4515E79299A7B0E00B5A6C5 /* BrowserViewController */,
-				F40C505229B724D40027C2D1 /* FavoritesMdel */,
+				F40C505229B724D40027C2D1 /* FavoritesModel */,
 				F40C505129B724290027C2D1 /* FavoritesView */,
 				F4E9BCF229B3937600ADB10D /* TabModel */,
 				F4E9BCEC29B3889400ADB10D /* TabView */,
@@ -880,12 +915,15 @@
 				F400AE11293C8E4A00758820 /* FavoritesView.swift in Sources */,
 				F42CCA2F299BFF9300C677D2 /* TabViewController+FavoritesViewDelegate.swift in Sources */,
 				F4BFF211299A523700040AAC /* VerticalTabView+StatusBackgroundView.swift in Sources */,
+				F49EE39B29B7435500298103 /* TabsCollectionViewDataSource.swift in Sources */,
 				F492EB44295871A700A06F88 /* BookmarksCollection.swift in Sources */,
 				F42CCA2D299BFF9300C677D2 /* TabViewController.swift in Sources */,
 				F4EFE8322987F8FE00DA7578 /* Webpage.swift in Sources */,
 				F400AE02293B727D00758820 /* WebBrowserModel.swift in Sources */,
 				F400ADF2293B2CFD00758820 /* WebBrowserView.swift in Sources */,
 				F433C32B296D7FDD00FA9F4D /* URLModel.swift in Sources */,
+				F49EE3C329B8BDAB00298103 /* HorizontalBrowserView+TabsCollectionViewAnimation.swift in Sources */,
+				F4CB3F0029C9C96E00BE6F6E /* Headline.swift in Sources */,
 				F45253E1297926A3005EC44E /* AddressBar+TextFieldDelegate.swift in Sources */,
 				F45253DB2975647B005EC44E /* DialogBox+Animation.swift in Sources */,
 				F4BFF1FD299789BB00040AAC /* VerticalBrowserController.swift in Sources */,
@@ -900,6 +938,7 @@
 				F492EB4A2958732900A06F88 /* CDBookmark+CoreDataProperties.swift in Sources */,
 				F48BE93B2951E6830022B1CA /* TabModel.swift in Sources */,
 				F42CCA38299BFFAB00C677D2 /* HorizontalBrowserView.swift in Sources */,
+				F49EE39929B735C700298103 /* TabsCollectionView.swift in Sources */,
 				F47371132955C072002B4A5D /* BookmarksCollectionView.swift in Sources */,
 				F42CCA4D29A4E85400C677D2 /* HorizontalBrowserController+TabViewControllerDelegate.swift in Sources */,
 				F400AE1C293DCC2A00758820 /* URLValidator.swift in Sources */,
@@ -920,6 +959,7 @@
 				F4CFA16029448D4900F45BC0 /* FilterListModel.swift in Sources */,
 				F4EFE8342987F96100DA7578 /* WebpagesBackForwardStack.swift in Sources */,
 				F433C337296DA07A00FA9F4D /* CDBookmarksCollection+CoreDataProperties.swift in Sources */,
+				F49EE3BD29B75B4900298103 /* TabCell.swift in Sources */,
 				F4D292302945D94000E710CF /* DialogBox.swift in Sources */,
 				F400ADFB293B3B3F00758820 /* UIColor+Helpers.swift in Sources */,
 				F451AD2C299BDA4300CE9B50 /* PortraitTabController+BookmarksCollectionViewDataSource.swift in Sources */,
@@ -949,6 +989,7 @@
 				F428675C2944849B006A119E /* FilterListView.swift in Sources */,
 				F45253CD2972D34B005EC44E /* AnimatorFactory.swift in Sources */,
 				F42CCA45299D423E00C677D2 /* VerticalBrowserController+KeyboardManager.swift in Sources */,
+				F4CB3EFE29C9B2F100BE6F6E /* HorizontalBrowserController+AddressBarDelegate.swift in Sources */,
 				F4BFF1FF29979AAE00040AAC /* BrowserView.swift in Sources */,
 				F400ADFD293B5D1E00758820 /* ViewController+AddressBarAnimation.swift in Sources */,
 				F4BDBB862956D4C700B79BC9 /* BookmarkCell.swift in Sources */,
@@ -956,9 +997,12 @@
 				F42CCA39299BFFAB00C677D2 /* HorizontalBrowserController.swift in Sources */,
 				F400ADF6293B2E2000758820 /* Toolbar.swift in Sources */,
 				F42CCA2C299BFF9300C677D2 /* TabView.swift in Sources */,
+				F4CB3F0229C9D63200BE6F6E /* UIImageExtension.swift in Sources */,
 				F42D4E02295C1F5400824801 /* NetworkService.swift in Sources */,
 				F42FE68D298CEFF000E60932 /* Interface.swift in Sources */,
+				F49EE3BF29B76A8900298103 /* TabsCollectionViewModel.swift in Sources */,
 				F451AD22299B793900CE9B50 /* VerticalBrowserView+Animation.swift in Sources */,
+				F4CB3F0429CC351100BE6F6E /* StringExtension.swift in Sources */,
 				F451AD2D299BDA4300CE9B50 /* PortraitTabController.swift in Sources */,
 				F400AE04293B730E00758820 /* ViewController+KeyboardManager.swift in Sources */,
 				F400ADD8293B244500758820 /* AppDelegate.swift in Sources */,

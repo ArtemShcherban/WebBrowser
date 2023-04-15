@@ -89,8 +89,8 @@ class VerticalBrowserController: BrowserViewController {
 private extension VerticalBrowserController {
     func openNewTab(isHidden: Bool) {
         hasHiddenTab = isHidden
-        addTabViewController(isHidden: isHidden)
         verticalBrowserView.addAddressBar(isHidden: isHidden)
+        addTabViewController(isHidden: isHidden)
     }
     
     func openNewTabIfNeeded(tabViewController: VerticalTabController) {

@@ -18,7 +18,6 @@ public class CDBookmark: NSManagedObject {
         if
             let iconData = self.icon,
             let iconImage = UIImage(data: iconData) {
-            print()
             icon = iconImage
         }
         let bookmark = Bookmark(

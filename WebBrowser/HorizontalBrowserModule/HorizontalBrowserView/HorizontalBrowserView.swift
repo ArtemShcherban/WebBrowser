@@ -7,17 +7,15 @@
 
 import UIKit
 
-protocol HorizontalBrowserViewDelegate: AnyObject {
-    func addTabButtonTapped()
-}
-
 class HorizontalBrowserView: BrowserView {
     private let topToolbar = Toolbar(position: .top)
     private let addressBar = AddressBar()
+    let tabsCollectionView = TabsCollectionView()
     private var contentView = UIView()
     
     var addressBarBottomConstraint: NSLayoutConstraint?
     var toolbarTopContstraint: NSLayoutConstraint?
+    var tabsCollectionViewHeightConstraint: NSLayoutConstraint?
     
     init() {
         super.init(toolbar: topToolbar)
@@ -47,6 +45,17 @@ class HorizontalBrowserView: BrowserView {
         }
         setConstraintsFor(tabView)
     }
+    
+    func showTabsCollectionViewWith(_ cellCount: CGFloat) {
+        toolbar.layer.borderWidth = 0
+        tabsCollectionView.collectionViewLayout = tabsCollectionView.compositionalLayoutFor(cellCount)
+        animateTabsCollectionViewAppearing()
+    }
+    
+    func hideTabsCollectionView() {
+        toolbar.layer.borderWidth = 1
+        animateTabsCollectionViewDisappearing()
+    }
 }
 
 private extension HorizontalBrowserView {
@@ -54,6 +63,7 @@ private extension HorizontalBrowserView {
         backgroundColor = .white
         setupToolbar()
         setupAddressBar()
+        setupTabsCollectionView()
         setupContentView()
     }
     
@@ -92,12 +102,30 @@ private extension HorizontalBrowserView {
         ])
     }
     
+    func setupTabsCollectionView() {
+        tabsCollectionView.backgroundColor = UIColor.textFieldGray
+        addSubview(tabsCollectionView)
+        
+        tabsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tabsCollectionViewHeightConstraint =
+        tabsCollectionView.heightAnchor.constraint(equalToConstant: 0)
+        guard let tabsCollectionViewHeightConstraint else { return }
+        
+        NSLayoutConstraint.activate([
+            tabsCollectionView.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
+            tabsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            tabsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tabsCollectionViewHeightConstraint  
+        ])
+    }
+    
     func setupContentView() {
         insertSubview(contentView, belowSubview: toolbar)
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
+            contentView.topAnchor.constraint(equalTo: tabsCollectionView.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)

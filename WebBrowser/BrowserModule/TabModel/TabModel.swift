@@ -8,24 +8,21 @@
 import UIKit
 import WebKit
 
-protocol TabModelDelegate: AnyObject {
-    var navigationError: NSError? { get set }
-}
-
 class TabModel {
     private let webView: WKWebView
-    lazy var webpageBackForwardStack = WebpagesBackForwardStack()
+    private lazy var webpageBackForwardStack = WebpagesBackForwardStack()
+    private lazy var networkService = NetworkService()
 
-    weak var delegate: TabModelDelegate?
-    
+    var canGoBack: Bool { !webpageBackForwardStack.backWebpages.isEmpty }
+    var canGoForward: Bool { !webpageBackForwardStack.frontWebpages.isEmpty }
+    var backWebpage: Webpage? { webpageBackForwardStack.backWebpages.last }
+    var frontWebpage: Webpage? { webpageBackForwardStack.frontWebpages.last }
     var currentWebpage: Webpage? {
-        guard let webpage = webpageBackForwardStack.currentWebpage else { return nil }
-        return webpage
+        webpageBackForwardStack.currentWebpage
     }
     
-    init(webView: WKWebView, delegate: TabModelDelegate) {
+    init(webView: WKWebView) {
         self.webView = webView
-        self.delegate = delegate
     }
     
     func updateCurrentWebpage(error: NSError?) {
@@ -35,23 +32,8 @@ class TabModel {
         webView.configuration.defaultWebpagePreferences.preferredContentMode
     }
     
-    func goBack() {
-        webpageBackForwardStack.goBackWebpage()
-        guard let url = currentWebpage?.url else { return }
-        webView.load(URLRequest(url: url))
-    }
-    
-    func goForward() {
-        webpageBackForwardStack.goForwardWebpage()
-        guard let url = currentWebpage?.url else { return }
-        webView.load(URLRequest(url: url))
-    }
-    
-    func setContentModeForNextWebpage() -> WKWebpagePreferences.ContentMode {
-        guard let contentMode = currentWebpage?.contentMode else { return .mobile }
-        webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
-        delegate?.navigationError = currentWebpage?.error
-        return contentMode
+    func updateBackForwardStackAfterMoving(_ direction: Direction) {
+        webpageBackForwardStack.move(to: direction)
     }
     
     func createWebpage(with url: URL, and error: NSError? = nil) {

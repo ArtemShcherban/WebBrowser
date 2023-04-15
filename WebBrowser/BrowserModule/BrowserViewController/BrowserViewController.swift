@@ -68,6 +68,8 @@ class BrowserViewController: UIViewController {
         tabViewControllers.append(tabController)
         addChild(tabController)
         tabController.didMove(toParent: self)
+//        currentTabIndex = tabViewControllers.count - 1
+        NotificationCenter.default.post(name: .tabViewControllerHasAdded, object: nil)
     }
     
     func updateWebpageContentModeFor(_ tabViewController: TabViewController, and url: URL) {

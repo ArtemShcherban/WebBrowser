@@ -10,13 +10,16 @@ import WebKit
 
 class HorizontalTabController: TabViewController {
     private var horizontalTabView = HorizontalTabView()
-
+    
+    private var titleObserver: NSKeyValueObservation?
+    
     init() {
         super.init(
             tabView: horizontalTabView
         )
         self.showFavoritesView()
         startBackForwardStackObserve()
+        startTitleObserve()
     }
     
     required init?(coder: NSCoder) {
@@ -39,8 +42,15 @@ class HorizontalTabController: TabViewController {
             super.showFavoritesView()
         }
     }
-    
-    @objc func yellowViewtapped() {
-        controller?.dismissKeyboard()
+}
+
+private extension HorizontalTabController {
+    func startTitleObserve() {
+        titleObserver = tabView.webView.observe(\.title, options: .new) { webView, _ in
+            guard
+                let controller = self.controller as?  HorizontalBrowserController,
+                let title = webView.title else { return }
+            controller.tabController(self, hasChangedWebViewTitle: title)
+        }
     }
 }

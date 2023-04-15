@@ -22,24 +22,19 @@ protocol TabViewControllerDelegate: AnyObject {
     func hideKeyboard()
 }
 
-class TabViewController: UIViewController, TabModelDelegate {
+class TabViewController: UIViewController {
     private(set) var tabView: TabView
     private(set) var filterListModel = FilterListModel()
     private(set) var favoritesModel = FavoritesModel()
-    private(set) lazy var tabModel = TabModel(webView: tabView.webView, delegate: self)
+    private(set) lazy var tabModel = TabModel(webView: tabView.webView)
     private(set) lazy var favoritesView = tabView.favoritesView
     
     private var urlObserver: NSKeyValueObservation?
     private var progressObserver: NSKeyValueObservation?
     private var themeColorObserver: NSKeyValueObservation?
     
-    var currentWebPage: Webpage {
-        Webpage(
-            url: tabView.webView.url,
-            title: tabView.webView.title,
-            error: nil,
-            contentMode: .mobile
-        )
+    var currentWebpage: Webpage? {
+        tabModel.currentWebpage
     }
     
     lazy var hasLoadedURl = false {
@@ -96,19 +91,19 @@ class TabViewController: UIViewController, TabModelDelegate {
         }
     }
     
-    func contentModeForNextWebPage() -> WKWebpagePreferences.ContentMode {
-        tabModel.setContentModeForNextWebpage()
-    }
-    
     func reload() {
         tabView.webView.reload()
     }
-    func goBack() {
-        tabModel.goBack()
-    }
     
-    func goForward() {
-        tabModel.goForward()
+    func go(_ direction: Direction) {
+        let nextWebPage = direction == .backward ? tabModel.backWebpage : tabModel.frontWebpage
+        guard
+            let nextWebPage,
+            let url = nextWebPage.url else { return }
+        tabView.updateWebViewContentMode(for: nextWebPage)
+        navigationError = nextWebPage.error
+        tabView.webView.load(URLRequest(url: url))
+        tabModel.updateBackForwardStackAfterMoving(direction)
     }
     
     func addBookmark(with currentWebpage: Webpage) {
@@ -116,7 +111,7 @@ class TabViewController: UIViewController, TabModelDelegate {
     }
     
     func backForwardButtonStatus() -> (canGoBack: Bool, canGoForward: Bool) {
-        return (tabModel.webpageBackForwardStack.canGoBack, tabModel.webpageBackForwardStack.canGoForward)
+        return (tabModel.canGoBack, tabModel.canGoForward)
     }
     
     func updateWebViewConfiguration(with contentMode: WKWebpagePreferences.ContentMode) {
@@ -161,14 +156,19 @@ extension TabViewController {
             object: nil
         )
     }
+    
+    func removeBackForwardStackObserve() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: .backForwardStackHasChanged, object: nil)
+    }
 }
 
 @objc private extension TabViewController {
     func backForwardStackHasChanged() {
         guard  controller?.toolbarIsHide == false else { return }
         controller?.backForwardListHasChanged(
-            tabModel.webpageBackForwardStack.canGoBack,
-            tabModel.webpageBackForwardStack.canGoForward
+            tabModel.canGoBack,
+            tabModel.canGoForward
         )
     }
 }

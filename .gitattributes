@@ -1,2 +1,3 @@
 *.pbxproj merge=union
+*.md linguist-generated=true
 

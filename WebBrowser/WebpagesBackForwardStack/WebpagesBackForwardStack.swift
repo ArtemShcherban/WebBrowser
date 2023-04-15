@@ -7,38 +7,14 @@
 
 import Foundation
 
+enum Direction {
+    case backward
+    case forward
+}
+
 final class WebpagesBackForwardStack {
     private lazy var backStack = WebpagesStack()
     private lazy var forwardStack = WebpagesStack()
-    
-    var backWebpages: [Webpage] {
-        backStack.webpages
-    }
-    
-    var forwardWebpages: [Webpage] {
-        forwardStack.webpages
-    }
-    
-    func goBackWebpage() {
-        guard let forwardWebpage = currentWebpage else { return }
-        currentWebpage = nil
-        forwardStack.push(webpage: forwardWebpage)
-        currentWebpage = backStack.popWebpage()
-    }
-    
-    func goForwardWebpage() {
-        guard let backWebpage = currentWebpage else { return }
-        currentWebpage = nil
-        backStack.push(webpage: backWebpage)
-        currentWebpage = forwardStack.popWebpage()
-    }
-    
-    var canGoBack: Bool {
-        !backStack.isEmpty
-    }
-    var canGoForward: Bool {
-        !forwardStack.isEmpty
-    }
     
     var currentWebpage: Webpage? {
         willSet {
@@ -49,6 +25,39 @@ final class WebpagesBackForwardStack {
             backStack.push(webpage: currentWebpage)
             forwardStack.empty()
         }
+    }
+    
+    var backWebpages: [Webpage] {
+        backStack.webpages
+    }
+    
+    var frontWebpages: [Webpage] {
+        forwardStack.webpages
+    }
+    
+    func move(to direction: Direction) {
+        switch direction {
+        case .backward:
+            moveOneWebpageBackward()
+        case .forward:
+            moveOneWebpageForward()
+        }
+    }
+}
+
+private extension WebpagesBackForwardStack {
+    func moveOneWebpageBackward() {
+        guard let nextFrontWebpage = currentWebpage else { return }
+        currentWebpage = nil
+        forwardStack.push(webpage: nextFrontWebpage)
+        currentWebpage = backStack.popWebpage()
+    }
+    
+    func moveOneWebpageForward() {
+        guard let nextBackWebpage = currentWebpage else { return }
+        currentWebpage = nil
+        backStack.push(webpage: nextBackWebpage)
+        currentWebpage = forwardStack.popWebpage()
     }
 }
 

@@ -33,6 +33,28 @@ extension UIColor {
         blue: 220 / 255,
         alpha: 1
     )
+    
+    static let tabCellLightGray = UIColor(
+        red: 247 / 255,
+        green: 248 / 255,
+        blue: 247 / 255,
+        alpha: 1
+    )
+    
+    static let tabTitleDarkGray = UIColor(
+        red: 126 / 255,
+        green: 127 / 255,
+        blue: 130 / 255,
+        alpha: 1
+    )
+    
+    static var randomColor: UIColor {
+        let red = CGFloat(Int.random(in: 0...255)) / 255
+        let green = CGFloat(Int.random(in: 0...255)) / 255
+        let blue = CGFloat(Int.random(in: 0...255)) / 255
+        
+        return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+    }
 }
 
 extension UIColor {

@@ -9,7 +9,7 @@ import UIKit
 
 extension HorizontalBrowserView {
     func toolbarFullCollapseAnimation() {
-        toolbarTopContstraint?.constant = -52
+        toolbarTopContstraint?.constant = -82
     }
     
     func toolbarHalfCollapseAnimation() {

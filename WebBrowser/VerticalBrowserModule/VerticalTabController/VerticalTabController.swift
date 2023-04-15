@@ -50,11 +50,6 @@ class VerticalTabController: TabViewController {
         updateStatusBarColor()
     }
     
-    func removeBackForwardStackObserve() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.removeObserver(self, name: .backForwardStackHasChanged, object: nil)
-    }
-    
     func moveCellAt(_ sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         favoritesModel.replaceBookmarksAt(sourceIndexPath, withAt: destinationIndexPath)
     }

@@ -19,4 +19,12 @@ extension Notification.Name {
     static var bookmarksCollectionHasChanged: Notification.Name {
         return .init(rawValue: "BookmarksCollectionHasChanged")
     }
+    
+    static var tabViewControllerHasAdded: Notification.Name {
+        return .init(rawValue: "TabViewControllerHasAdded")
+    }
+    
+    static var tabsHeadlinesHaveChanged: Notification.Name {
+        return .init(rawValue: "TabsHeadlinesHaveChanged")
+    }
 }

@@ -252,15 +252,15 @@ extension ViewController: WebBrowserViewDelegate {
     func goBackButtonTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
         tabViewController.goBack()
-        let contentMode = tabViewController.contentModeForNextWebPage()
-        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
+//        let contentMode = tabViewController.contentModeForNextWebPage()
+//        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
     }
     
     func goForwardButtontTapped() {
         guard let tabViewController = tabViewControllers[safe: currentTabIndex] else { return }
         tabViewController.goForward()
-        let contentMode = tabViewController.contentModeForNextWebPage()
-        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
+//        let contentMode = tabViewController.contentModeForNextWebPage()
+//        currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
     }
     
     func heartButtonTapped() {

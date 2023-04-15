@@ -43,6 +43,11 @@ class TabView: UIView {
         }
     }
     
+    func updateWebViewContentMode(for nextWebpage: Webpage) {
+        let contentMode = nextWebpage.contentMode
+        webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
+    }
+    
     func createPageBlockedDialogBox() -> UIAlertController {
         let dialogBox = UIAlertController(
             title: "Page is blocked",

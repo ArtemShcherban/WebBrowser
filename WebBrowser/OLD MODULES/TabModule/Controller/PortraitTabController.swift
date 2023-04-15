@@ -26,10 +26,10 @@ extension OLDTabViewControllerDelegate {
     func tabViewControllerDidEndDraging() { }
 }
 
-final class PortraitTabController: SuperTabViewController, TabModelDelegate {
+final class PortraitTabController: SuperTabViewController {
     private(set) lazy var tabView = TabViewOLD(favoritesView: favoritesView)
     private(set) lazy var favoritesView = FavoritesView()
-    private lazy var tabModel = TabModel(webView: tabView.webView, delegate: self)
+    private lazy var tabModel = TabModel(webView: tabView.webView)
     private(set) lazy var favoritesModel = FavoritesModel()
     private let filterListModel: FilterListModel
     
@@ -124,9 +124,9 @@ final class PortraitTabController: SuperTabViewController, TabModelDelegate {
         notificationCenter.removeObserver(self, name: .backForwardStackHasChanged, object: nil)
     }
     
-    func contentModeForNextWebPage() -> WKWebpagePreferences.ContentMode {
-        tabModel.setContentModeForNextWebpage()
-    }
+//    func contentModeForNextWebPage() -> WKWebpagePreferences.ContentMode {
+//        tabModel.setContentModeForNextWebpage()
+//    }
     
     func reload() {
 //        tabView.webView.reload()
@@ -140,7 +140,7 @@ final class PortraitTabController: SuperTabViewController, TabModelDelegate {
     }
     
     func backForwardButtonStatus() -> (canGoBack: Bool, canGoForward: Bool) {
-        return (tabModel.webpageBackForwardStack.canGoBack, tabModel.webpageBackForwardStack.canGoForward)
+        return (tabModel.canGoBack, tabModel.canGoForward)
     }
     
     func addBookmark(with domain: String) {
@@ -235,8 +235,8 @@ private extension PortraitTabController {
 @objc private extension PortraitTabController {
     func backForwardStackHasChanged() {
         delegate?.backForwardListHasChanged(
-            tabModel.webpageBackForwardStack.canGoBack,
-            tabModel.webpageBackForwardStack.canGoForward
+            tabModel.canGoBack,
+            tabModel.canGoForward
         )
     }
     

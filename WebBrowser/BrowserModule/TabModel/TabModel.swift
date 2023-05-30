@@ -7,18 +7,22 @@
 
 import UIKit
 import WebKit
+import RxSwift
 
 class TabModel {
     private let webView: WKWebView
     private lazy var webpageBackForwardStack = WebpagesBackForwardStack()
-    private lazy var networkService = NetworkService()
+    private lazy var networkService = IconNetworkService()
+    private var disposeBag = DisposeBag()
+    private var subscription = Disposables.create()
 
     var canGoBack: Bool { !webpageBackForwardStack.backWebpages.isEmpty }
     var canGoForward: Bool { !webpageBackForwardStack.frontWebpages.isEmpty }
     var backWebpage: Webpage? { webpageBackForwardStack.backWebpages.last }
     var frontWebpage: Webpage? { webpageBackForwardStack.frontWebpages.last }
-    var currentWebpage: Webpage? {
-        webpageBackForwardStack.currentWebpage
+    
+    var currentWebpage: Observable<Webpage?> {
+        webpageBackForwardStack.observableWebpage
     }
     
     init(webView: WKWebView) {
@@ -26,23 +30,62 @@ class TabModel {
     }
     
     func updateCurrentWebpage(error: NSError?) {
-        webpageBackForwardStack.currentWebpage?.title = webView.title
-        webpageBackForwardStack.currentWebpage?.error = error
-        webpageBackForwardStack.currentWebpage?.contentMode =
-        webView.configuration.defaultWebpagePreferences.preferredContentMode
+        currentWebpage
+            .map { webpage -> Void in
+                webpage?.title = self.webView.title
+                webpage?.mainTitle.onNext(self.webView.title)
+                webpage?.error = error
+                webpage?.contentMode.accept(
+                    self.webView.configuration.defaultWebpagePreferences.preferredContentMode
+                )
+            }
+            .subscribe()
+            .dispose()
     }
     
     func updateBackForwardStackAfterMoving(_ direction: Direction) {
         webpageBackForwardStack.move(to: direction)
     }
     
-    func createWebpage(with url: URL, and error: NSError? = nil) {
+    func createWebpage(with url: URL, _ hasHostChanged: Bool) {
+        subscription.dispose()
         let contentMode = webView.configuration.defaultWebpagePreferences.preferredContentMode
         let webpage = Webpage(
             url: url,
-            error: error,
+            mainTitle: "Loading ...",
+            favoriteIcon: hasHostChanged == false ? networkService.favoriteIconRelay.value : UIImage(),
             contentMode: contentMode
         )
-        webpageBackForwardStack.currentWebpage = webpage
+        
+        subscription = networkService.favoriteIconRelay
+            .skip(1)
+            .subscribe { favoriteIcon in
+                webpage.favoriteIcon.onNext(favoriteIcon)
+            }
+            
+        if hasHostChanged {
+            do {
+                try networkService.loadIconData(with: url)
+            } catch let error {
+                if let error = error as? NetworkServiceError {
+                    print(error.rawValue)
+                }
+            }
+        }
+        webpageBackForwardStack.currentWebpageChanged(webpage)
+    }
+    
+    func createStartPage(count: Int) {
+        let contentMode: WKWebpagePreferences.ContentMode = .recommended
+        let scaleConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        let startPage = Webpage(
+            url: nil,
+            title: nil,
+            mainTitle: "Start page \(count)",
+            favoriteIcon: UIImage(systemName: "star.fill", withConfiguration: scaleConfiguration),
+            error: nil,
+            contentMode: contentMode
+        )
+        webpageBackForwardStack.currentWebpageChanged(startPage)
     }
 }

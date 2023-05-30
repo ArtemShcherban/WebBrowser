@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import RxSwift
+import RxDataSources
 
-struct Headline {
+struct Headline: IdentifiableType, Equatable {
+    typealias Identity = UUID
+   
+    let uid = UUID()
     var title: String
     var favoriteIcon: UIImage
+    var isActive: Bool
+    var identity: UUID {
+        uid
+    }
 }

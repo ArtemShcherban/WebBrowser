@@ -44,7 +44,7 @@ class TabView: UIView {
     }
     
     func updateWebViewContentMode(for nextWebpage: Webpage) {
-        let contentMode = nextWebpage.contentMode
+        let contentMode = nextWebpage.contentMode.value
         webView.configuration.defaultWebpagePreferences.preferredContentMode = contentMode
     }
     

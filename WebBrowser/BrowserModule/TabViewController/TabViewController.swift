@@ -7,6 +7,8 @@
 
 import UIKit
 import WebKit
+import RxSwift
+import RxRelay
 
 protocol TabViewControllerDelegate: AnyObject {
     func tabViewControllerDidScroll(yOffsetChange: CGFloat)
@@ -33,9 +35,27 @@ class TabViewController: UIViewController {
     private var progressObserver: NSKeyValueObservation?
     private var themeColorObserver: NSKeyValueObservation?
     
-    var currentWebpage: Webpage? {
+    var contentMode: WKWebpagePreferences.ContentMode = .mobile
+    private var headlineSubcription = Disposables.create()
+    private var contentModeSubscription = Disposables.create()
+    
+    var isActiveSubject = BehaviorRelay(value: true)
+    
+    var headline: Observable<Headline> {
         tabModel.currentWebpage
+            .compactMap { $0 }
+            .flatMapLatest { webpage -> Observable<Headline> in
+                Observable.combineLatest(
+                    webpage.mainTitle,
+                    webpage.favoriteIcon,
+                    self.isActiveSubject
+                ) { title, icon, isActive in
+                    Headline(title: title ?? "", favoriteIcon: icon ?? UIImage(), isActive: isActive)
+                }
+            }
     }
+    
+    private let disposeBag = DisposeBag()
     
     lazy var hasLoadedURl = false {
         didSet {
@@ -43,10 +63,19 @@ class TabViewController: UIViewController {
             self.controller?.heartButtonEnabled(hasLoadedURl)
         }
     }
-    private var urlHost: String?
+    private var urlHost: String? {
+        tabView.webView.url?.host
+    }
     var navigationError: NSError?
     var loadingWebpage: Webpage? {
+        var page: Webpage?
         tabModel.currentWebpage
+            .map { webpage -> Void in
+                page = webpage
+            }
+            .subscribe()
+            .dispose()
+        return page
     }
     
     weak var controller: BrowserViewController?
@@ -60,6 +89,7 @@ class TabViewController: UIViewController {
         tabView.favoritesView.tabController = self
         tabView.tabController = self
         startWebViewObserve()
+        startCurrentWebpageSubscription()
         tabView.webView.navigationDelegate = self
     }
     
@@ -74,7 +104,7 @@ class TabViewController: UIViewController {
     
     func loadWebsite(from url: URL) {
         navigationError = nil
-        tabModel.createWebpage(with: url)
+        tabModel.createWebpage(with: url, hasHostChanged(in: url))
         let webView = tabView.webView
         webView.load(URLRequest(url: url))
         hasLoadedURl = true
@@ -82,13 +112,8 @@ class TabViewController: UIViewController {
         controller?.activateToolbar()
     }
     
-    func hasURLHostChanged(in url: URL) -> Bool {
-        if urlHost == url.host {
-            return false
-        } else {
-            urlHost = url.host
-            return true
-        }
+    func hasHostChanged(in url: URL) -> Bool {
+        urlHost != url.host
     }
     
     func reload() {
@@ -96,6 +121,8 @@ class TabViewController: UIViewController {
     }
     
     func go(_ direction: Direction) {
+        contentModeSubscription.dispose()
+        headlineSubcription.dispose()
         let nextWebPage = direction == .backward ? tabModel.backWebpage : tabModel.frontWebpage
         guard
             let nextWebPage,
@@ -104,10 +131,17 @@ class TabViewController: UIViewController {
         navigationError = nextWebPage.error
         tabView.webView.load(URLRequest(url: url))
         tabModel.updateBackForwardStackAfterMoving(direction)
+        startCurrentWebpageSubscription()
     }
     
-    func addBookmark(with currentWebpage: Webpage) {
-        favoritesModel.saveBookmark(with: currentWebpage)
+    func addBookmark() {
+        tabModel.currentWebpage
+            .map { currentWebpage -> Void in
+                guard let currentWebpage else { return }
+                self.favoritesModel.saveBookmark(with: currentWebpage)
+            }
+            .subscribe()
+            .dispose()
     }
     
     func backForwardButtonStatus() -> (canGoBack: Bool, canGoForward: Bool) {
@@ -160,6 +194,19 @@ extension TabViewController {
     func removeBackForwardStackObserve() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(self, name: .backForwardStackHasChanged, object: nil)
+    }
+    
+    func startCurrentWebpageSubscription(skipFirst: Bool = false) {
+        contentModeSubscription = tabModel.currentWebpage
+            .skip(1)
+            .compactMap { $0 }
+            .flatMapLatest { webpage in
+                webpage.contentMode
+            }
+            .subscribe { [weak self] contentMode in
+                self?.contentMode = contentMode
+            }
+        contentModeSubscription.disposed(by: disposeBag)
     }
 }
 

@@ -68,12 +68,10 @@ class BrowserViewController: UIViewController {
         tabViewControllers.append(tabController)
         addChild(tabController)
         tabController.didMove(toParent: self)
-//        currentTabIndex = tabViewControllers.count - 1
-        NotificationCenter.default.post(name: .tabViewControllerHasAdded, object: nil)
     }
     
     func updateWebpageContentModeFor(_ tabViewController: TabViewController, and url: URL) {
-        if tabViewController.hasURLHostChanged(in: url) {
+        if tabViewController.hasHostChanged(in: url) {
             currentAddressBar.updateAaButtonMenuFor(contentMode: .mobile)
             tabViewController.updateWebViewConfiguration(with: .mobile)
         }

@@ -10,7 +10,7 @@ import WebKit
 
 extension TabViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let url = navigationAction.request.url else { return }
+        guard var url = navigationAction.request.url else { return }
         switch navigationAction.navigationType {
         case .linkActivated:
             guard filterListModel.isAllowedURL(url) else {
@@ -18,8 +18,15 @@ extension TabViewController: WKNavigationDelegate {
                 decisionHandler(.cancel)
                 return
             }
+            if
+                let query = url.query,
+                !query.hasPrefix("sa=") {
+                if let updatedURL = URL(string: query) {
+                    url = updatedURL
+                }
+            }
             
-            if hasURLHostChanged(in: url) || url.query != nil {
+            if hasHostChanged(in: url) || url.query != nil {
                 updateWebViewConfiguration(with: .mobile)
                 controller?.hostHasChanged()
             }

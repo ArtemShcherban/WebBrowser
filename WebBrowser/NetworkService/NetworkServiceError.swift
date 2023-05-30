@@ -8,7 +8,8 @@
 import Foundation
 
 enum NetworkServiceError: String, Error {
-    case couldnotCreateURL = "Error: Couldn't create bookmark icon URL"
+    case couldNotCreateURL = "Error: Couldn't create bookmark icon URL"
     case httpRequestFailed = "Error: Http Request failed, please try again"
+    case couldNotCreateUIImage = "Error: Couldn't create favorite icon"
     case unresolvedError = "Error: Unresolved error"
 }

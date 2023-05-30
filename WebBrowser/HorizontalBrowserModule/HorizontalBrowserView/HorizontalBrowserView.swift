@@ -10,7 +10,7 @@ import UIKit
 class HorizontalBrowserView: BrowserView {
     private let topToolbar = Toolbar(position: .top)
     private let addressBar = AddressBar()
-    let tabsCollectionView = TabsCollectionView()
+    let tabsCollectionView = HeadlinesCollectionView()
     private var contentView = UIView()
     
     var addressBarBottomConstraint: NSLayoutConstraint?
@@ -48,7 +48,6 @@ class HorizontalBrowserView: BrowserView {
     
     func showTabsCollectionViewWith(_ cellCount: CGFloat) {
         toolbar.layer.borderWidth = 0
-        tabsCollectionView.collectionViewLayout = tabsCollectionView.compositionalLayoutFor(cellCount)
         animateTabsCollectionViewAppearing()
     }
     
@@ -116,7 +115,7 @@ private extension HorizontalBrowserView {
             tabsCollectionView.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
             tabsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             tabsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            tabsCollectionViewHeightConstraint  
+            tabsCollectionViewHeightConstraint
         ])
     }
     

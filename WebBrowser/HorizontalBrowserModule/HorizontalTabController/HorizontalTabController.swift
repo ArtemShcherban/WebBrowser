@@ -8,10 +8,8 @@
 import UIKit
 import WebKit
 
-class HorizontalTabController: TabViewController {
+final class HorizontalTabController: TabViewController {
     private var horizontalTabView = HorizontalTabView()
-    
-    private var titleObserver: NSKeyValueObservation?
     
     init() {
         super.init(
@@ -19,7 +17,6 @@ class HorizontalTabController: TabViewController {
         )
         self.showFavoritesView()
         startBackForwardStackObserve()
-        startTitleObserve()
     }
     
     required init?(coder: NSCoder) {
@@ -40,17 +37,6 @@ class HorizontalTabController: TabViewController {
             horizontalTabView.showFavoritesPopUpView()
         } else if !hasLoadedURl {
             super.showFavoritesView()
-        }
-    }
-}
-
-private extension HorizontalTabController {
-    func startTitleObserve() {
-        titleObserver = tabView.webView.observe(\.title, options: .new) { webView, _ in
-            guard
-                let controller = self.controller as?  HorizontalBrowserController,
-                let title = webView.title else { return }
-            controller.tabController(self, hasChangedWebViewTitle: title)
         }
     }
 }

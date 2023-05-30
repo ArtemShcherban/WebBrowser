@@ -10,24 +10,24 @@ import UIKit
 extension BrowserViewController: BrowserViewDelegate {
     func goBackButtonTapped() {
         currentTabController.go(.backward)
-        let contentMode = currentTabController.currentWebpage?.contentMode ?? .mobile
+        let contentMode = currentTabController.contentMode
         currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
     }
     
     func goForwardButtontTapped() {
         currentTabController.go(.forward)
-        let contentMode = currentTabController.currentWebpage?.contentMode ?? .mobile
+        let contentMode = currentTabController.contentMode
         currentAddressBar.updateAaButtonMenuFor(contentMode: contentMode)
     }
     
     func heartButtonTapped() {
-        guard let currentWebpage = currentTabController.currentWebpage else { return }
-        currentTabController.addBookmark(with: currentWebpage)
+        currentTabController.addBookmark()
     }
     
     func addTabButtonTapped() {
         addTabViewController()
-        currentTabIndex += 1
+        currentTabIndex = tabViewControllers.count - 1
+        NotificationCenter.default.post(name: .tabViewControllerHasAdded, object: nil)
     }
     
     func plusButtonTapped() {

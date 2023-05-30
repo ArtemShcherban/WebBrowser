@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import RxSwift
 
 final class FavoritesModel {
-    private let networkService: NetworkService
+    private let networkService: IconNetworkService
     private let bookmarkRepository: BookmarkRepository
     
     init(
-        networkService: NetworkService = NetworkService(),
+        networkService: IconNetworkService = IconNetworkService(),
         bookmarkRepository: BookmarkRepository =
         BookmarkRepository(coreDataStack: CoreDataStack.shared)
     ) {
@@ -63,24 +64,28 @@ private extension FavoritesModel {
     }
     
     func getBookmarkFavoriteIconImage(for url: URL) {
-        guard let host = url.host else { return }
         var iconImage: UIImage?
-        networkService.loadIconData(for: host) { result in
-            switch result {
-            case .success(let data):
-                guard let tempIconImage = UIImage(data: data) else { return }
-                if tempIconImage.size.width > 64 {
-                    iconImage = tempIconImage.changeSizeTo(width: 50, height: 50)
-                } else if tempIconImage.size.width >= 32 {
-                    iconImage = tempIconImage
+        var subscription = Disposables.create()
+        do {
+            try networkService.loadIconData(with: url, forBookmark: true)
+            subscription = networkService.favoriteIconRelay
+                .subscribe { [weak self] tempIconImage in
+                    guard let tempIconImage else { return }
+                    if tempIconImage.size.width > 64 {
+                        iconImage = tempIconImage.changeSizeTo(width: 50, height: 50)
+                    } else if tempIconImage.size.width >= 32 {
+                        iconImage = tempIconImage
+                    }
+                    guard
+                        let iconImage,
+                        let iconPNGData = iconImage.pngData() else { return }
+                    self?.bookmarkRepository.updateBookmarkWith(iconPNGData, and: url)
+                    subscription.dispose()
                 }
-            case .failure(let error):
+        } catch let error {
+            if let error = error as? NetworkServiceError {
                 print(error.rawValue)
             }
-            guard
-                let iconImage,
-                let iconPNGData = iconImage.pngData() else { return }
-            self.bookmarkRepository.updateBookmarkWith(iconPNGData, and: url)
         }
     }
 }

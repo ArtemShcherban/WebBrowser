@@ -41,7 +41,7 @@ final class PortraitTabController: SuperTabViewController {
     }
     
     var loadingWebpage: Webpage? {
-        tabModel.currentWebpage
+        nil
     }
     
     var navigationError: NSError?
@@ -89,7 +89,6 @@ final class PortraitTabController: SuperTabViewController {
     
     func loadWebsite(from url: URL) {
         navigationError = nil
-        tabModel.createWebpage(with: url)
         let webView = tabView.webView
         webView.load(URLRequest(url: url))
         hasLoadedURl = true

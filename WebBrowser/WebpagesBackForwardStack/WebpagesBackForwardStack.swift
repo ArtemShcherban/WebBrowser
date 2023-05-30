@@ -6,25 +6,29 @@
 //
 
 import Foundation
-
-enum Direction {
-    case backward
-    case forward
-}
+import RxSwift
+import RxRelay
 
 final class WebpagesBackForwardStack {
     private lazy var backStack = WebpagesStack()
     private lazy var forwardStack = WebpagesStack()
     
-    var currentWebpage: Webpage? {
-        willSet {
-            guard
-                let currentWebpage,
-                newValue != nil,
-                newValue?.url != currentWebpage.url else { return }
+    private let disposeBag = DisposeBag()
+    let currentWebpageRelay = BehaviorRelay<Webpage?>(value: nil)
+    var observableWebpage: Observable<Webpage?> {
+        currentWebpageRelay
+            .distinctUntilChanged()
+            .asObservable()
+    }
+    
+    func currentWebpageChanged(_ newWebpage: Webpage) {
+        if
+            let currentWebpage = currentWebpageRelay.value,
+            currentWebpage.url != nil {
             backStack.push(webpage: currentWebpage)
-            forwardStack.empty()
         }
+        currentWebpageRelay.accept(newWebpage)
+        forwardStack.empty()
     }
     
     var backWebpages: [Webpage] {
@@ -47,17 +51,15 @@ final class WebpagesBackForwardStack {
 
 private extension WebpagesBackForwardStack {
     func moveOneWebpageBackward() {
-        guard let nextFrontWebpage = currentWebpage else { return }
-        currentWebpage = nil
+        guard let nextFrontWebpage = currentWebpageRelay.value else { return }
         forwardStack.push(webpage: nextFrontWebpage)
-        currentWebpage = backStack.popWebpage()
+        currentWebpageRelay.accept(backStack.popWebpage())
     }
     
     func moveOneWebpageForward() {
-        guard let nextBackWebpage = currentWebpage else { return }
-        currentWebpage = nil
+        guard let nextBackWebpage = currentWebpageRelay.value else { return }
         backStack.push(webpage: nextBackWebpage)
-        currentWebpage = forwardStack.popWebpage()
+        currentWebpageRelay.accept(forwardStack.popWebpage())
     }
 }
 

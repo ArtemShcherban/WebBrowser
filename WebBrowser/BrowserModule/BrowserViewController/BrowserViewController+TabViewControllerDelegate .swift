@@ -81,6 +81,5 @@ private extension BrowserViewController {
 
 extension BrowserViewController {
     @objc func setupCollapsingToolbarAnimator() { }
-    
     @objc func setupExpandingToolbarAnimator() { }
 }

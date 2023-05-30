@@ -21,7 +21,7 @@ final class URLModel {
         return url
     }
     
-    func horeseFavoriteIconURL(for domain: String) -> URL? {
+    func horseFavoriteIconURL(for domain: String) -> URL? {
         var components = URLComponents()
         components.scheme = URLConstants.IconHorseFavoriteIcon.scheme
         components.host = URLConstants.IconHorseFavoriteIcon.host

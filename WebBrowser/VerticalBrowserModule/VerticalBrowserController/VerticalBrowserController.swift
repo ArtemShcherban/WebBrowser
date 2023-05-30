@@ -61,6 +61,7 @@ class VerticalBrowserController: BrowserViewController {
     
     override func addTabViewController(isHidden: Bool) {
         super.addTabViewController(isHidden: isHidden)
+        NotificationCenter.default.post(name: .tabViewControllerHasAdded, object: nil)
         guard let lastTabController = tabViewControllers.last else { return }
         verticalBrowserView.addToTabsStackView(lastTabController.tabView)
     }

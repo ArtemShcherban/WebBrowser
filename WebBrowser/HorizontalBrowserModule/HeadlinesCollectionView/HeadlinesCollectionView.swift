@@ -9,6 +9,7 @@ import UIKit
 
 class HeadlinesCollectionView: UICollectionView {
     private let headlinesLayout = HeadlinesCollectionViewFlowLayout()
+    let dublicateLayot = DublicateLayout()
     
     init() {
         super.init(frame: .zero, collectionViewLayout: headlinesLayout)
@@ -21,9 +22,22 @@ class HeadlinesCollectionView: UICollectionView {
     
     func moveContentIfNedeed() {
         if numberOfItems(inSection: 0) > 7 {
-            setContentOffset(
-                CGPoint(x: headlinesLayout.collectionViewContentSize.width - bounds.width, y: 0),
-                animated: true)
+            collectionViewLayout = dublicateLayot
+            layoutIfNeeded()
+            UIView.animate(
+                withDuration: 0,
+                delay: 0,
+                options: .curveEaseInOut
+            ) {
+                self.setContentOffset(
+                    CGPoint(
+                        x: self.contentSize.width - self.bounds.width,
+                        y: 0
+                    ),
+                    animated: true)
+            } completion: { _ in
+                self.collectionViewLayout = self.headlinesLayout
+            }
         }
     }
 }

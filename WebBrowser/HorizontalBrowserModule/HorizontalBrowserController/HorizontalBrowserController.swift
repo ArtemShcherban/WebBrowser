@@ -16,11 +16,16 @@ class HorizontalBrowserController: BrowserViewController {
     private let headlinesViewModel = HeadlinesViewModel()
     private lazy var headlinesDataSource = RxCollectionViewSectionedAnimatedDataSource<HeadlineSection>(
         decideViewTransition: { _, _, changeset in
-            var viewTransition: ViewTransition = changeset.isEmpty ? .reload : .animated
+            var viewTransition: ViewTransition = .reload
             changeset.forEach { changeset in
                 if
-                    !changeset.updatedItems.isEmpty {
-                    viewTransition = .reload
+                    !changeset.deletedItems.isEmpty {
+                    viewTransition = .animated
+                } else if !changeset.insertedItems.isEmpty {
+                    viewTransition =
+                    self.horizontalBrowserView.headlinesCollectionView.numberOfItems(inSection: 0) < 2 ||
+                    self.horizontalBrowserView.headlinesCollectionView.numberOfItems(inSection: 0) >= 7
+                    ? .reload : .animated
                 }
             }
             return viewTransition
@@ -77,7 +82,7 @@ class HorizontalBrowserController: BrowserViewController {
         newTabController.isActiveSubject.accept(true)
         horizontalBrowserView.addСontentOf(newTabController.tabView)
         currentTabIndex = index
-        horizontalBrowserView.tabsCollectionView.reloadData()
+//        horizontalBrowserView.headlinesCollectionView.reloadData()
     }
     
     func deleteTabController(at index: Int) -> CocoaAction {
@@ -89,7 +94,6 @@ class HorizontalBrowserController: BrowserViewController {
                 let cellCount = CGFloat(self.tabViewControllers.count - 1)
                 self.horizontalBrowserView.showTabsCollectionViewWith(cellCount)
             }
-            self.horizontalBrowserView.tabsCollectionView.moveContentIfNedeed()
             let nextActiveTabController = self.tabViewControllers[self.nextActiveItemIndex(after: index)]
             nextActiveTabController.isActiveSubject.accept(true)
             self.tabViewControllers.remove(at: index)
@@ -159,10 +163,10 @@ class HorizontalBrowserController: BrowserViewController {
     
     func bindViewModel() {
         headlinesViewModel.headlinesObservable
-            .bind(to: horizontalBrowserView.tabsCollectionView.rx.items(dataSource: headlinesDataSource))
+            .bind(to: horizontalBrowserView.headlinesCollectionView.rx.items(dataSource: headlinesDataSource))
             .disposed(by: disposeBag)
         
-        horizontalBrowserView.tabsCollectionView.rx.itemSelected
+        horizontalBrowserView.headlinesCollectionView.rx.itemSelected
             .flatMap { [weak self] indexPath -> Observable<Int> in
                 self?.switchToTabControllerWith(index: indexPath.row)
                 return .just(indexPath.row)
@@ -186,6 +190,6 @@ private extension HorizontalBrowserController {
             horizontalBrowserView.showTabsCollectionViewWith(cellCount)
         }
         currentTabController.tabModel.createStartPage(count: currentTabIndex)
-        horizontalBrowserView.tabsCollectionView.moveContentIfNedeed()
+        horizontalBrowserView.headlinesCollectionView.moveContentIfNedeed()
     }
 }

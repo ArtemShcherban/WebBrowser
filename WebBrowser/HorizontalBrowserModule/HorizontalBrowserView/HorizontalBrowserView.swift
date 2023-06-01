@@ -10,7 +10,7 @@ import UIKit
 class HorizontalBrowserView: BrowserView {
     private let topToolbar = Toolbar(position: .top)
     private let addressBar = AddressBar()
-    let tabsCollectionView = HeadlinesCollectionView()
+    let headlinesCollectionView = HeadlinesCollectionView()
     private var contentView = UIView()
     
     var addressBarBottomConstraint: NSLayoutConstraint?
@@ -102,19 +102,19 @@ private extension HorizontalBrowserView {
     }
     
     func setupTabsCollectionView() {
-        tabsCollectionView.backgroundColor = UIColor.textFieldGray
-        addSubview(tabsCollectionView)
+        headlinesCollectionView.backgroundColor = UIColor.textFieldGray
+        addSubview(headlinesCollectionView)
         
-        tabsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        headlinesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         tabsCollectionViewHeightConstraint =
-        tabsCollectionView.heightAnchor.constraint(equalToConstant: 0)
+        headlinesCollectionView.heightAnchor.constraint(equalToConstant: 0)
         guard let tabsCollectionViewHeightConstraint else { return }
         
         NSLayoutConstraint.activate([
-            tabsCollectionView.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
-            tabsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            tabsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            headlinesCollectionView.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
+            headlinesCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            headlinesCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             tabsCollectionViewHeightConstraint
         ])
     }
@@ -124,7 +124,7 @@ private extension HorizontalBrowserView {
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: tabsCollectionView.bottomAnchor),
+            contentView.topAnchor.constraint(equalTo: headlinesCollectionView.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)

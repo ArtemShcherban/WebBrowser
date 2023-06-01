@@ -109,6 +109,10 @@ extension BrowserView {
     
     func addTabButtonTapped() {
         controller?.addTabButtonTapped()
+        toolbar.addTabButton?.isEnabled = false
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+            self.toolbar.addTabButton?.isEnabled = true
+        }
     }
     
     func plusButtonTapped() {

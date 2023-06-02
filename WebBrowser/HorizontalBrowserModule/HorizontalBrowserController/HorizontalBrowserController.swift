@@ -82,7 +82,6 @@ class HorizontalBrowserController: BrowserViewController {
         newTabController.isActiveSubject.accept(true)
         horizontalBrowserView.addСontentOf(newTabController.tabView)
         currentTabIndex = index
-//        horizontalBrowserView.headlinesCollectionView.reloadData()
     }
     
     func deleteTabController(at index: Int) -> CocoaAction {
@@ -137,26 +136,24 @@ class HorizontalBrowserController: BrowserViewController {
             }
             
             let tabsCount = self.tabViewControllers.count
+            var cellType: HeadlineCellType
             
-            cell.isSideCell = (self.currentTabIndex - 1 == indexPath.row || tabsCount - 1 == indexPath.row)
-            
-            cell.isActive = headline.isActive
-            
-            collectionView.indexPathsForVisibleItems
-                .filter { indexPath in
-                    indexPath.row != self.currentTabIndex &&
-                    indexPath.row != self.currentTabIndex - 1
-                }
-                .forEach { indexPath in
-                    guard let visibleCell = collectionView.cellForItem(at: indexPath) as? HeadlineCell else { return }
-                    visibleCell.isSideCell = false
-                }
-            
-            cell.configure(
-                with: headline,
+            if headline.isActive {
+                cellType = .active
+            } else if self.currentTabIndex - 1 == indexPath.row {
+                cellType = .left
+            } else if self.currentTabIndex + 1 == indexPath.row {
+                cellType = .right
+            } else {
+                cellType = .plain
+            }
+            let configuration = HeadLineCellConfiguration(
+                cellType: cellType,
+                headline: headline,
                 action: self.deleteTabController(at: self.currentTabIndex),
                 isIconVisible: tabsCount < 6
             )
+            cell.configure(with: configuration)
             return cell
         }
     }

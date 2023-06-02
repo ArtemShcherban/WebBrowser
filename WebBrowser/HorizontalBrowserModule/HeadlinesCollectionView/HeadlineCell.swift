@@ -8,6 +8,20 @@
 import UIKit
 import Action
 
+enum HeadlineCellType {
+    case active
+    case left
+    case right
+    case plain
+}
+
+struct HeadLineCellConfiguration {
+    let cellType: HeadlineCellType
+    let headline: Headline
+    let action: CocoaAction
+    let isIconVisible: Bool
+}
+
 final class HeadlineCell: UICollectionViewCell {
     static let reuseIdentifier = String(describing: HeadlineCell.self)
     
@@ -16,22 +30,14 @@ final class HeadlineCell: UICollectionViewCell {
     private lazy var containerView = UIView()
     private lazy var iconImageView = UIImageView()
     private lazy var scaleConfiguration = UIImage.SymbolConfiguration(scale: .small)
-    private lazy var rightBorderLayer = CAShapeLayer()
+    private lazy var borderLayer = CAShapeLayer()
+    private var type: HeadlineCellType = .plain
     
     override func layoutSubviews() {
         super.layoutSubviews()
         setupTitleLabel()
         setupIconImageView()
-        updateRightBorderLayer()
-    }
-    
-    var isSideCell = false
-    var isActive = false {
-        didSet {
-            contentView.backgroundColor = isActive ? .tabCellLightGray : .textFieldGray
-            titleLabel.textColor = isActive ? .black : .tabTitleDarkGray
-            closeButton.alpha = isActive ? 1 : 0
-        }
+        updateBorderLayer()
     }
 
     override init(frame: CGRect) {
@@ -43,18 +49,23 @@ final class HeadlineCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with headline: Headline, action: CocoaAction, isIconVisible: Bool) {
-        closeButton.rx.action = action
-        setIconVisibility(isIconVisible: isIconVisible)
+    func configure(with configuration: HeadLineCellConfiguration) {
+        type = configuration.cellType
+        closeButton.rx.action = configuration.action
+        setIconVisibility(isIconVisible: configuration.isIconVisible)
         titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        titleLabel.text = headline.title
-        iconImageView.image = headline.favoriteIcon
+        titleLabel.text = configuration.headline.title
+        iconImageView.image = configuration.headline.favoriteIcon
+        updateBorderLayer()
+        contentView.backgroundColor = type == .active ? .tabCellLightGray : .textFieldGray
+        titleLabel.textColor = type == .active ? .black : .tabTitleDarkGray
+        closeButton.alpha = type == .active ? 1 : 0
     }
 }
 
 private extension HeadlineCell {
     func setIconVisibility(isIconVisible: Bool) {
-        if isActive {
+        if type == .active {
             iconImageView.alpha = isIconVisible ? 1 : 0
         } else {
             iconImageView.alpha = 1
@@ -65,16 +76,22 @@ private extension HeadlineCell {
         contentView.backgroundColor = .white
         setupContainerView()
         setupCloseButton()
-        updateRightBorderLayer()
-        layer.addSublayer(rightBorderLayer)
+        layer.addSublayer(borderLayer)
     }
     
-    func updateRightBorderLayer() {
-        var strokeColor = UIColor.clear.cgColor
-        if !isActive && !isSideCell {
-            strokeColor = UIColor.lightGray.cgColor
+    func updateBorderLayer() {
+        let clearColor = UIColor.clear
+        let lightGrayColor = UIColor.lightGray
+        switch type {
+        case .active:
+            borderLayer.drawBorders(in: bounds, leftStrokeColor: clearColor, rightStrokeColor: clearColor)
+        case .plain:
+            borderLayer.drawBorders(in: bounds, leftStrokeColor: lightGrayColor, rightStrokeColor: lightGrayColor)
+        case .left:
+            borderLayer.drawBorders(in: bounds, leftStrokeColor: lightGrayColor, rightStrokeColor: clearColor)
+        case .right:
+            borderLayer.drawBorders(in: bounds, leftStrokeColor: clearColor, rightStrokeColor: lightGrayColor)
         }
-        rightBorderLayer.drawBorder(in: bounds, with: strokeColor)
     }
     
     func setupCloseButton() {
@@ -133,21 +150,46 @@ private extension HeadlineCell {
 }
 
 private extension CAShapeLayer {
-    func drawBorder(in rect: CGRect, with strokeColor: CGColor) {
-        let borderPath = UIBezierPath()
-        borderPath.move(to: CGPoint(
-            x: rect.maxX,
-            y: rect.minY)
-        )
-        borderPath.addLine(to: CGPoint(
-            x: rect.maxX,
-            y: rect.maxY)
-        )
+    func drawBorders(in rect: CGRect, leftStrokeColor: UIColor, rightStrokeColor: UIColor) {
+        sublayers?.removeAll()
+        var leftBorderLayer: CAShapeLayer {
+            let layer = CAShapeLayer()
+            let leftBorderPath = UIBezierPath()
+            leftBorderPath.move(to: CGPoint(
+                x: rect.minX,
+                y: rect.minY)
+            )
+            leftBorderPath.addLine(to: CGPoint(
+                x: rect.minX,
+                y: rect.maxY)
+            )
+            layer.frame = rect
+            layer.path = leftBorderPath.cgPath
+            layer.lineWidth = 0.25
+            layer.strokeColor = leftStrokeColor.cgColor
+            layer.fillColor = nil
+            return layer
+        }
         
+        var rightBorderLayer: CAShapeLayer {
+            let layer = CAShapeLayer()
+            let rightBorderPath = UIBezierPath()
+            rightBorderPath.move(to: CGPoint(
+                x: rect.maxX,
+                y: rect.minY)
+            )
+            rightBorderPath.addLine(to: CGPoint(
+                x: rect.maxX,
+                y: rect.maxY)
+            )
+            layer.frame = rect
+            layer.path = rightBorderPath.cgPath
+            layer.lineWidth = 0.25
+            layer.strokeColor = rightStrokeColor.cgColor
+            return layer
+        }
+        addSublayer(leftBorderLayer)
+        addSublayer(rightBorderLayer)
         frame = rect
-        path = borderPath.cgPath
-        lineWidth = 0.5
-        self.strokeColor = strokeColor
-        fillColor = nil
     }
 }

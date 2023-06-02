@@ -259,7 +259,6 @@ private extension WebBrowserView {
     }
     
     func setupAddressBarScrollView() {
-//        addressBarScrollView.backgroundColor = .blue
         addressBarScrollView.clipsToBounds = false
         addressBarScrollView.showsVerticalScrollIndicator = false
         addressBarScrollView.showsHorizontalScrollIndicator = false

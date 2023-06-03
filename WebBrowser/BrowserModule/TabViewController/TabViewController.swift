@@ -32,7 +32,7 @@ class TabViewController: UIViewController {
     private(set) lazy var favoritesView = tabView.favoritesView
     
     private var urlObserver: NSKeyValueObservation?
-    private var progressObserver: NSKeyValueObservation?
+    private(set) var progressObserver: NSKeyValueObservation?
     private var themeColorObserver: NSKeyValueObservation?
     
     var contentMode: WKWebpagePreferences.ContentMode = .mobile
@@ -174,7 +174,7 @@ extension TabViewController {
         }
     }
     
-    private func  startProgressObserve() {
+    func  startProgressObserve() {
         progressObserver = tabView.webView.observe(\WKWebView.estimatedProgress, options: .new) { _, _ in
             let estimatedProgress = Float(self.tabView.webView.estimatedProgress)
             self.controller?.tabViewController(self, didChangeLoadingProgressTo: estimatedProgress)

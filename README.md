@@ -1,7 +1,7 @@
 An app with a custom browser and an ability to filter websites by specified words.
 
-UIKit – MVC – WebKit – CoreData – Auto Layout (fully programmatically) 
-– Core Animation URLSession – Git – SwiftLint
+UIKit – MVC – WebKit – RxSwift - RxDataSources - CoreData – Auto Layout (fully programmatically) 
+– Core Animation - URLSession – Git – SwiftLint
 
 <div id="firstVerticalRow" align="center">
 <img src="https://user-images.githubusercontent.com/86483458/228167802-c619ab80-e2cd-49e2-bb4d-a9a864d567a1.png" width=314 height=586>

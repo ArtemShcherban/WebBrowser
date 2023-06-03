@@ -74,17 +74,21 @@ class HorizontalBrowserController: BrowserViewController {
         currentAddressBar.textField.activityState = .inactive
     }
     
-    func switchToTabControllerWith(index: Int) {
+    private func switchToTabControllerWith(index: Int) {
+        currentTabController.progressObserver?.invalidate()
+        browserView.addressBars[0].setLoadingProgress(0, animated: false)
         currentTabController.removeBackForwardStackObserve()
         currentTabController.isActiveSubject.accept(false)
+        
         let newTabController = tabViewControllers[index]
+        newTabController.startProgressObserve()
         newTabController.startBackForwardStackObserve()
         newTabController.isActiveSubject.accept(true)
         horizontalBrowserView.addСontentOf(newTabController.tabView)
         currentTabIndex = index
     }
     
-    func deleteTabController(at index: Int) -> CocoaAction {
+    private func deleteTabController(at index: Int) -> CocoaAction {
         return CocoaAction { [weak self] _ in
             guard let self else { return .empty() }
             if (index == 0 || index == 1) && self.tabViewControllers.count == 2 {
@@ -104,7 +108,7 @@ class HorizontalBrowserController: BrowserViewController {
         }
     }
     
-    func nextActiveItemIndex(after index: Int) -> Int {
+    private func nextActiveItemIndex(after index: Int) -> Int {
         if index < tabViewControllers.count - 1 {
             return index + 1
         } else if index == tabViewControllers.count - 1 {
@@ -114,7 +118,7 @@ class HorizontalBrowserController: BrowserViewController {
         }
     }
     
-    func subscribeToHeadlineObservable(of tabController: TabViewController) {
+    private func subscribeToHeadlineObservable(of tabController: TabViewController) {
         tabController.headline
             .subscribe { [weak self] headline in
                 guard
@@ -158,7 +162,7 @@ class HorizontalBrowserController: BrowserViewController {
         }
     }
     
-    func bindViewModel() {
+    private func bindViewModel() {
         headlinesViewModel.headlinesObservable
             .bind(to: horizontalBrowserView.headlinesCollectionView.rx.items(dataSource: headlinesDataSource))
             .disposed(by: disposeBag)
